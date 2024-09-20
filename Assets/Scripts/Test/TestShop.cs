@@ -33,6 +33,6 @@ public class TestShop : MonoBehaviour
 
         GameObject BoxObj = Instantiate(productBoxObj);
         ProductBox productBox = BoxObj.GetComponent<ProductBox>();
-        productBox.InsertProduct(product);
+        productBox.GenerationProduct(product);
     }
 }

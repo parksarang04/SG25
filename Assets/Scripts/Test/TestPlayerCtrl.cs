@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCtrl : MonoBehaviour
+public class TestPlayerCtrl : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
@@ -17,7 +17,8 @@ public class PlayerCtrl : MonoBehaviour
     [HideInInspector]
     public bool canLook = true;
 
-    private ProductBox productBoxInHand;
+    private ProductBox productBox;
+    private ShelfCtrl shelf;
 
     void Start()
     {
@@ -41,7 +42,7 @@ public class PlayerCtrl : MonoBehaviour
             {
                 if (hit.collider.CompareTag("ProductBox"))
                 {
-                    productBoxInHand = hit.collider.GetComponent<ProductBox>();
+                    productBox = hit.collider.GetComponent<ProductBox>();
                     hit.collider.gameObject.transform.parent = playerHand.transform;
                     hit.collider.gameObject.transform.localPosition = Vector3.zero;
                     hit.collider.gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
@@ -50,18 +51,18 @@ public class PlayerCtrl : MonoBehaviour
 
                 if (hit.collider.CompareTag("Shelf"))
                 {
-                    if (productBoxInHand != null)
+                    if (productBox != null)
                     {
                         ShelfCtrl shelfCtrl = hit.collider.GetComponent<ShelfCtrl>(); ;
                         if (shelfCtrl != null)
                         {
-                            GameObject product = productBoxInHand.productObjectQueue.Peek();
+                            GameObject product = productBox.productObjectList[productBox.productObjectList.Count -1];
                             bool isDisplayed = shelfCtrl.DisplayProduct(product);
                             if (isDisplayed)
                             {
-                                productBoxInHand.RemoveProduct(product);
+                                productBox.RemoveProduct(product);
                             }
-                            if (productBoxInHand.productObjectQueue.Count == 0)
+                            if (productBox.productObjectList.Count == 0)
                             {
                                 Debug.Log("상자가 비었어요~");
                             }
@@ -70,9 +71,9 @@ public class PlayerCtrl : MonoBehaviour
                 }
                 if (hit.collider.CompareTag("TrashCan"))
                 {
-                    if (productBoxInHand.productObjectQueue.Count == 0)
+                    if (productBox.productObjectList.Count == 0)
                     {
-                        Destroy(productBoxInHand.gameObject);
+                        Destroy(productBox.gameObject);
                         Debug.Log("상자 없앰");
                     }
                 }
@@ -81,9 +82,9 @@ public class PlayerCtrl : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Shelf"))
                 {
-                    if (productBoxInHand)
+                    if (shelf.productList.Count != 0)
                     {
-                        
+                        GameObject product = shelf.productList[shelf.productList.Count - 1];
                     }
                 }
             }

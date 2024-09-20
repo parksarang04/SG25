@@ -42,8 +42,13 @@ public class ShelfCtrl : MonoBehaviour
 
         Debug.Log("진열대 꽉 참");
         return false;
-
-
     }
 
+    public void RemoveProduct(GameObject product)
+    {
+        if (productList.Count != 0)
+        {
+            productList.Remove(product);
+        }
+    }
 }

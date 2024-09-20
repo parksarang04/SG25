@@ -15,7 +15,7 @@ MonoBehaviour:
   productType: 3
   Index: 2
   Name: FrozenFoods
-  buyCost: 0
-  sellCost: 0
+  buyCost: 2000
+  sellCost: 5000
   Image: {fileID: 0}
   ProductModel: {fileID: 2417153472635042437, guid: afb79d2af7229834c92457feb94c5ae2, type: 3}

@@ -15,7 +15,7 @@ MonoBehaviour:
   productType: 0
   Index: 0
   Name: Beverages
-  buyCost: 0
-  sellCost: 0
+  buyCost: 39
+  sellCost: 84
   Image: {fileID: 0}
   ProductModel: {fileID: 8128279642168319838, guid: c54016a64b7d34340a45a5451501fcd7, type: 3}

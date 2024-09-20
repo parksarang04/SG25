@@ -44,7 +44,7 @@ public class ShelfCtrl : MonoBehaviour
                 {
                     Product shelfProduct = productList.Peek().GetComponent<Product>();
                     Product newProduct = productobj.GetComponent<Product>();
-                    if (shelfProduct.product.Index == newProduct.product.Index)
+                    if (shelfProduct.productData.Index == newProduct.productData.Index)
                     {
                         Transform availablePosition = productPosList[productList.Count];
                         productobj.transform.SetParent(availablePosition);

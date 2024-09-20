@@ -15,7 +15,7 @@ MonoBehaviour:
   productType: 4
   Index: 4
   Name: PersonalCare
-  buyCost: 0
-  sellCost: 0
+  buyCost: 18
+  sellCost: 37
   Image: {fileID: 0}
   ProductModel: {fileID: 3041458404511480895, guid: 4e0e1d6a0e8cff14aa45eba53b2ee254, type: 3}

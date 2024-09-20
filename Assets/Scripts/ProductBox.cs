@@ -41,7 +41,7 @@ public class ProductBox : MonoBehaviour
         Product newProduct = productObj.GetComponent<Product>();
         Product boxProduct = productObjectList[productObjectList.Count - 1].GetComponent<Product>();
 
-        if (newProduct.product.Index == boxProduct.product.Index)
+        if (newProduct.productData.Index == boxProduct.productData.Index)
         {
             if (productObjectList.Count < productPosition.Count)
             {

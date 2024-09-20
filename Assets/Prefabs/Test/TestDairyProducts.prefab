@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8844128230483191770}
   - component: {fileID: 8539396622250432708}
   - component: {fileID: 7418909259895218969}
+  - component: {fileID: -6111801611766636917}
   m_Layer: 0
   m_Name: TestDairyProducts
   m_TagString: Product
@@ -105,3 +106,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-6111801611766636917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7093473512417235025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c16c3ee2498e1ab468ec0af6eec79046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  product: {fileID: 11400000, guid: c4c8d246e1d22994b9da49dbdff47f6d, type: 2}

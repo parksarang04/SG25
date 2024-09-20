@@ -17,7 +17,7 @@ public class TestPlayerCtrl : MonoBehaviour
     [HideInInspector]
     public bool canLook = true;
 
-    private ProductBox productBox;
+    public ProductBox productBox;
     private ShelfCtrl shelf;
 
     void Start()
@@ -46,7 +46,6 @@ public class TestPlayerCtrl : MonoBehaviour
                     hit.collider.gameObject.transform.parent = playerHand.transform;
                     hit.collider.gameObject.transform.localPosition = Vector3.zero;
                     hit.collider.gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-                    
                 }
 
                 if (hit.collider.CompareTag("Shelf"))
@@ -56,11 +55,11 @@ public class TestPlayerCtrl : MonoBehaviour
                         ShelfCtrl shelfCtrl = hit.collider.GetComponent<ShelfCtrl>(); ;
                         if (shelfCtrl != null)
                         {
-                            GameObject product = productBox.productObjectList[productBox.productObjectList.Count -1];
-                            bool isDisplayed = shelfCtrl.DisplayProduct(product);
+                            GameObject productObj = productBox.productObjectList[productBox.productObjectList.Count -1];
+                            bool isDisplayed = shelfCtrl.DisplayProduct(productObj);
                             if (isDisplayed)
                             {
-                                productBox.RemoveProduct(product);
+                                productBox.RemoveProduct(productObj);
                             }
                             if (productBox.productObjectList.Count == 0)
                             {
@@ -82,10 +81,22 @@ public class TestPlayerCtrl : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Shelf"))
                 {
-                    if (shelf.productList.Count != 0)
+                    ShelfCtrl hitShelf = hit.collider.GetComponent<ShelfCtrl>();
+                    if (hitShelf.productList.Count != 0)
                     {
-                        GameObject product = shelf.productList[shelf.productList.Count - 1];
+                        GameObject productObj = hitShelf.productList[hitShelf.productList.Count - 1];
+                        productBox.InsertProduct(productObj);
+                        hitShelf.RemoveProduct(productObj);
                     }
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                if (productBox != null)
+                {
+                    productBox.transform.position = hit.point + new Vector3( 0f, 0.5f, 0f);
+                    productBox.transform.localScale = Vector3.one;
+                    productBox.transform.SetParent(null);
                 }
             }
         }

@@ -7,9 +7,9 @@ public class ShelfCtrl : MonoBehaviour
     public List<GameObject> productList = new List<GameObject>();
     private ProductBox productBox;
 
-    public bool DisplayProduct(GameObject product)
+    public bool DisplayProduct(GameObject productobj)
     {
-        if (product == null)
+        if (productobj == null)
         {
             Debug.Log("상품 없음");
             return false;
@@ -27,28 +27,47 @@ public class ShelfCtrl : MonoBehaviour
         {
             if (productList.Count < productPosList.Count)
             {
+                if (productList.Count == 0)
+                {
+                    Transform availablePosition = productPosList[productList.Count];
+                    productobj.transform.SetParent(availablePosition);
+                    productobj.transform.localPosition = Vector3.zero;
+                    productobj.transform.localScale = Vector3.one;
 
-                Transform availablePosition = productPosList[productList.Count];
-                product.transform.SetParent(availablePosition);
-                product.transform.localPosition = Vector3.zero;
-                product.transform.localScale = Vector3.one;
+                    productList.Add(productobj);
 
-                productList.Add(product);
+                    Debug.Log("진열대에 상품 넣음");
+                    return true;
 
-                Debug.Log("진열대에 상품 넣음");
-                return true;
+                }
+                else if (productList.Count != 0)
+                {
+                    Product shelfProduct = productList[productList.Count - 1].GetComponent<Product>();
+                    Product newProduct = productobj.GetComponent<Product>();
+                    if (shelfProduct.product.Index == newProduct.product.Index)
+                    {
+                        Transform availablePosition = productPosList[productList.Count];
+                        productobj.transform.SetParent(availablePosition);
+                        productobj.transform.localPosition = Vector3.zero;
+                        productobj.transform.localScale = Vector3.one;
+
+                        productList.Add(productobj);
+
+                        Debug.Log("진열대에 상품 넣음");
+                        return true;
+                    }
+                }
             }
         }
-
-        Debug.Log("진열대 꽉 참");
         return false;
     }
 
-    public void RemoveProduct(GameObject product)
+    public void RemoveProduct(GameObject productObj)
     {
         if (productList.Count != 0)
         {
-            productList.Remove(product);
+            productList.Remove(productObj);
+            Debug.Log("아이템 회수");
         }
     }
 }

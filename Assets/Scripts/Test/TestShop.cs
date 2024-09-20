@@ -7,7 +7,7 @@ public class TestShop : MonoBehaviour
 {
     public GameObject ProductListPanel;
     public GameObject ProductListContent;
-    public Product[] products;
+    public ProductData[] products;
     public Button[] productButtons;
     private ProductBox productBox;
     public GameObject productBoxObj;
@@ -27,7 +27,7 @@ public class TestShop : MonoBehaviour
         }
     }
 
-    public void OnProductButtonClick(Product product)
+    public void OnProductButtonClick(ProductData product)
     {
         Debug.Log(product.name);
 

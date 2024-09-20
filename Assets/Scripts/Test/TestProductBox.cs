@@ -8,7 +8,7 @@ public class ProductBox : MonoBehaviour
     public List<GameObject> productObjectList = new List<GameObject>();
     public List<Transform> productPosition = new List<Transform>();
 
-    public void GenerationProduct(Product product)
+    public void GenerationProduct(ProductData product)
     {
         for (int i = 0; i < productPosition.Count; i++) 
         {
@@ -38,11 +38,19 @@ public class ProductBox : MonoBehaviour
 
     public GameObject InsertProduct(GameObject productObj)
     {
-        if (productObjectList.Count < productPosition.Count)
-        {
-            productObjectList.Add(productObj);
-        }
+        Product newProduct = productObj.GetComponent<Product>();
+        Product boxProduct = productObjectList[productObjectList.Count - 1].GetComponent<Product>();
 
+        if (newProduct.product.Index == boxProduct.product.Index)
+        {
+            if (productObjectList.Count < productPosition.Count)
+            {
+                productObjectList.Add(productObj);
+                productObj.transform.SetParent(productPosition[productObjectList.Count - 1]);
+                productObj.transform.localPosition = Vector3.zero;
+                productObj.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+            }
+        }
         return null;
     }
 }

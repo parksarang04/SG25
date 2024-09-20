@@ -84,7 +84,7 @@ public class TestPlayerCtrl : MonoBehaviour
                     ShelfCtrl hitShelf = hit.collider.GetComponent<ShelfCtrl>();
                     if (hitShelf.productList.Count != 0)
                     {
-                        GameObject productObj = hitShelf.productList[hitShelf.productList.Count - 1];
+                        GameObject productObj = hitShelf.productList.Peek();
                         productBox.InsertProduct(productObj);
                         hitShelf.RemoveProduct(productObj);
                     }

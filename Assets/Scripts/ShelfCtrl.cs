@@ -4,7 +4,7 @@ using UnityEngine;
 public class ShelfCtrl : MonoBehaviour
 {
     public List<Transform> productPosList = new List<Transform>();
-    public List<GameObject> productList = new List<GameObject>();
+    public Stack<GameObject> productList = new Stack<GameObject>();
     private ProductBox productBox;
 
     public bool DisplayProduct(GameObject productobj)
@@ -34,7 +34,7 @@ public class ShelfCtrl : MonoBehaviour
                     productobj.transform.localPosition = Vector3.zero;
                     productobj.transform.localScale = Vector3.one;
 
-                    productList.Add(productobj);
+                    productList.Push(productobj);
 
                     Debug.Log("진열대에 상품 넣음");
                     return true;
@@ -42,7 +42,7 @@ public class ShelfCtrl : MonoBehaviour
                 }
                 else if (productList.Count != 0)
                 {
-                    Product shelfProduct = productList[productList.Count - 1].GetComponent<Product>();
+                    Product shelfProduct = productList.Peek().GetComponent<Product>();
                     Product newProduct = productobj.GetComponent<Product>();
                     if (shelfProduct.product.Index == newProduct.product.Index)
                     {
@@ -51,7 +51,7 @@ public class ShelfCtrl : MonoBehaviour
                         productobj.transform.localPosition = Vector3.zero;
                         productobj.transform.localScale = Vector3.one;
 
-                        productList.Add(productobj);
+                        productList.Push(productobj);
 
                         Debug.Log("진열대에 상품 넣음");
                         return true;
@@ -66,7 +66,7 @@ public class ShelfCtrl : MonoBehaviour
     {
         if (productList.Count != 0)
         {
-            productList.Remove(productObj);
+            productList.Pop();
             Debug.Log("아이템 회수");
         }
     }

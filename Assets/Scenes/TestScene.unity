@@ -357,6 +357,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   playerHand: {fileID: 2124728977}
   canLook: 1
+  productBox: {fileID: 0}
 --- !u!1 &90899096
 GameObject:
   m_ObjectHideFlags: 0
@@ -2688,7 +2689,6 @@ MonoBehaviour:
   - {fileID: 1030660219}
   - {fileID: 1569460570}
   - {fileID: 1790858151}
-  productList: []
 --- !u!65 &1539795116
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -67,15 +67,48 @@ public class CustomerCtrl : MonoBehaviour
             nextPriority = (nextPriority + 1) % 100;
         }
     }
-    // Start is called before the first frame update
+    
     void Start()
     {
-        
+        timer = new Timer();
+        agent = GetComponent<NavMeshAgent>();
+        currentState = CustomerState.Idle;
+        SearchShelfs();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        timer.Update(Time.deltaTime);
+
+        if (!agent.hasPath && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+            {
+                isMoveDone = true;
+            }
+        }
+    }
+
+    void SearchShelfs()
+    {
+        GameObject[] shelfs = GameObject.FindGameObjectsWithTag("Shelf");
+        if (shelfs != null)
+        {
+            for (int i = 0; i < shelfs.Length; i++)
+            {
+                targetPos.Add(shelfs[i].transform);
+            }
+        }
+    }
+
+    void ChangeState(CustomerState nextState, float waitTime = 0.0f)
+    {
+        currentState = nextState;
+        timer.Set(waitTime);
+    }
+
+    void Idle()
+    {
+
     }
 }

@@ -38,63 +38,62 @@ public class TestPlayerCtrl : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0))                                //좌클릭 했을 때
             {
-                if (hit.collider.CompareTag("ProductBox"))
+                if (hit.collider.CompareTag("ProductBox"))                  //ray에 닿은 콜라이더가 갖고 있는 태그가 "ProductBox"라면
                 {
                     productBox = hit.collider.GetComponent<ProductBox>();
-                    hit.collider.gameObject.transform.parent = playerHand.transform;
+                    hit.collider.gameObject.transform.parent = playerHand.transform;    //ray에 닿은 "ProductBox" 태그를 가진 오브젝트를 playerHand 자식에 넣는다.
                     hit.collider.gameObject.transform.localPosition = Vector3.zero;
-                    hit.collider.gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+                    hit.collider.gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);   //ray에 닿은 "ProductBox" 태그를 가진 오브젝트의 크기를 x:0.3, y:0.3, z:0.3으로 바꾼다.
                 }
 
-                if (hit.collider.CompareTag("Shelf"))
+                if (hit.collider.CompareTag("Shelf"))                       //닿은 콜라이더가 갖고 있는 태그가 "Shelf"일 때
                 {
-                    if (productBox != null)
+                    if (productBox != null)                                 //productBox를 들고 있다면
                     {
-                        ShelfCtrl shelfCtrl = hit.collider.GetComponent<ShelfCtrl>(); ;
-                        if (shelfCtrl != null)
+                        ShelfCtrl shelfCtrl = hit.collider.GetComponent<ShelfCtrl>(); ; //ray에 닿은 오브젝트에게서 ShelfCtrl 컴포넌트를 갖고 온다.
+                        if (shelfCtrl != null)                                          //ShelfCtrl이 null이 아닐 때
                         {
-                            GameObject productObj = productBox.productObjectList[productBox.productObjectList.Count -1];
-                            bool isDisplayed = shelfCtrl.DisplayProduct(productObj);
-                            if (isDisplayed)
+                            GameObject productObj = productBox.productObjectList[productBox.productObjectList.Count -1];    //productObj는 productBox.productObjectList의 마지막 인덱스 오브젝트이다.
+                            bool isDisplayed = shelfCtrl.DisplayProduct(productObj);    //중복 체크를 위해 DisplayProduct의 반환형을 bool로 했기 때문에 진열이 되었다면 true를 반환한다.
+                            if (isDisplayed)    //진열이 되었을 때
                             {
-                                productBox.RemoveProduct(productObj);
+                                productBox.RemoveProduct(productObj);       //productBox의 RemoveProduct 함수에 productObj 인자를 전달한다.
                             }
-                            if (productBox.productObjectList.Count == 0)
+                            if (productBox.productObjectList.Count == 0)    
                             {
                                 Debug.Log("상자가 비었어요~");
                             }
                         }
                     }
                 }
-                if (hit.collider.CompareTag("TrashCan"))
+                if (hit.collider.CompareTag("TrashCan"))                    //ray에 닿은 오브젝트가 "TrashCan" 태그를 가지고 있으며
                 {
-                    if (productBox.productObjectList.Count == 0)
+                    if (productBox.productObjectList.Count == 0)            //들고 있는 productBox에 상품이 하나도 없다면
                     {
-                        Destroy(productBox.gameObject);
-                        Debug.Log("상자 없앰");
+                        Destroy(productBox.gameObject);                     //들고 있는 productBox를 없앤다.
                     }
                 }
             }
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1))                                        //우클릭을 했을 때
             {
-                if (hit.collider.CompareTag("Shelf"))
+                if (hit.collider.CompareTag("Shelf"))                               //ray에 닿은 오브젝트가 "Shelf" 태그를 가지고 있다면
                 {
-                    ShelfCtrl hitShelf = hit.collider.GetComponent<ShelfCtrl>();
-                    if (hitShelf.productList.Count != 0)
+                    ShelfCtrl hitShelf = hit.collider.GetComponent<ShelfCtrl>();    //ray에 닿은 오브젝트에게서 ShelfCtrl 컴포넌트를 갖고 온다.
+                    if (hitShelf.productList.Count != 0)                            //hitShelf가 상품을 하나라도 갖고 있다면
                     {
-                        GameObject productObj = hitShelf.productList.Peek();
+                        GameObject productObj = hitShelf.productList.Peek();        //productObj는 hitShelf가 갖고 있는 상품 목록의 가장 위에 있는 오브젝트 데이터를 가진다.
                         productBox.InsertProduct(productObj);
-                        hitShelf.RemoveProduct(productObj);
+                        hitShelf.MoveProductToBox(productObj);
                     }
                 }
             }
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F))                                                    //F를 눌렀을 때
             {
-                if (productBox != null)
+                if (productBox != null)                                                         //productBox를 들고 있다면
                 {
-                    productBox.transform.position = hit.point + new Vector3( 0f, 0.5f, 0f);
+                    productBox.transform.position = hit.point + new Vector3( 0f, 0.5f, 0f);     //들고 있던 productBox는 hit한 포인트에서 y로 0.5f 높은 곳으로 이동한다.
                     productBox.transform.localScale = Vector3.one;
                     productBox.transform.SetParent(null);
                 }

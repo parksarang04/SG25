@@ -28,10 +28,10 @@ public class CheckoutSystem : MonoBehaviour
             // 충돌한 오브젝트에서 Product 컴포넌트를 가져옴
             Product product = hit.collider.GetComponent<Product>();
 
-            if (product != null && product.productData != null)
+            if (product != null && product.product != null)
             {
                 // 아이템의 가격을 totalPrice에 추가
-                totalPrice += product.productData.sellCost;
+                totalPrice += product.product.sellCost;
 
                 // 총 가격 UI 업데이트
                 UpdateTotalPrice();
@@ -40,8 +40,8 @@ public class CheckoutSystem : MonoBehaviour
                 Destroy(product.gameObject);
 
                 // 디버그 로그로 가격 정보 출력
-                Debug.Log("선택한 아이템: " + product.productData.Name);
-                Debug.Log("아이템 가격: " + product.productData.sellCost + "원");
+                Debug.Log("선택한 아이템: " + product.product.Name);
+                Debug.Log("아이템 가격: " + product.product.sellCost + "원");
                 Debug.Log("현재 총합 가격: " + totalPrice + "원");
             }
         }

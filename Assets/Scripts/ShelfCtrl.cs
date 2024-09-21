@@ -14,7 +14,7 @@ public class ShelfCtrl : MonoBehaviour
         {
             if (pos.childCount == 0)    //productPosList에 들어 있는 Transforom 중 상품이 안들어간 Transform이 있다면 break
             {
-                nullPos = pos;          
+                nullPos = pos;
                 break;
             }
         }
@@ -24,8 +24,8 @@ public class ShelfCtrl : MonoBehaviour
             {
                 if (productList.Count == 0)                 //지금 넣을 오브젝트가 productList의 첫 오브젝트라면
                 {
-                    Transform availablePosition = productPosList[productList.Count];    
-                    productobj.transform.SetParent(availablePosition);                  
+                    Transform availablePosition = productPosList[productList.Count];
+                    productobj.transform.SetParent(availablePosition);
                     productobj.transform.localPosition = Vector3.zero;
                     productobj.transform.localScale = Vector3.one;
 
@@ -65,8 +65,9 @@ public class ShelfCtrl : MonoBehaviour
         }
     }
 
-    public void PickUpProduct()
+    public void PickUpProduct(GameObject productObj, int count)
     {
-
+        Debug.Log($"{gameObject.name}의 현재 남은 아이템 수 : {productList.Count}");
+        Destroy(productObj);
     }
 }

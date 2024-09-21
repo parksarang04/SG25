@@ -7,10 +7,10 @@ public enum CustomerState
 {
     Idle,
     WalkingToShelf,
-    PickingItem,
+    PickingProduct,
     //WaitCounter,
     WalkingToCounter,
-    PlacingItem,
+    PlacingProduct,
     WaitingCalcPrice,
     //GivingMoney,
     LeavingStore
@@ -55,6 +55,9 @@ public class CustomerCtrl : MonoBehaviour
     public List<Transform> targetPos = new List<Transform>();
     public List<GameObject> pickProduct = new List<GameObject>();
     public List<GameObject> counterProduct = new List<GameObject>();
+    public List<GameObject> shelfList = new List<GameObject>();
+
+    
 
     private static int nextPriority = 0;
     private static readonly object priorityLock = new object();
@@ -87,16 +90,31 @@ public class CustomerCtrl : MonoBehaviour
                 isMoveDone = true;
             }
         }
+
+        switch (currentState)
+        {
+            case CustomerState.Idle:
+                Idle();
+                break;
+            case CustomerState.WalkingToShelf:
+                WalkingToShelf();
+                break;
+            case CustomerState.PickingProduct:
+                PickingProduct(); 
+                break;
+        }
     }
 
     void SearchShelfs()
     {
         GameObject[] shelfs = GameObject.FindGameObjectsWithTag("Shelf");
+
         if (shelfs != null)
         {
             for (int i = 0; i < shelfs.Length; i++)
             {
                 targetPos.Add(shelfs[i].transform);
+                shelfList.Add(shelfs[i]);
             }
         }
     }
@@ -109,6 +127,53 @@ public class CustomerCtrl : MonoBehaviour
 
     void Idle()
     {
+        if (timer.IsFinished())
+        {
+            if (shelfList.Count > 0)
+            {
+                target = targetPos[Random.Range(0, shelfList.Count)];
+                MoveToTarget();
+                ChangeState(CustomerState.WalkingToShelf, waitTime);
+            }
+        }
+        Debug.Log("Idle 함수 실행");
+    }
 
+    void MoveToTarget()
+    {
+        isMoveDone = false;
+        if (targetPos != null)
+        {
+            agent.SetDestination(target.position);
+        }
+    }
+
+    void WalkingToShelf()
+    {
+        if (timer.IsFinished() && isMoveDone)
+        {
+            ChangeState(CustomerState.PickingProduct, waitTime);
+        }
+    }
+
+    void PickingProduct()
+    {
+        if (timer.IsFinished())
+        {
+            ShelfCtrl shelf = target.GetComponent<ShelfCtrl>();
+
+            if (shelf != null)
+            {
+                int randomCount = Random.Range(0, 5);
+                Debug.Log(randomCount);
+                for (int i = 0; i < randomCount; i++)
+                {
+                    GameObject productObj = shelf.productList.Pop();
+                    shelf.PickUpProduct(productObj, randomCount);
+                    pickProduct.Add(productObj);
+                }
+            }
+            ChangeState(CustomerState.WalkingToShelf, waitTime);
+        } 
     }
 }

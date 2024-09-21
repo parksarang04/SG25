@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CheckoutSystem : MonoBehaviour
 {
-    public Text totalPriceText;
+    public TextMeshProUGUI totalPriceText;
     private List<Product> selectedItems = new List<Product>();
     private int totalPrice = 0;
 
@@ -52,11 +53,11 @@ public class CheckoutSystem : MonoBehaviour
     {
         if (totalPriceText != null)
         {
-            totalPriceText.text = "총합 가격: " + totalPrice.ToString() + "원";
+            totalPriceText.text = totalPrice.ToString();
         }
         else
         {
-            Debug.LogError("totalPriceText가 UI에 연결되지 않았습니다.");
+            Debug.Log("totalPriceText가 UI에 연결되지 않았습니다.");
         }
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -30,7 +29,7 @@ public class Timer
         if (timeRemaining > 0)
         {
             timeRemaining -= deltaTime;
-        }    
+        }
     }
 
     public bool IsFinished()
@@ -57,7 +56,7 @@ public class CustomerCtrl : MonoBehaviour
     public List<GameObject> counterProduct = new List<GameObject>();
     public List<GameObject> shelfList = new List<GameObject>();
 
-    
+
 
     private static int nextPriority = 0;
     private static readonly object priorityLock = new object();
@@ -70,7 +69,7 @@ public class CustomerCtrl : MonoBehaviour
             nextPriority = (nextPriority + 1) % 100;
         }
     }
-    
+
     void Start()
     {
         timer = new Timer();
@@ -100,8 +99,12 @@ public class CustomerCtrl : MonoBehaviour
                 WalkingToShelf();
                 break;
             case CustomerState.PickingProduct:
-                PickingProduct(); 
+                PickingProduct();
                 break;
+            case CustomerState.WalkingToCounter:
+                WalkingToCounter();
+                break;
+
         }
     }
 
@@ -131,12 +134,18 @@ public class CustomerCtrl : MonoBehaviour
         {
             if (shelfList.Count > 0)
             {
-                target = targetPos[Random.Range(0, shelfList.Count)];
-                MoveToTarget();
-                ChangeState(CustomerState.WalkingToShelf, waitTime);
+                if (targetPos.Count > 0)
+                {
+                    target = targetPos[Random.Range(0, targetPos.Count)];
+                    MoveToTarget();
+                    ChangeState(CustomerState.WalkingToShelf, waitTime);
+                }
+                else
+                {
+                    ChangeState(CustomerState.WalkingToCounter, waitTime);
+                }
             }
         }
-        Debug.Log("Idle 함수 실행");
     }
 
     void MoveToTarget()
@@ -171,9 +180,15 @@ public class CustomerCtrl : MonoBehaviour
                     GameObject productObj = shelf.productList.Pop();
                     shelf.PickUpProduct(productObj, randomCount);
                     pickProduct.Add(productObj);
+                    targetPos.Remove(target);
                 }
             }
-            ChangeState(CustomerState.WalkingToShelf, waitTime);
-        } 
+            ChangeState(CustomerState.Idle, waitTime);
+        }
+    }
+
+    void WalkingToCounter()
+    {
+        Debug.Log("WalkingToCounter 함수 실행");
     }
 }

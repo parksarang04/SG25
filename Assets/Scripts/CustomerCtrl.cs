@@ -56,7 +56,6 @@ public class CustomerCtrl : MonoBehaviour
     public List<GameObject> pickProduct = new List<GameObject>();
     public List<GameObject> counterProduct = new List<GameObject>();
     public List<GameObject> shelfList = new List<GameObject>();
-    public List<Transform> counterLine = new List<Transform>();
 
     private static int nextPriority = 0;
     private static readonly object priorityLock = new object();
@@ -74,6 +73,7 @@ public class CustomerCtrl : MonoBehaviour
     {
         timer = new Timer();
         agent = GetComponent<NavMeshAgent>();
+        counter = GameObject.Find("Counter").transform;
         currentState = CustomerState.Idle;
         SearchShelfs();
         AssignPriority();
@@ -244,12 +244,25 @@ public class CustomerCtrl : MonoBehaviour
 
     void WalkingToCounter()
     {
+        target = counter;
         agent.SetDestination(counter.position);
+
+        if (timer.IsFinished())
+        {
+            ChangeState(CustomerState.PlacingProduct, waitTime);
+        }
     }
 
     void PlacingProduct()
     {
-
+        foreach (GameObject product in pickProduct)
+        {
+            product.SetActive(true);
+            counter.position = product.transform.position = new Vector3(0f, 0f, 0f);
+            product.transform.parent = null;    
+            pickProduct.Remove(product);
+            counterProduct.Add(product);    
+        }
     }
 
     void WaitingCalcPrice()
@@ -269,13 +282,15 @@ public class CustomerCtrl : MonoBehaviour
 
     Transform GetAvailableCounterLinePosition()
     {
-        foreach (Transform pos in counterLine)
+        GameObject[] counterLine = GameObject.FindGameObjectsWithTag("CounterLine");
+
+        foreach (GameObject pos in counterLine)
         {
             bool positionOccupied = false;
             CustomerCtrl[] allcustomers = FindObjectsOfType<CustomerCtrl>();
             foreach (var customer in allcustomers)
             {
-                if (customer != this && customer.target == pos)
+                if (customer != this && customer.target == pos.transform)
                 {
                     positionOccupied = true;
                     break;
@@ -284,7 +299,7 @@ public class CustomerCtrl : MonoBehaviour
 
             if (!positionOccupied)
             {
-                return pos;
+                return pos.transform;
             }
         }
         return null;

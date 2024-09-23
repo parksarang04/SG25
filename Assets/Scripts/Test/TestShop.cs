@@ -33,7 +33,6 @@ public class TestShop : MonoBehaviour
                 productName.text = products[index].name;
                 productImage = products[index].image;
                 productBtn.onClick.AddListener(() => OnProductButtonClick(products[index]));
-
             }
         }
     }

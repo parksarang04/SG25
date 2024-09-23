@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Shelf
+  - ProductBox
+  - TrashCan
+  - Undefined
+  - Product
+  - CounterLine
   layers:
   - Default
   - TransparentFX

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "NewProductData", menuName = "ScriptableObjects/ProductModel")]
 public class ProductData : ScriptableObject
@@ -18,6 +19,6 @@ public class ProductData : ScriptableObject
     public string Name;
     public int buyCost;
     public int sellCost;
-    public Texture2D Image;
+    public Image image;
     public GameObject ProductModel;
 }

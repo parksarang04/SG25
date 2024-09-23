@@ -19,6 +19,7 @@ public class TestPlayerCtrl : MonoBehaviour
 
     public ProductBox productBox;
     private ShelfCtrl shelf;
+    private TestShop testShop;
 
     void Start()
     {
@@ -96,6 +97,18 @@ public class TestPlayerCtrl : MonoBehaviour
                     productBox.transform.position = hit.point + new Vector3( 0f, 0.5f, 0f);     //들고 있던 productBox는 hit한 포인트에서 y로 0.5f 높은 곳으로 이동한다.
                     productBox.transform.localScale = Vector3.one;
                     productBox.transform.SetParent(null);
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                bool panelActive = testShop.ProductListPanel.activeSelf;
+                if (panelActive)
+                {
+                    testShop.ProductListPanel.gameObject.SetActive(false);
+                }
+                if (!panelActive)
+                {
+                    testShop.ProductListPanel.gameObject.SetActive(true);
                 }
             }
         }

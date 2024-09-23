@@ -7,11 +7,11 @@ public enum CustomerState
     Idle,
     WalkingToShelf,
     PickingProduct,
-    //WaitCounter,
+    WaitCounter,
     WalkingToCounter,
     PlacingProduct,
     WaitingCalcPrice,
-    //GivingMoney,
+    GivingMoney,
     LeavingStore
 }
 
@@ -50,13 +50,13 @@ public class CustomerCtrl : MonoBehaviour
     public Transform target;
     public Transform counter;
     public Transform exitPoint;
+    public GameObject customerHand;
 
     public List<Transform> targetPos = new List<Transform>();
     public List<GameObject> pickProduct = new List<GameObject>();
     public List<GameObject> counterProduct = new List<GameObject>();
     public List<GameObject> shelfList = new List<GameObject>();
-
-
+    public List<Transform> counterLine = new List<Transform>();
 
     private static int nextPriority = 0;
     private static readonly object priorityLock = new object();
@@ -76,6 +76,7 @@ public class CustomerCtrl : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         currentState = CustomerState.Idle;
         SearchShelfs();
+        AssignPriority();
     }
 
     void Update()
@@ -101,8 +102,23 @@ public class CustomerCtrl : MonoBehaviour
             case CustomerState.PickingProduct:
                 PickingProduct();
                 break;
+            case CustomerState.WaitCounter:
+                WaitCounter();
+                break;
             case CustomerState.WalkingToCounter:
                 WalkingToCounter();
+                break;
+            case CustomerState.PlacingProduct:
+                PlacingProduct();
+                break;
+            case CustomerState.WaitingCalcPrice:
+                WaitingCalcPrice();
+                break;
+            case CustomerState.GivingMoney:
+                GivingMoney();
+                break;
+            case CustomerState.LeavingStore:
+                LeavingStore();
                 break;
 
         }
@@ -114,10 +130,10 @@ public class CustomerCtrl : MonoBehaviour
 
         if (shelfs != null)
         {
-            for (int i = 0; i < shelfs.Length; i++)
+            foreach (GameObject shelf in shelfs)
             {
-                targetPos.Add(shelfs[i].transform);
-                shelfList.Add(shelfs[i]);
+                targetPos.Add(shelf.transform);
+                shelfList.Add(shelf);
             }
         }
     }
@@ -142,7 +158,7 @@ public class CustomerCtrl : MonoBehaviour
                 }
                 else
                 {
-                    ChangeState(CustomerState.WalkingToCounter, waitTime);
+                    ChangeState(CustomerState.WaitCounter, waitTime);
                 }
             }
         }
@@ -173,13 +189,23 @@ public class CustomerCtrl : MonoBehaviour
 
             if (shelf != null)
             {
-                int randomCount = Random.Range(0, 5);
+                int randomCount = Random.Range(0, 2);
                 Debug.Log(randomCount);
                 for (int i = 0; i < randomCount; i++)
                 {
-                    GameObject productObj = shelf.productList.Pop();
-                    shelf.PickUpProduct(productObj, randomCount);
-                    pickProduct.Add(productObj);
+                    if (randomCount > 0)
+                    {
+                        GameObject productObj = shelf.productList.Pop();
+                        shelf.PickUpProduct(randomCount);
+                        productObj.transform.SetParent(customerHand.transform);
+                        productObj.transform.localPosition = Vector3.zero;
+                        productObj.SetActive(false);
+                        pickProduct.Add(productObj);
+                        targetPos.Remove(target);
+                    }
+                }
+                if (randomCount == 0)
+                {
                     targetPos.Remove(target);
                 }
             }
@@ -187,8 +213,80 @@ public class CustomerCtrl : MonoBehaviour
         }
     }
 
+    void WaitCounter()
+    {
+        CustomerCtrl[] allCustomers = FindObjectsOfType<CustomerCtrl>();
+        bool isCounterOccupied = false;
+        foreach (var customer in allCustomers)
+        {
+            if (customer != this && customer.currentState == CustomerState.WalkingToCounter)
+            {
+                isCounterOccupied = true;
+                break;
+            }
+        }
+
+        if (isCounterOccupied)
+        {
+            Transform availablePosition = GetAvailableCounterLinePosition();
+            if (availablePosition != null)
+            {
+                target = availablePosition;
+                agent.SetDestination(availablePosition.position);
+            }
+        }
+        else
+        {
+            ChangeState(CustomerState.WalkingToCounter, waitTime);
+        }
+
+    }
+
     void WalkingToCounter()
     {
-        Debug.Log("WalkingToCounter 함수 실행");
+        agent.SetDestination(counter.position);
+    }
+
+    void PlacingProduct()
+    {
+
+    }
+
+    void WaitingCalcPrice()
+    {
+
+    }
+
+    void GivingMoney()
+    {
+
+    }
+
+    void LeavingStore()
+    {
+
+    }
+
+    Transform GetAvailableCounterLinePosition()
+    {
+        foreach (Transform pos in counterLine)
+        {
+            bool positionOccupied = false;
+            CustomerCtrl[] allcustomers = FindObjectsOfType<CustomerCtrl>();
+            foreach (var customer in allcustomers)
+            {
+                if (customer != this && customer.target == pos)
+                {
+                    positionOccupied = true;
+                    break;
+                }
+            }
+
+            if (!positionOccupied)
+            {
+                return pos;
+            }
+        }
+        return null;
     }
 }

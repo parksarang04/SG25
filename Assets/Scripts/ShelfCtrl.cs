@@ -65,9 +65,8 @@ public class ShelfCtrl : MonoBehaviour
         }
     }
 
-    public void PickUpProduct(GameObject productObj, int count)
+    public void PickUpProduct(int count)
     {
         Debug.Log($"{gameObject.name}의 현재 남은 아이템 수 : {productList.Count}");
-        Destroy(productObj);
     }
 }

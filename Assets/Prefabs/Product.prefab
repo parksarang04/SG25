@@ -165,8 +165,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7293927427300863300}
   - {fileID: 9218067896382112393}
+  - {fileID: 7293927427300863300}
   - {fileID: 4282382644648528959}
   - {fileID: 3033640741774005237}
   - {fileID: 1863665036272863311}
@@ -1605,8 +1605,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45
-  m_fontSizeBase: 45
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1809,7 +1809,7 @@ GameObject:
   - component: {fileID: 3693101499171685449}
   - component: {fileID: 999922085904360995}
   m_Layer: 5
-  m_Name: Texture
+  m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

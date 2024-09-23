@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   productType: 1
   Index: 5
-  Name: Snacks
+  Name: "\uD559\uAD50"
   buyCost: 0
   sellCost: 0
-  Image: {fileID: 0}
-  ProductModel: {fileID: 5068965936971551415, guid: d03aaae094bd38343bdf1418aa7a0aa8, type: 3}
+  image: {fileID: 0}
+  ProductModel: {fileID: 5068965936971551415, guid: d03aaae094bd38343bdf1418aa7a0aa8,
+    type: 3}

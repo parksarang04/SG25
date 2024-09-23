@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   productType: 2
   Index: 1
-  Name: DairyProducts
+  Name: "\uBC1B\uC0AC\uB791"
   buyCost: 0
   sellCost: 0
-  Image: {fileID: 0}
-  ProductModel: {fileID: 7093473512417235025, guid: 9d79145d93d7f554b8106a55f3b8651f, type: 3}
+  image: {fileID: 0}
+  ProductModel: {fileID: 7093473512417235025, guid: 9d79145d93d7f554b8106a55f3b8651f,
+    type: 3}

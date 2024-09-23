@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   productType: 0
   Index: 0
-  Name: Beverages
+  Name: "\uB2C8\uB625\uAF2C"
   buyCost: 39
   sellCost: 84
-  Image: {fileID: 0}
-  ProductModel: {fileID: 8128279642168319838, guid: c54016a64b7d34340a45a5451501fcd7, type: 3}
+  image: {fileID: 0}
+  ProductModel: {fileID: 8128279642168319838, guid: c54016a64b7d34340a45a5451501fcd7,
+    type: 3}

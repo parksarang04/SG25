@@ -29,35 +29,34 @@ public class ShopManager : MonoBehaviour
 
         Generateproduct();
         products = Resources.LoadAll<ProductData>("");
-        
-
-
-
-
     }
 
     public void Generateproduct()
     {
-        for (int i = 0; i < products.Length; i++)    //상품의 갯수만큼 상품창이 생긴다.
+        for (int i = 0; i < products.Length; i++)
         {
-            GameObject productObj = Instantiate(productPrefab, productContent.transform);     //Instantiate 복제라는 뜻
-                                                                                              //productObj.transform.SetParent(productContent.transform);
-             productName = productObj.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
-            image = productObj.transform.GetChild(1).GetComponentInChildren<Image>();
-            price = productObj.transform.GetChild(2).GetComponentInChildren<TextMeshProUGUI>();
-            count = productObj.transform.GetChild(3).GetComponentInChildren<TMP_InputField>();
-            count.text = "1";
-            plusBtn = productObj.transform.GetChild(4).GetComponentInChildren<Button>();
-            plusBtn.onClick.AddListener(() => CountUp(count));
-            minusBtn = productObj.transform.GetChild(5).GetComponentInChildren<Button>();
+            GameObject productObj = Instantiate(productPrefab, productContent.transform);
 
+            // Get references to the components
+            TextMeshProUGUI productName = productObj.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
+            Image image = productObj.transform.GetChild(1).GetComponentInChildren<Image>();
+            TextMeshProUGUI price = productObj.transform.GetChild(2).GetComponentInChildren<TextMeshProUGUI>();
+            TMP_InputField count = productObj.transform.GetChild(3).GetComponentInChildren<TMP_InputField>();
+            count.text = "1";
+
+            Button plusBtn = productObj.transform.GetChild(4).GetComponentInChildren<Button>();
+            Button minusBtn = productObj.transform.GetChild(5).GetComponentInChildren<Button>();
+
+            // Store a local copy of the count input field
+            TMP_InputField localCount = count;
+
+            plusBtn.onClick.AddListener(() => CountUp(localCount));
+           
             if (productObj != null && products[i] != null)
             {
-                productName.text = products[i].name;
-                image = products[i].image;
-                price.text = products[i].buyCost.ToString(); //buyCost(int형),productprice(text형) 형변환ToString()
+                productName.text = products[i].name;               
+                price.text = products[i].buyCost.ToString();
             }
-
         }
 
 

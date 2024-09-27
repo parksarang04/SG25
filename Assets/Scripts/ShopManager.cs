@@ -51,7 +51,9 @@ public class ShopManager : MonoBehaviour
             TMP_InputField localCount = count;
 
             plusBtn.onClick.AddListener(() => CountUp(localCount));
-           
+            minusBtn.onClick.AddListener(() => CountDown(localCount));
+
+
             if (productObj != null && products[i] != null)
             {
                 productName.text = products[i].name;               
@@ -75,7 +77,7 @@ public class ShopManager : MonoBehaviour
 
     }
 
-    public void CountDown()
+    public void CountDown(TMP_InputField count)
     {
         int minus = int.Parse(count.text);
         minus--;

@@ -21,6 +21,9 @@ public class TestPlayerCtrl : MonoBehaviour
     private ShelfCtrl shelf;
     private TestShop testShop;
 
+    [Header("CheckoutSystem")]
+    public int totalPrice = 0;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;   //마우스 커서를 화면 안에서 고정
@@ -56,13 +59,13 @@ public class TestPlayerCtrl : MonoBehaviour
                         ShelfCtrl shelfCtrl = hit.collider.GetComponent<ShelfCtrl>(); ; //ray에 닿은 오브젝트에게서 ShelfCtrl 컴포넌트를 갖고 온다.
                         if (shelfCtrl != null)                                          //ShelfCtrl이 null이 아닐 때
                         {
-                            GameObject productObj = productBox.productObjectList[productBox.productObjectList.Count -1];    //productObj는 productBox.productObjectList의 마지막 인덱스 오브젝트이다.
+                            GameObject productObj = productBox.productObjectList[productBox.productObjectList.Count - 1];    //productObj는 productBox.productObjectList의 마지막 인덱스 오브젝트이다.
                             bool isDisplayed = shelfCtrl.DisplayProduct(productObj);    //중복 체크를 위해 DisplayProduct의 반환형을 bool로 했기 때문에 진열이 되었다면 true를 반환한다.
                             if (isDisplayed)    //진열이 되었을 때
                             {
                                 productBox.RemoveProduct(productObj);       //productBox의 RemoveProduct 함수에 productObj 인자를 전달한다.
                             }
-                            if (productBox.productObjectList.Count == 0)    
+                            if (productBox.productObjectList.Count == 0)
                             {
                                 Debug.Log("상자가 비었어요~");
                             }
@@ -74,6 +77,17 @@ public class TestPlayerCtrl : MonoBehaviour
                     if (productBox.productObjectList.Count == 0)            //들고 있는 productBox에 상품이 하나도 없다면
                     {
                         Destroy(productBox.gameObject);                     //들고 있는 productBox를 없앤다.
+                    }
+                }
+                if (hit.collider.CompareTag("CounterProduct"))
+                {
+                    Product productObj = hit.collider.GetComponent<Product>();
+
+                    if (productObj != null && productObj.product != null)
+                    {
+                        totalPrice += productObj.product.sellCost;
+                        Destroy(productObj.gameObject);
+                        Debug.Log(totalPrice);
                     }
                 }
             }
@@ -94,7 +108,7 @@ public class TestPlayerCtrl : MonoBehaviour
             {
                 if (productBox != null)                                                         //productBox를 들고 있다면
                 {
-                    productBox.transform.position = hit.point + new Vector3( 0f, 0.5f, 0f);     //들고 있던 productBox는 hit한 포인트에서 y로 0.5f 높은 곳으로 이동한다.
+                    productBox.transform.position = hit.point + new Vector3(0f, 0.5f, 0f);     //들고 있던 productBox는 hit한 포인트에서 y로 0.5f 높은 곳으로 이동한다.
                     productBox.transform.localScale = Vector3.one;
                     productBox.transform.SetParent(null);
                 }

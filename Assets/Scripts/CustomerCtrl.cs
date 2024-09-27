@@ -195,12 +195,19 @@ public class CustomerCtrl : MonoBehaviour
                 {
                     if (randomCount > 0)
                     {
-                        GameObject productObj = shelf.productList.Pop();
-                        shelf.PickUpProduct(randomCount);
-                        productObj.transform.SetParent(customerHand.transform);
-                        productObj.transform.localPosition = Vector3.zero;
-                        productObj.SetActive(false);
-                        pickProduct.Add(productObj);
+                        if (shelf.productList.Count > 0)
+                        {
+                            GameObject productObj = shelf.productList.Pop();
+                            shelf.PickUpProduct(randomCount);
+                            productObj.transform.SetParent(customerHand.transform);
+                            productObj.transform.localPosition = Vector3.zero;
+                            productObj.SetActive(false);
+                            pickProduct.Add(productObj);
+                        }
+                        else
+                        {
+                            Debug.Log("진열대에 물건이 없어요~");
+                        }
                         targetPos.Remove(target);
                     }
                 }
@@ -219,7 +226,7 @@ public class CustomerCtrl : MonoBehaviour
         bool isCounterOccupied = false;
         foreach (var customer in allCustomers)
         {
-            if (customer != this && customer.currentState == CustomerState.WalkingToCounter)
+            if (customer != this && customer.currentState == CustomerState.LeavingStore || customer.currentState == CustomerState.WaitingCalcPrice || customer.currentState == CustomerState.GivingMoney)
             {
                 isCounterOccupied = true;
                 break;
@@ -259,9 +266,10 @@ public class CustomerCtrl : MonoBehaviour
         {
             product.SetActive(true);
             counter.position = product.transform.position = new Vector3(0f, 0f, 0f);
-            product.transform.parent = null;    
+            product.transform.parent = null;
+            product.tag = "CounterProduct";
             pickProduct.Remove(product);
-            counterProduct.Add(product);    
+            counterProduct.Add(product);
         }
     }
 

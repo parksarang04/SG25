@@ -152,19 +152,10 @@ MonoBehaviour:
   counter: {fileID: 0}
   exitPoint: {fileID: 0}
   customerHand: {fileID: 3364822266799676843}
-  moneyPrefabs:
-  - {fileID: 11400000, guid: 8f1f6c1800623bc40804809d2b2acac5, type: 2}
-  - {fileID: 11400000, guid: 4703e5e32a836304786c316bb3f8edbd, type: 2}
-  - {fileID: 11400000, guid: 5728ac117c034444e90f432f32702949, type: 2}
-  - {fileID: 11400000, guid: bef1921a471aef04eb8b65a15b0b10af, type: 2}
-  - {fileID: 11400000, guid: d3bc9c2af79b0a742a05ce4796249dbe, type: 2}
-  - {fileID: 11400000, guid: ac7b4a9991578384faaef8a9dbda1160, type: 2}
-  - {fileID: 11400000, guid: 2c5eab4043bf97e4aba073e820b8ed4a, type: 2}
-  - {fileID: 11400000, guid: 41ce483458ad9704883ba38d9bc84735, type: 2}
   targetPos: []
   pickProduct: []
+  counterProduct: []
   shelfList: []
-  giveMoneys: []
 --- !u!1 &3364822266799676843
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +218,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

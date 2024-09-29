@@ -11,6 +11,7 @@ TagManager:
   - Product
   - CounterLine
   - CounterProduct
+  - Money
   layers:
   - Default
   - TransparentFX

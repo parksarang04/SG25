@@ -45,17 +45,21 @@ public class CustomerCtrl : MonoBehaviour
     public CustomerState currentState;
     private Timer timer;
     public NavMeshAgent agent;
+    private CheckoutSystem checkoutSystem;
+
+
     public bool isMoveDone = false;
 
     public Transform target;
     public Transform counter;
     public Transform exitPoint;
     public GameObject customerHand;
+    public Money[] moneyPrefabs;
 
     public List<Transform> targetPos = new List<Transform>();
     public List<GameObject> pickProduct = new List<GameObject>();
-    public List<GameObject> counterProduct = new List<GameObject>();
     public List<GameObject> shelfList = new List<GameObject>();
+    
 
     private static int nextPriority = 0;
     private static readonly object priorityLock = new object();
@@ -73,6 +77,7 @@ public class CustomerCtrl : MonoBehaviour
     {
         timer = new Timer();
         agent = GetComponent<NavMeshAgent>();
+        checkoutSystem = FindObjectOfType<CheckoutSystem>();
         counter = GameObject.Find("Counter").transform;
         currentState = CustomerState.Idle;
         SearchShelfs();
@@ -111,11 +116,11 @@ public class CustomerCtrl : MonoBehaviour
             case CustomerState.PlacingProduct:
                 PlacingProduct();
                 break;
-            case CustomerState.WaitingCalcPrice:
-                WaitingCalcPrice();
-                break;
             case CustomerState.GivingMoney:
                 GivingMoney();
+                break;
+            case CustomerState.WaitingCalcPrice:
+                WaitingCalcPrice();
                 break;
             case CustomerState.LeavingStore:
                 LeavingStore();
@@ -155,10 +160,6 @@ public class CustomerCtrl : MonoBehaviour
                     target = targetPos[Random.Range(0, targetPos.Count)];
                     MoveToTarget();
                     ChangeState(CustomerState.WalkingToShelf, waitTime);
-                }
-                else
-                {
-                    ChangeState(CustomerState.WaitCounter, waitTime);
                 }
             }
         }
@@ -206,7 +207,7 @@ public class CustomerCtrl : MonoBehaviour
                         }
                         else
                         {
-                            Debug.Log("진열대에 물건이 없어요~");
+                            Debug.Log("진열대가 비었어여");
                         }
                         targetPos.Remove(target);
                     }
@@ -216,7 +217,7 @@ public class CustomerCtrl : MonoBehaviour
                     targetPos.Remove(target);
                 }
             }
-            ChangeState(CustomerState.Idle, waitTime);
+            ChangeState(CustomerState.WaitCounter, waitTime);
         }
     }
 
@@ -226,7 +227,8 @@ public class CustomerCtrl : MonoBehaviour
         bool isCounterOccupied = false;
         foreach (var customer in allCustomers)
         {
-            if (customer != this && customer.currentState == CustomerState.LeavingStore || customer.currentState == CustomerState.WaitingCalcPrice || customer.currentState == CustomerState.GivingMoney)
+            if (customer != this && customer.currentState == CustomerState.LeavingStore || customer.currentState == CustomerState.WaitingCalcPrice
+                || customer.currentState == CustomerState.GivingMoney || customer.currentState == CustomerState.WalkingToCounter || customer.currentState == CustomerState.PlacingProduct)
             {
                 isCounterOccupied = true;
                 break;
@@ -241,6 +243,11 @@ public class CustomerCtrl : MonoBehaviour
                 target = availablePosition;
                 agent.SetDestination(availablePosition.position);
             }
+        }
+        
+        if (pickProduct.Count == 0)
+        {
+            ChangeState(CustomerState.LeavingStore, waitTime);
         }
         else
         {
@@ -262,14 +269,35 @@ public class CustomerCtrl : MonoBehaviour
 
     void PlacingProduct()
     {
-        foreach (GameObject product in pickProduct)
+
+        if (timer.IsFinished() && isMoveDone)
         {
-            product.SetActive(true);
-            counter.position = product.transform.position = new Vector3(0f, 0f, 0f);
-            product.transform.parent = null;
-            product.tag = "CounterProduct";
-            pickProduct.Remove(product);
-            counterProduct.Add(product);
+            if (pickProduct.Count > 0)
+            {
+                GameObject product = pickProduct[pickProduct.Count - 1];
+                product.SetActive(true);
+                counter.position = product.transform.position = new Vector3(0f, 0f, 0f);
+                product.transform.parent = null;
+                product.tag = "CounterProduct";
+                pickProduct.Remove(product);
+                checkoutSystem.counterProduct.Add(product);
+            }
+            if (pickProduct.Count == 0)
+            {
+                ChangeState(CustomerState.GivingMoney, waitTime);
+            }
+        }
+    }
+
+    void GivingMoney()
+    {
+        if (timer.IsFinished() && checkoutSystem.counterProduct.Count == 0)
+        {
+            GiveMoney(checkoutSystem.totalPrice);
+        }
+        if (timer.IsFinished() && checkoutSystem.takeMoneys.Count == 0)
+        {
+            ChangeState(CustomerState.WaitingCalcPrice, waitTime);
         }
     }
 
@@ -278,14 +306,9 @@ public class CustomerCtrl : MonoBehaviour
 
     }
 
-    void GivingMoney()
-    {
-
-    }
-
     void LeavingStore()
     {
-
+        Destroy(gameObject);
     }
 
     Transform GetAvailableCounterLinePosition()
@@ -311,5 +334,46 @@ public class CustomerCtrl : MonoBehaviour
             }
         }
         return null;
+    }
+
+    void GiveMoney(int amount)
+    {
+        System.Array.Sort(moneyPrefabs, (a, b) => b.value.CompareTo(a.value));
+        bool giveExactChange = Random.Range(0, 2) == 0;
+
+        if (giveExactChange)
+        {
+            foreach (Money money in moneyPrefabs)
+            {
+                if (amount >= money.value)
+                {
+                    int count = amount / money.value;
+                    amount -= count * money.value;
+                    for (int i = 0; i < count; i++)
+                    {
+                        GameObject moneyObj = Instantiate(money.moneyModel);
+                        checkoutSystem.takeMoneys.Add(moneyObj);
+                    }
+                }
+            }
+        }
+        else
+        {
+            int giveMoney = Random.Range(0, 50000);
+            foreach (Money money in moneyPrefabs)
+            {
+                if (giveMoney >= money.value)
+                {
+                    int count = giveMoney / money.value;
+                    giveMoney -= count * money.value;
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        GameObject moneyObj = Instantiate (money.moneyModel);
+                        checkoutSystem.takeMoneys.Add(moneyObj);
+                    }
+                }
+            }
+        }
     }
 }

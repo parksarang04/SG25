@@ -230,6 +230,7 @@ GameObject:
   - component: {fileID: 73695555}
   - component: {fileID: 73695554}
   - component: {fileID: 73695558}
+  - component: {fileID: 73695559}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -347,6 +348,21 @@ MonoBehaviour:
   playerHand: {fileID: 2124728977}
   canLook: 1
   productBox: {fileID: 0}
+  totalPrice: 0
+--- !u!114 &73695559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73695553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d6c9c94c291b6a43889d84eba0c9636, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  counterProduct: []
+  totalPrice: 0
 --- !u!1 &90899096
 GameObject:
   m_ObjectHideFlags: 0

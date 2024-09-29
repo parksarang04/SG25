@@ -20,9 +20,7 @@ public class TestPlayerCtrl : MonoBehaviour
     public ProductBox productBox;
     private ShelfCtrl shelf;
     private TestShop testShop;
-
-    [Header("CheckoutSystem")]
-    public int totalPrice = 0;
+    private CheckoutSystem checkoutSystem;
 
     void Start()
     {
@@ -30,6 +28,8 @@ public class TestPlayerCtrl : MonoBehaviour
         Cursor.visible = false;                     //마우스 커서를 보이지 않도록 설정
 
         cam = Camera.main;
+
+        checkoutSystem = GetComponent<CheckoutSystem>();
     }
 
     void Update()
@@ -81,14 +81,15 @@ public class TestPlayerCtrl : MonoBehaviour
                 }
                 if (hit.collider.CompareTag("CounterProduct"))
                 {
-                    Product productObj = hit.collider.GetComponent<Product>();
-
-                    if (productObj != null && productObj.product != null)
-                    {
-                        totalPrice += productObj.product.sellCost;
-                        Destroy(productObj.gameObject);
-                        Debug.Log(totalPrice);
-                    }
+                    GameObject counterProductObj = hit.collider.gameObject;
+                    checkoutSystem.SelectedProduct(counterProductObj);
+                    Destroy(counterProductObj);
+                }
+                if (hit.collider.CompareTag("Money"))
+                {
+                    GameObject moneyObj = hit.collider.gameObject;
+                    checkoutSystem.takeMoneys.Remove(moneyObj);
+                    Destroy(moneyObj);
                 }
             }
             if (Input.GetMouseButtonDown(1))                                        //우클릭을 했을 때

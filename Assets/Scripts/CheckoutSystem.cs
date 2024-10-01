@@ -12,9 +12,10 @@ public class CheckoutSystem : MonoBehaviour
     public void SelectedProduct(GameObject productObj)
     {
         productObj = counterProduct[counterProduct.Count - 1];
-        counterProduct.Remove(productObj);
         Product product = productObj.GetComponent<Product>();
+        counterProduct.Remove(productObj);
         totalPrice += product.product.sellCost;
+        Destroy(productObj);
         Debug.Log(totalPrice);
     }
 

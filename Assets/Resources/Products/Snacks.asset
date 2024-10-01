@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8220361cbabec6d4ba79f5bcef5fbbfb, type: 3}
-  m_Name: Beverages
+  m_Name: Snacks
   m_EditorClassIdentifier: 
-  productType: 0
-  Index: 0
-  Name: "\uB2C8\uB625\uAF2C"
-  buyCost: 39
-  sellCost: 2800
+  productType: 1
+  Index: 5
+  Name: "\uC9D1"
+  buyCost: 1890
+  sellCost: 1890
   image: {fileID: 0}
-  ProductModel: {fileID: 8128279642168319838, guid: c54016a64b7d34340a45a5451501fcd7,
+  ProductModel: {fileID: 5068965936971551415, guid: d03aaae094bd38343bdf1418aa7a0aa8,
     type: 3}

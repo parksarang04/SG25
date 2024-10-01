@@ -161,6 +161,10 @@ public class CustomerCtrl : MonoBehaviour
                     MoveToTarget();
                     ChangeState(CustomerState.WalkingToShelf, waitTime);
                 }
+                else
+                {
+                    ChangeState(CustomerState.WaitCounter, waitTime);
+                }
             }
         }
     }
@@ -190,7 +194,7 @@ public class CustomerCtrl : MonoBehaviour
 
             if (shelf != null)
             {
-                int randomCount = Random.Range(0, 2);
+                int randomCount = Random.Range(0, 5);
                 Debug.Log(randomCount);
                 for (int i = 0; i < randomCount; i++)
                 {
@@ -217,7 +221,7 @@ public class CustomerCtrl : MonoBehaviour
                     targetPos.Remove(target);
                 }
             }
-            ChangeState(CustomerState.WaitCounter, waitTime);
+            ChangeState(CustomerState.Idle  , waitTime);
         }
     }
 
@@ -253,7 +257,6 @@ public class CustomerCtrl : MonoBehaviour
         {
             ChangeState(CustomerState.WalkingToCounter, waitTime);
         }
-
     }
 
     void WalkingToCounter()
@@ -261,7 +264,7 @@ public class CustomerCtrl : MonoBehaviour
         target = counter;
         agent.SetDestination(counter.position);
 
-        if (timer.IsFinished())
+        if (timer.IsFinished() && isMoveDone)
         {
             ChangeState(CustomerState.PlacingProduct, waitTime);
         }
@@ -269,7 +272,6 @@ public class CustomerCtrl : MonoBehaviour
 
     void PlacingProduct()
     {
-
         if (timer.IsFinished() && isMoveDone)
         {
             if (pickProduct.Count > 0)
@@ -294,11 +296,12 @@ public class CustomerCtrl : MonoBehaviour
         if (timer.IsFinished() && checkoutSystem.counterProduct.Count == 0)
         {
             GiveMoney(checkoutSystem.totalPrice);
-        }
-        if (timer.IsFinished() && checkoutSystem.takeMoneys.Count == 0)
-        {
             ChangeState(CustomerState.WaitingCalcPrice, waitTime);
         }
+        //if (timer.IsFinished() && checkoutSystem.takeMoneys.Count == 0)
+        //{
+        //    ChangeState(CustomerState.WaitingCalcPrice, waitTime);
+        //}
     }
 
     void WaitingCalcPrice()
@@ -340,6 +343,7 @@ public class CustomerCtrl : MonoBehaviour
     {
         System.Array.Sort(moneyPrefabs, (a, b) => b.value.CompareTo(a.value));
         bool giveExactChange = Random.Range(0, 2) == 0;
+        Vector3 moneyPosition = new Vector3(customerHand.transform.position.x, customerHand.transform.position.y + 0.1f, customerHand.transform.position.z);
 
         if (giveExactChange)
         {
@@ -351,7 +355,7 @@ public class CustomerCtrl : MonoBehaviour
                     amount -= count * money.value;
                     for (int i = 0; i < count; i++)
                     {
-                        GameObject moneyObj = Instantiate(money.moneyModel);
+                        GameObject moneyObj = Instantiate(money.moneyModel, moneyPosition, Quaternion.identity);
                         checkoutSystem.takeMoneys.Add(moneyObj);
                     }
                 }
@@ -369,7 +373,7 @@ public class CustomerCtrl : MonoBehaviour
 
                     for (int i = 0; i < count; i++)
                     {
-                        GameObject moneyObj = Instantiate (money.moneyModel);
+                        GameObject moneyObj = Instantiate (money.moneyModel, customerHand.transform);
                         checkoutSystem.takeMoneys.Add(moneyObj);
                     }
                 }

@@ -83,7 +83,6 @@ public class TestPlayerCtrl : MonoBehaviour
                 {
                     GameObject counterProductObj = hit.collider.gameObject;
                     checkoutSystem.SelectedProduct(counterProductObj);
-                    Destroy(counterProductObj);
                 }
                 if (hit.collider.CompareTag("Money"))
                 {

@@ -298,10 +298,6 @@ public class CustomerCtrl : MonoBehaviour
             GiveMoney(checkoutSystem.totalPrice);
             ChangeState(CustomerState.WaitingCalcPrice, waitTime);
         }
-        //if (timer.IsFinished() && checkoutSystem.takeMoneys.Count == 0)
-        //{
-        //    ChangeState(CustomerState.WaitingCalcPrice, waitTime);
-        //}
     }
 
     void WaitingCalcPrice()

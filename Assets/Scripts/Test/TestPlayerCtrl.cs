@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TestPlayerCtrl : MonoBehaviour
@@ -21,6 +20,7 @@ public class TestPlayerCtrl : MonoBehaviour
     private ShelfCtrl shelf;
     private TestShop testShop;
     private CheckoutSystem checkoutSystem;
+    public UIManager uiManager;
 
     void Start()
     {
@@ -30,6 +30,7 @@ public class TestPlayerCtrl : MonoBehaviour
         cam = Camera.main;
 
         checkoutSystem = GetComponent<CheckoutSystem>();
+        uiManager = FindObjectOfType<UIManager>();
     }
 
     void Update()
@@ -115,14 +116,23 @@ public class TestPlayerCtrl : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                bool panelActive = testShop.ProductListPanel.activeSelf;
-                if (panelActive)
+                //bool panelActive = testShop.ProductListPanel.activeSelf;
+                //if (panelActive)
+                //{
+                //    testShop.ProductListPanel.gameObject.SetActive(false);
+                //}
+                //if (!panelActive)
+                //{
+                //    testShop.ProductListPanel.gameObject.SetActive(true);
+                //}
+                uiManager.OnShopPanel();
+                if (uiManager.isPanelOn == true)
                 {
-                    testShop.ProductListPanel.gameObject.SetActive(false);
+                    IsPanelOn();
                 }
-                if (!panelActive)
+                else
                 {
-                    testShop.ProductListPanel.gameObject.SetActive(true);
+                    IsPanelOff();
                 }
             }
         }
@@ -150,5 +160,17 @@ public class TestPlayerCtrl : MonoBehaviour
         Vector3 moveVec = transform.forward * Vertical + transform.right * Horizontal;
 
         transform.position += moveVec.normalized * moveSpeed * Time.deltaTime;
+    }
+
+    void IsPanelOn()
+    {
+        Cursor.lockState = CursorLockMode.Locked;   //마우스 커서를 화면 안에서 고정
+        Cursor.visible = false;
+    }
+
+    void IsPanelOff()
+    {
+        Cursor.lockState = CursorLockMode.None;   //마우스 커서를 화면 안에서 고정
+        Cursor.visible = true;                     //마우스 커서를 보이지 않도록 설정           //마우스 커서를 보이지 않도록 설정
     }
 }

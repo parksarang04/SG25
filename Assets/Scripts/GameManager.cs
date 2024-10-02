@@ -4,9 +4,20 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Time")]
     public TextMeshProUGUI timeText; // UI에 현재 게임 시간을 표시하는 텍스트
     public float gameTime = 0.0f; // 게임 세계의 시간을 초로 저장
     public float timeScale = 60.0f; // 현실 시간 1초당 게임 시간 60초 (1분)
+
+    [Header("")]
+    public int playerMoney = 10000;
+
+    private UIManager UIManager;
+
+    void Start()
+    {
+        UIManager = FindObjectOfType<UIManager>();
+    }
 
     void Update()
     {
@@ -26,4 +37,6 @@ public class GameManager : MonoBehaviour
         // UI 업데이트 (게임 시간 출력)
         timeText.text = string.Format("{0:00}:{1:00}", hours % 24, minutes);
     }
+
+
 }

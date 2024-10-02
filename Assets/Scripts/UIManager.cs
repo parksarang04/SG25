@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
 
     public void OnShopPanel()
     {
-        bool isPanelActive = testShopPanel.activeInHierarchy;
+        bool isPanelActive = testShopPanel.activeInHierarchy;   //하이어라키에서 활성하면 true
         isPanelOn = isPanelActive;
         testShopPanel.SetActive(!isPanelActive);
     }

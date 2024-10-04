@@ -27,16 +27,16 @@ public class ShopManager : MonoBehaviour
     public GameObject CartProductPrefab;
 
     [Header("플레이어 머니")]
-    public int playerMoney = 1000; // 초기 플레이어 돈 
+    //public int playerMoney = 1000; // 초기 플레이어 돈 
     public TextMeshProUGUI PlayerMoneyText; // UI에서 플레이어 돈을 표시하는 텍스트
 
 
     void Start()
     {
-
-        Generateproduct();
+        UpdatePlayerMoneyUI();
         products = Resources.LoadAll<ProductData>("");  //리소스 파일에 있는 ProductData타입을 모두 products배열에 넣는다.
-       // OnCartPanelButtonClick();
+        // OnCartPanelButtonClick();
+        Generateproduct();
         GenerateCartProduct();
 
     }
@@ -61,11 +61,12 @@ public class ShopManager : MonoBehaviour
     // 플레이어 돈 UI 업데이트
     public void UpdatePlayerMoneyUI()
     {
-        PlayerMoneyText.text = $"Money: {playerMoney}"; // 플레이어의 돈을 텍스트에 표시
+        PlayerMoneyText.text = $"Money: {GameManager.Instance.playerMoney}"; // 플레이어의 돈을 텍스트에 표시
     }
 
     public void Generateproduct()
     {
+
         for (int i = 0; i < products.Length; i++)
         {
             GameObject productObj = Instantiate(productPrefab, productContent.transform);
@@ -80,17 +81,18 @@ public class ShopManager : MonoBehaviour
             Button plusBtn = productObj.transform.GetChild(4).GetComponentInChildren<Button>();
             Button minusBtn = productObj.transform.GetChild(5).GetComponentInChildren<Button>();
             Button CartBtn = productObj.transform.GetChild(6).GetComponentInChildren<Button>();
+            int index = i;
             // Store a local copy of the count input field
             TMP_InputField localCount = count;
-            CartBtn.onClick.AddListener(()=> CartBtnClick(count, products[i]));
+            CartBtn.onClick.AddListener(()=> CartBtnClick(count, products[index]));
             plusBtn.onClick.AddListener(() => CountUp(localCount));
             minusBtn.onClick.AddListener(() => CountDown(localCount));
 
 
-            if (productObj != null && products[i] != null)
+            if (productObj != null && products[index] != null)
             {
-                productName.text = products[i].name;               
-                price.text = products[i].buyCost.ToString();
+                productName.text = products[index].name;               
+                price.text = products[index].buyCost.ToString();
             }
         }
 
@@ -104,7 +106,7 @@ public class ShopManager : MonoBehaviour
         if (productCount > 0)
         {
             // 장바구니에 이미 같은 제품이 있는지 확인
-            CartItem existingItem = cartItems.Find(item => item.product.name == product.name);
+            CartItem existingItem = cartItems.Find(item => item.product.Index == product.Index);
 
             if (existingItem != null)
             {
@@ -159,12 +161,12 @@ public class ShopManager : MonoBehaviour
         int totalPrice = CalculateTotalPrice(); // 장바구니의 총 가격 계산
 
         // 플레이어의 돈이 총 가격보다 많거나 같을 때 구매 가능
-        if (playerMoney >= totalPrice)
+        if (GameManager.Instance.playerMoney >= totalPrice)
         {
-            playerMoney -= totalPrice; // 플레이어 돈에서 총 가격 차감
+            GameManager.Instance.playerMoney -= totalPrice; // 플레이어 돈에서 총 가격 차감
             UpdatePlayerMoneyUI();     // UI 업데이트
 
-            Debug.Log($"Items purchased for {totalPrice}. Remaining money: {playerMoney}");
+            Debug.Log($"Items purchased for {totalPrice}. Remaining money: {GameManager.Instance.playerMoney}");
 
             ClearCart(); // 장바구니 비우기
         }

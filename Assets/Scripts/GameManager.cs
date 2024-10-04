@@ -4,6 +4,20 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager instance;
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if (!instance)
+            {
+                instance = FindObjectOfType(typeof(GameManager)) as GameManager;
+            }
+            return instance;
+        }
+    }
+
     [Header("Time")]
     public TextMeshProUGUI timeText; // UI에 현재 게임 시간을 표시하는 텍스트
     public float gameTime = 0.0f; // 게임 세계의 시간을 초로 저장
@@ -13,6 +27,19 @@ public class GameManager : MonoBehaviour
     public int playerMoney = 10000;
 
     private UIManager UIManager;
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
 
     void Start()
     {

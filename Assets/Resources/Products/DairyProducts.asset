@@ -15,7 +15,7 @@ MonoBehaviour:
   productType: 2
   Index: 1
   Name: "\uBC1B\uC0AC\uB791"
-  buyCost: 0
+  buyCost: 5
   sellCost: 5900
   image: {fileID: 0}
   ProductModel: {fileID: 7093473512417235025, guid: 9d79145d93d7f554b8106a55f3b8651f,

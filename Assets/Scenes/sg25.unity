@@ -633,12 +633,7 @@ MonoBehaviour:
   image: {fileID: 0}
   productName: {fileID: 0}
   price: {fileID: 0}
-  products:
-  - {fileID: 11400000, guid: a65edb4cfa58eb845b7820ee65ae0ece, type: 2}
-  - {fileID: 11400000, guid: c4c8d246e1d22994b9da49dbdff47f6d, type: 2}
-  - {fileID: 11400000, guid: 0e99b008f593f0c4c907cb184711c72c, type: 2}
-  - {fileID: 11400000, guid: 45bad2257713eb346a6164978be45538, type: 2}
-  - {fileID: 11400000, guid: 4e7089750f4a251499c1ff53c8d298ce, type: 2}
+  products: []
   CartPanel: {fileID: 163468563}
   buyButton: {fileID: 701187775}
   removeButton: {fileID: 0}
@@ -646,8 +641,7 @@ MonoBehaviour:
   CartProductContent: {fileID: 1310851549}
   CartProductPrefab: {fileID: 9076717077550959144, guid: 212fd85b81cd99842aab8441b0870521,
     type: 3}
-  playerMoney: 1000
-  PlayerMoneyText: {fileID: 0}
+  PlayerMoneyText: {fileID: 1794700745}
 --- !u!1 &556201967
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,7 +1153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.033927385}
+  m_AnchoredPosition: {x: 0, y: 0.00018609666}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &653145169
@@ -2565,7 +2559,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1295588052}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.04318869}
+  m_AnchorMin: {x: 0, y: 0.000008404255}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -2677,7 +2671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.10384196}
+  m_AnchoredPosition: {x: 0, y: 0.00044644723}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1310851551
@@ -3484,7 +3478,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1222909875}
   m_Direction: 3
   m_Value: 0
-  m_Size: 0.9568113
+  m_Size: 0.9999916
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3909,7 +3903,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 239034654}
   m_Direction: 3
   m_Value: 0
-  m_Size: 0.9697887
+  m_Size: 0.99966365
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

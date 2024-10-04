@@ -19,12 +19,16 @@ public class ShopManager : MonoBehaviour
     public GameObject CartPanel;
 
     [Header("장바구니 패널")]
-    public TextMeshProUGUI PlayerMoneyText; //플레이어 돈 표시
+   // public TextMeshProUGUI PlayerMoneyText; //플레이어 돈 표시
     public Button buyButton;    // 장바구니에서 '구매'
     public Button removeButton; //장바구니에서 '지우기'
     public List<ProductData> productDatas = new List<ProductData>();
     public GameObject CartProductContent;
     public GameObject CartProductPrefab;
+
+    [Header("플레이어 머니")]
+    public int playerMoney = 1000; // 초기 플레이어 돈 
+    public TextMeshProUGUI PlayerMoneyText; // UI에서 플레이어 돈을 표시하는 텍스트
 
 
     void Start()
@@ -35,6 +39,29 @@ public class ShopManager : MonoBehaviour
        // OnCartPanelButtonClick();
         GenerateCartProduct();
 
+    }
+
+    // 장바구니 항목을 제품과 수량을 함께 관리하는 구조.
+    //productDatas 리스트에서 ProductData만 저장하는 것이 아니라, 제품과 그 수량을 함께 저장하는 방식으로 변경
+    public class CartItem
+    {
+        public ProductData product;
+        public int quantity;
+
+        public CartItem(ProductData product, int quantity)
+        {
+            this.product = product;
+            this.quantity = quantity;
+        }
+    }
+
+    public List<CartItem> cartItems = new List<CartItem>(); // 장바구니 항목 리스트
+
+
+    // 플레이어 돈 UI 업데이트
+    public void UpdatePlayerMoneyUI()
+    {
+        PlayerMoneyText.text = $"Money: {playerMoney}"; // 플레이어의 돈을 텍스트에 표시
     }
 
     public void Generateproduct()
@@ -72,16 +99,26 @@ public class ShopManager : MonoBehaviour
 
     public void CartBtnClick(TMP_InputField count, ProductData product)
     {
-        int productCount = int.Parse(count.text);   //인풋필드에 적힌 숫자 텍스트를 int로 형변환
-        if(productCount > 0)
+        int productCount = int.Parse(count.text);
+
+        if (productCount > 0)
         {
-            for(int i=0; i < productCount; i++)
+            // 장바구니에 이미 같은 제품이 있는지 확인
+            CartItem existingItem = cartItems.Find(item => item.product.name == product.name);
+
+            if (existingItem != null)
             {
-                productDatas.Add(product);
+                // 같은 제품이 있을 경우 수량만 증가
+                existingItem.quantity += productCount;
+            }
+            else
+            {
+                // 새로운 제품을 장바구니에 추가
+                cartItems.Add(new CartItem(product, productCount));
             }
         }
-
     }
+
 
     public void OnCartPanelButtonClick() //장바구니 버튼을 클릭했을 때 함수
     {
@@ -96,16 +133,53 @@ public class ShopManager : MonoBehaviour
 
     public void GenerateCartProduct()
     {
-        for(int i = 0; i< productDatas.Count; i++)
+        // 기존 장바구니 항목들을 모두 제거
+        foreach (Transform child in CartProductContent.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        // 장바구니에 담긴 항목들을 UI에 표시
+        foreach (CartItem cartItem in cartItems)
         {
             GameObject cartProduct = Instantiate(CartProductPrefab, CartProductContent.transform);
             TextMeshProUGUI productName = cartProduct.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
             Image productImage = cartProduct.transform.GetChild(1).GetComponentInChildren<Image>();
-            Button productOneRemove = cartProduct.transform.GetChild(2).GetComponentInChildren<Button>();
-            Button productAllRemove = cartProduct.transform.GetChild(3).GetComponentInChildren<Button>();
-            TextMeshProUGUI productText = cartProduct.transform.GetChild(4).GetComponentInChildren<TextMeshProUGUI>();
+            TextMeshProUGUI productQuantity = cartProduct.transform.GetChild(4).GetComponentInChildren<TextMeshProUGUI>();
+
+            // 제품 정보와 수량 표시
+            productName.text = cartItem.product.name;
+            productQuantity.text = $"x{cartItem.quantity}";
         }
     }
+
+
+    public void OnBuyButtonClick()
+    {
+        int totalPrice = CalculateTotalPrice(); // 장바구니의 총 가격 계산
+
+        // 플레이어의 돈이 총 가격보다 많거나 같을 때 구매 가능
+        if (playerMoney >= totalPrice)
+        {
+            playerMoney -= totalPrice; // 플레이어 돈에서 총 가격 차감
+            UpdatePlayerMoneyUI();     // UI 업데이트
+
+            Debug.Log($"Items purchased for {totalPrice}. Remaining money: {playerMoney}");
+
+            ClearCart(); // 장바구니 비우기
+        }
+        else
+        {
+            Debug.Log("아이템을 살 돈이 부족합니다.");
+        }
+    }
+
+    public void ClearCart()
+    {
+        cartItems.Clear(); // 장바구니 비우기
+        GenerateCartProduct(); // UI 업데이트 (장바구니를 다시 그려서 비워진 상태 표시)
+    }
+
 
     public void CountUp(TMP_InputField count)
     {
@@ -123,4 +197,19 @@ public class ShopManager : MonoBehaviour
         count.text = minus.ToString();
         Debug.Log(count.text);
     }
+
+    public int CalculateTotalPrice()
+    {
+        int totalPrice = 0;
+
+        // 장바구니에 담긴 모든 제품의 총 가격 계산
+        foreach (CartItem cartItem in cartItems)
+        {
+            totalPrice += cartItem.product.buyCost * cartItem.quantity; // 제품 가격 * 수량
+        }
+
+        return totalPrice;
+    }
+
+
 }

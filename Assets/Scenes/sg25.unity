@@ -640,13 +640,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 45bad2257713eb346a6164978be45538, type: 2}
   - {fileID: 11400000, guid: 4e7089750f4a251499c1ff53c8d298ce, type: 2}
   CartPanel: {fileID: 163468563}
-  PlayerMoneyText: {fileID: 0}
   buyButton: {fileID: 701187775}
   removeButton: {fileID: 0}
   productDatas: []
   CartProductContent: {fileID: 1310851549}
   CartProductPrefab: {fileID: 9076717077550959144, guid: 212fd85b81cd99842aab8441b0870521,
     type: 3}
+  playerMoney: 1000
+  PlayerMoneyText: {fileID: 0}
 --- !u!1 &556201967
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,7 +1159,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00014367995}
+  m_AnchoredPosition: {x: 0, y: 0.033927385}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &653145169
@@ -1400,7 +1401,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 701187776}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 530030119}
+        m_TargetAssemblyTypeName: ShopManager, Assembly-CSharp
+        m_MethodName: OnBuyButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &701187776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3896,7 +3909,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 239034654}
   m_Direction: 3
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9697887
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

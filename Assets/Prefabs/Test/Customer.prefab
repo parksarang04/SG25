@@ -154,13 +154,13 @@ MonoBehaviour:
   customerHand: {fileID: 3364822266799676843}
   moneyPrefabs:
   - {fileID: 11400000, guid: 8f1f6c1800623bc40804809d2b2acac5, type: 2}
-  - {fileID: 11400000, guid: 4703e5e32a836304786c316bb3f8edbd, type: 2}
-  - {fileID: 11400000, guid: 5728ac117c034444e90f432f32702949, type: 2}
-  - {fileID: 11400000, guid: bef1921a471aef04eb8b65a15b0b10af, type: 2}
-  - {fileID: 11400000, guid: d3bc9c2af79b0a742a05ce4796249dbe, type: 2}
-  - {fileID: 11400000, guid: ac7b4a9991578384faaef8a9dbda1160, type: 2}
-  - {fileID: 11400000, guid: 2c5eab4043bf97e4aba073e820b8ed4a, type: 2}
-  - {fileID: 11400000, guid: 41ce483458ad9704883ba38d9bc84735, type: 2}
+  - {fileID: 11400000, guid: ccc24b2e8d492d34dbe1b6f25bb5d030, type: 2}
+  - {fileID: 11400000, guid: 2f424332a5e416546a0915800d659337, type: 2}
+  - {fileID: 11400000, guid: 01a4ddd2710a8af43b56f99a061b4c49, type: 2}
+  - {fileID: 11400000, guid: 8f1d77648e3894c43be5721587b9983f, type: 2}
+  - {fileID: 11400000, guid: 4dc876f546f08d549be96fc0c0718ed8, type: 2}
+  - {fileID: 11400000, guid: 6ec5ca439c7453d4d90b47f46ff04147, type: 2}
+  - {fileID: 11400000, guid: 39030321f2633494b9aa40c1cb1af0b0, type: 2}
   targetPos: []
   pickProduct: []
   shelfList: []

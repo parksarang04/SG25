@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewMoneyData", menuName = "ScriptableObjects/MoneyModel")]
-public class Money : ScriptableObject
+public class MoneyData : ScriptableObject
 {
     public int value;
     public GameObject moneyModel;

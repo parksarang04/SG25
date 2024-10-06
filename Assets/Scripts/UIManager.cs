@@ -8,15 +8,35 @@ public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI moneyText;
     public TextMeshProUGUI changeText;
+    public TextMeshProUGUI inputChangeText;
     private CheckoutSystem checkoutSystem;
-    private GameManager gameManager;
+    private TestPlayerCtrl playerCtrl;
     public GameObject testShopPanel;
     public bool isPanelOn;
 
+    void Start()
+    {
+        moneyText.text = GameManager.Instance.playerMoney.ToString();
+        playerCtrl = FindObjectOfType<TestPlayerCtrl>();
+    }
+
     public void IncreaseMoneyText(int amount)
     {
-        gameManager.playerMoney += amount;
-        moneyText.text = gameManager.playerMoney.ToString(); 
+        GameManager.Instance.playerMoney += amount;
+        moneyText.text = GameManager.Instance.playerMoney.ToString(); 
+    }
+    public void DecreaseMoneyText(int amount)
+    {
+        GameManager.Instance.playerMoney -= amount;
+        moneyText.text = GameManager.Instance.playerMoney.ToString();
+    }
+    public void ShowChangeText(int amount)
+    {
+        changeText.text = amount.ToString();
+    }
+    public void ShowInputChangeText()
+    {
+        inputChangeText.text = playerCtrl.enteredAmount;
     }
 
     public void OnShopPanel()

@@ -21,7 +21,7 @@ public class TestPlayerCtrl : MonoBehaviour
     private TestShop testShop;
     private CheckoutSystem checkoutSystem;
     public UIManager uiManager;
-
+    public string enteredAmount = "";
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;   //마우스 커서를 화면 안에서 고정
@@ -47,10 +47,13 @@ public class TestPlayerCtrl : MonoBehaviour
             {
                 if (hit.collider.CompareTag("ProductBox"))                  //ray에 닿은 콜라이더가 갖고 있는 태그가 "ProductBox"라면
                 {
-                    productBox = hit.collider.GetComponent<ProductBox>();
-                    hit.collider.gameObject.transform.parent = playerHand.transform;    //ray에 닿은 "ProductBox" 태그를 가진 오브젝트를 playerHand 자식에 넣는다.
-                    hit.collider.gameObject.transform.localPosition = Vector3.zero;
-                    hit.collider.gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);   //ray에 닿은 "ProductBox" 태그를 가진 오브젝트의 크기를 x:0.3, y:0.3, z:0.3으로 바꾼다.
+                    if (productBox == null)
+                    {
+                        productBox = hit.collider.GetComponent<ProductBox>();
+                        hit.collider.gameObject.transform.parent = playerHand.transform;    //ray에 닿은 "ProductBox" 태그를 가진 오브젝트를 playerHand 자식에 넣는다.
+                        hit.collider.gameObject.transform.localPosition = Vector3.zero;
+                        hit.collider.gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);   //ray에 닿은 "ProductBox" 태그를 가진 오브젝트의 크기를 x:0.3, y:0.3, z:0.3으로 바꾼다.
+                    }
                 }
 
                 if (hit.collider.CompareTag("Shelf"))                       //닿은 콜라이더가 갖고 있는 태그가 "Shelf"일 때
@@ -87,9 +90,11 @@ public class TestPlayerCtrl : MonoBehaviour
                 }
                 if (hit.collider.CompareTag("Money"))
                 {
-                    GameObject moneyObj = hit.collider.gameObject;
-                    checkoutSystem.takeMoneys.Remove(moneyObj);
-                    Destroy(moneyObj);
+                    Money moneyObj = hit.collider.GetComponent<Money>();
+                    //checkoutSystem.takeMoneys.Add(moneyObj.money.value);  
+                    checkoutSystem.takeMoney += moneyObj.money.value;
+                    checkoutSystem.takeMoneys.Remove(moneyObj.money.value);
+                    Destroy(moneyObj.gameObject);
                 }
             }
             if (Input.GetMouseButtonDown(1))                                        //우클릭을 했을 때
@@ -112,30 +117,54 @@ public class TestPlayerCtrl : MonoBehaviour
                     productBox.transform.position = hit.point + new Vector3(0f, 0.5f, 0f);     //들고 있던 productBox는 hit한 포인트에서 y로 0.5f 높은 곳으로 이동한다.
                     productBox.transform.localScale = Vector3.one;
                     productBox.transform.SetParent(null);
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                //bool panelActive = testShop.ProductListPanel.activeSelf;
-                //if (panelActive)
-                //{
-                //    testShop.ProductListPanel.gameObject.SetActive(false);
-                //}
-                //if (!panelActive)
-                //{
-                //    testShop.ProductListPanel.gameObject.SetActive(true);
-                //}
-                uiManager.OnShopPanel();
-                if (uiManager.isPanelOn == true)
-                {
-                    IsPanelOn();
-                }
-                else
-                {
-                    IsPanelOff();
+                    productBox = null;
                 }
             }
         }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            //bool panelActive = testShop.ProductListPanel.activeSelf;
+            //if (panelActive)
+            //{
+            //    testShop.ProductListPanel.gameObject.SetActive(false);
+            //}
+            //if (!panelActive)
+            //{
+            //    testShop.ProductListPanel.gameObject.SetActive(true);
+            //}
+            uiManager.OnShopPanel();
+            if (uiManager.isPanelOn == true)
+            {
+                IsPanelOn();
+            }
+            else
+            {
+                IsPanelOff();
+            }
+        }
+        if (checkoutSystem.isCalculating)
+        {
+            for (KeyCode key = KeyCode.Keypad0; key <= KeyCode.Keypad9; key++)
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    int numberPressed = key - KeyCode.Keypad0;
+                    enteredAmount += numberPressed.ToString();
+                    uiManager.ShowInputChangeText();
+                }
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (!string.IsNullOrEmpty(enteredAmount))
+                {
+                    checkoutSystem.changeMoney = int.Parse(enteredAmount);
+                    Debug.Log("입력한 거스름돈" + checkoutSystem.changeMoney);
+                    checkoutSystem.CalculateChange();
+                    enteredAmount = "";
+                }
+            }
+        }
+        
     }
 
     void CameraLook()

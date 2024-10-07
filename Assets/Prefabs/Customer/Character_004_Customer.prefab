@@ -86,8 +86,13 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: b5e1ab7820da195469e98f59c73ad6c6,
         type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: b5e1ab7820da195469e98f59c73ad6c6,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ea69f27efe803924aad7e85e362cb6d6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: -9083388478850200555, guid: b5e1ab7820da195469e98f59c73ad6c6, type: 3}
@@ -106,6 +111,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1851577698809000601}
   m_SourcePrefab: {fileID: 100100000, guid: b5e1ab7820da195469e98f59c73ad6c6, type: 3}
+--- !u!95 &3094822520416790552 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: b5e1ab7820da195469e98f59c73ad6c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 8906309195600680329}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3199439678691125345 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6340822436497227240, guid: b5e1ab7820da195469e98f59c73ad6c6,
@@ -150,6 +161,7 @@ MonoBehaviour:
   targetPos: []
   pickProduct: []
   shelfList: []
+  animator: {fileID: 3094822520416790552}
 --- !u!136 &3798021149926762149
 CapsuleCollider:
   m_ObjectHideFlags: 0

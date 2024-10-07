@@ -80,6 +80,8 @@ public class CustomerCtrl : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         checkoutSystem = FindObjectOfType<CheckoutSystem>();
         counter = GameObject.Find("Counter").transform;
+        //animator.applyRootMotion = false;
+        
         currentState = CustomerState.Idle;
         SearchShelfs();
         AssignPriority();
@@ -167,6 +169,7 @@ public class CustomerCtrl : MonoBehaviour
                 else
                 {
                     ChangeState(CustomerState.WaitCounter, waitTime);
+                    animator.ResetTrigger("MotionTrigger");
                 }
             }
         }
@@ -212,6 +215,9 @@ public class CustomerCtrl : MonoBehaviour
                             productObj.transform.localPosition = Vector3.zero;
                             productObj.SetActive(false);
                             pickProduct.Add(productObj);
+
+                            animator.CrossFade("Pick", 0.1f);
+                            animator.ResetTrigger("MotionTrigger");
                         }
                         else
                         {
@@ -225,7 +231,7 @@ public class CustomerCtrl : MonoBehaviour
                     targetPos.Remove(target);
                 }
             }
-            ChangeState(CustomerState.Idle  , waitTime);
+            ChangeState(CustomerState.Idle, waitTime);
         }
     }
 
@@ -257,6 +263,8 @@ public class CustomerCtrl : MonoBehaviour
             target = counter;
             agent.SetDestination(counter.position);
             ChangeState(CustomerState.WalkingToCounter, waitTime);
+            animator.CrossFade("Walk", 0);
+            animator.ResetTrigger("MotionTrigger");
         }
         else if (pickProduct.Count == 0)
         {
@@ -271,6 +279,7 @@ public class CustomerCtrl : MonoBehaviour
         if (timer.IsFinished() && isMoveDone)
         {
             ChangeState(CustomerState.PlacingProduct, waitTime);
+            animator.SetTrigger("MotionTrigger");
         }
     }
 
@@ -291,6 +300,7 @@ public class CustomerCtrl : MonoBehaviour
             if (pickProduct.Count == 0)
             {
                 ChangeState(CustomerState.GivingMoney, waitTime);
+                animator.SetTrigger("MotionTrigger");
             }
         }
     }

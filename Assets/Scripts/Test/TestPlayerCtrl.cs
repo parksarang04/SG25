@@ -1,3 +1,4 @@
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class TestPlayerCtrl : MonoBehaviour
@@ -22,6 +23,8 @@ public class TestPlayerCtrl : MonoBehaviour
     private CheckoutSystem checkoutSystem;
     public UIManager uiManager;
     public string enteredAmount = "";
+
+    private TestDoorCtrl[] doorCtrl;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;   //마우스 커서를 화면 안에서 고정
@@ -31,6 +34,7 @@ public class TestPlayerCtrl : MonoBehaviour
 
         checkoutSystem = GetComponent<CheckoutSystem>();
         uiManager = FindObjectOfType<UIManager>();
+        doorCtrl = FindObjectsOfType<TestDoorCtrl>();
     }
 
     void Update()
@@ -121,7 +125,17 @@ public class TestPlayerCtrl : MonoBehaviour
                     productBox = null;
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (hit.collider.CompareTag("Door"))
+                {
+                    TestDoorCtrl hitDoor = hit.collider.GetComponent<TestDoorCtrl>();
+                    hitDoor.ChangeDoorState();
+                }
+            }
         }
+
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             //bool panelActive = testShop.ProductListPanel.activeSelf;
@@ -165,9 +179,9 @@ public class TestPlayerCtrl : MonoBehaviour
         //        }
         //    }
         //}
-        
-    }
 
+
+    }
     void CameraLook()
     {
         float mouseX = Input.GetAxisRaw("Mouse X") * mouseSpeed * Time.deltaTime;

@@ -63,6 +63,8 @@ public class CustomerCtrl : MonoBehaviour
     private static int nextPriority = 0;
     private static readonly object priorityLock = new object();
 
+    public Animator animator;
+
     void AssignPriority()
     {
         lock (priorityLock)
@@ -159,6 +161,8 @@ public class CustomerCtrl : MonoBehaviour
                     target = targetPos[Random.Range(0, targetPos.Count)];
                     MoveToTarget();
                     ChangeState(CustomerState.WalkingToShelf, waitTime);
+                    animator.CrossFade("Walk", 0);
+                    animator.ResetTrigger("MotionTrigger");
                 }
                 else
                 {
@@ -182,6 +186,7 @@ public class CustomerCtrl : MonoBehaviour
         if (timer.IsFinished() && isMoveDone)
         {
             ChangeState(CustomerState.PickingProduct, waitTime);
+            animator.SetTrigger("MotionTrigger");
         }
     }
 

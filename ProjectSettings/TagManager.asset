@@ -12,6 +12,7 @@ TagManager:
   - CounterLine
   - CounterProduct
   - Money
+  - Door
   layers:
   - Default
   - TransparentFX

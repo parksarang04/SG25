@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
+using static ShopManager;
 
 public class ShopManager : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class ShopManager : MonoBehaviour
     [Header("장바구니 패널")]
    // public TextMeshProUGUI PlayerMoneyText; //플레이어 돈 표시
     public Button buyButton;    // 장바구니에서 '구매'
-    public Button removeButton; //장바구니에서 '지우기'
+    
     public List<ProductData> productDatas = new List<ProductData>();
     public GameObject CartProductContent;
     public GameObject CartProductPrefab;
@@ -29,7 +30,7 @@ public class ShopManager : MonoBehaviour
     [Header("플레이어 머니")]
     //public int playerMoney = 1000; // 초기 플레이어 돈 
     public TextMeshProUGUI PlayerMoneyText; // UI에서 플레이어 돈을 표시하는 텍스트
-
+    public List<CartItem> cartItems = new List<CartItem>(); // 장바구니 항목 리스트
 
     void Start()
     {
@@ -39,6 +40,11 @@ public class ShopManager : MonoBehaviour
         Generateproduct();
         GenerateCartProduct();
 
+    }
+
+    void Update()
+    {
+        
     }
 
     // 장바구니 항목을 제품과 수량을 함께 관리하는 구조.
@@ -55,9 +61,6 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public List<CartItem> cartItems = new List<CartItem>(); // 장바구니 항목 리스트
-
-
     // 플레이어 돈 UI 업데이트
     public void UpdatePlayerMoneyUI()
     {
@@ -66,7 +69,6 @@ public class ShopManager : MonoBehaviour
 
     public void Generateproduct()
     {
-
         for (int i = 0; i < products.Length; i++)
         {
             GameObject productObj = Instantiate(productPrefab, productContent.transform);
@@ -147,11 +149,21 @@ public class ShopManager : MonoBehaviour
             GameObject cartProduct = Instantiate(CartProductPrefab, CartProductContent.transform);
             TextMeshProUGUI productName = cartProduct.transform.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
             Image productImage = cartProduct.transform.GetChild(1).GetComponentInChildren<Image>();
+            Button oneRemoveButton = cartProduct.transform.GetChild(2).GetComponentInChildren<Button>(); //장바구니에서 '지우기'
+            Button allRemoveButton = cartProduct.transform.GetChild(3).GetComponentInChildren<Button>();  //장바구니에서 '모두 지우기'
             TextMeshProUGUI productQuantity = cartProduct.transform.GetChild(4).GetComponentInChildren<TextMeshProUGUI>();
+
+            oneRemoveButton.onClick.AddListener(() => OneRemove(cartItem));
+            allRemoveButton.onClick.AddListener(() => AllRemove(cartItem));
 
             // 제품 정보와 수량 표시
             productName.text = cartItem.product.name;
             productQuantity.text = $"x{cartItem.quantity}";
+
+            if (cartItem.quantity == 0 || cartItem == null)
+            {
+                Destroy(cartProduct.gameObject);
+            } 
         }
     }
 
@@ -200,6 +212,29 @@ public class ShopManager : MonoBehaviour
         Debug.Log(count.text);
     }
 
+    public void OneRemove(CartItem cartItem)
+    {
+        cartItem.quantity--;
+
+        if (cartItem.quantity <= 0)
+        {
+            cartItems.Remove(cartItem);
+        }
+
+        GenerateCartProduct();
+
+        Debug.Log($"아이템 1개 삭제해서 {cartItem.quantity}개 남음~");
+    }
+
+    public void AllRemove(CartItem cartItem)
+    {
+        cartItems.Remove(cartItem);
+
+        GenerateCartProduct();
+
+        Debug.Log("아이템 전부 삭제");
+    }
+
     public int CalculateTotalPrice()
     {
         int totalPrice = 0;
@@ -209,9 +244,6 @@ public class ShopManager : MonoBehaviour
         {
             totalPrice += cartItem.product.buyCost * cartItem.quantity; // 제품 가격 * 수량
         }
-
         return totalPrice;
     }
-
-
 }

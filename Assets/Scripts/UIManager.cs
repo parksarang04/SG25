@@ -30,14 +30,14 @@ public class UIManager : MonoBehaviour
         GameManager.Instance.playerMoney -= amount;
         moneyText.text = GameManager.Instance.playerMoney.ToString();
     }
-    public void ShowChangeText(int amount)
-    {
-        changeText.text = amount.ToString();
-    }
-    public void ShowInputChangeText()
-    {
-        inputChangeText.text = playerCtrl.enteredAmount;
-    }
+    //public void ShowChangeText(int amount)
+    //{
+    //    changeText.text = amount.ToString();
+    //}
+    //public void ShowInputChangeText()
+    //{
+    //    inputChangeText.text = playerCtrl.enteredAmount;
+    //}
 
     public void OnShopPanel()
     {

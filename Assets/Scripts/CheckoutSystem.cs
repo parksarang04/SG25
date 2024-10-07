@@ -29,40 +29,52 @@ public class CheckoutSystem : MonoBehaviour
         Debug.Log(totalPrice);
     }
 
-    public void ShowChangeAmount()
+    public void Calculate(Money moneyObj)
     {
+        takeMoney += moneyObj.money.value;
+        takeMoneys.Remove(moneyObj.money.value);
+
         if (takeMoneys.Count == 0)
         {
-            if (takeMoney >= totalPrice)
-            {
-                changeMoney = takeMoney - totalPrice;
-                UIManager.ShowChangeText(changeMoney);
-            }
+            UIManager.IncreaseMoneyText(takeMoney);
+            isSell = true;
         }
     }
 
-    public void CalculateChange()
-    {
-        if (isCalculating)
-        {
-            if (changeMoney > 0)
-            {   
-                changeMoney = takeMoney - changeMoney;
-                UIManager.IncreaseMoneyText(changeMoney);
-            }
-            else if (changeMoney == 0)
-            {
-                UIManager.IncreaseMoneyText(takeMoney);
-            }
-            Debug.Log(changeMoney);
-            isSell = true;
-            isCalculating = false;
-            takeMoney = 0;
-            totalPrice = 0;
-            changeMoney = 0;
-            takeMoneys.Clear();
+    //public void ShowChangeAmount()
+    //{
+    //    if (takeMoneys.Count == 0)
+    //    {
+    //        if (takeMoney >= totalPrice)
+    //        {
+    //            changeMoney = takeMoney - totalPrice;
+    //            UIManager.ShowChangeText(changeMoney);
+    //        }
+    //    }
+    //}
+
+    //public void CalculateChange()
+    //{
+    //    if (isCalculating)
+    //    {
+    //        if (changeMoney > 0)
+    //        {   
+    //            changeMoney = takeMoney - changeMoney;
+    //            UIManager.IncreaseMoneyText(changeMoney);
+    //        }
+    //        else if (changeMoney == 0)
+    //        {
+    //            UIManager.IncreaseMoneyText(takeMoney);
+    //        }
+    //        Debug.Log(changeMoney);
+    //        isSell = true;
+    //        isCalculating = false;
+    //        takeMoney = 0;
+    //        totalPrice = 0;
+    //        changeMoney = 0;
+    //        takeMoneys.Clear();
             
-        }
+    //    }
         
-    }
+    //}
 }

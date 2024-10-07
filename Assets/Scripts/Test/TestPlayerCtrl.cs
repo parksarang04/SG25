@@ -92,8 +92,9 @@ public class TestPlayerCtrl : MonoBehaviour
                 {
                     Money moneyObj = hit.collider.GetComponent<Money>();
                     //checkoutSystem.takeMoneys.Add(moneyObj.money.value);  
-                    checkoutSystem.takeMoney += moneyObj.money.value;
-                    checkoutSystem.takeMoneys.Remove(moneyObj.money.value);
+                    //checkoutSystem.takeMoney += moneyObj.money.value;
+                    //checkoutSystem.takeMoneys.Remove(moneyObj.money.value);
+                    checkoutSystem.Calculate(moneyObj);
                     Destroy(moneyObj.gameObject);
                 }
             }
@@ -142,28 +143,28 @@ public class TestPlayerCtrl : MonoBehaviour
                 IsPanelOff();
             }
         }
-        if (checkoutSystem.isCalculating)
-        {
-            for (KeyCode key = KeyCode.Keypad0; key <= KeyCode.Keypad9; key++)
-            {
-                if (Input.GetKeyDown(key))
-                {
-                    int numberPressed = key - KeyCode.Keypad0;
-                    enteredAmount += numberPressed.ToString();
-                    uiManager.ShowInputChangeText();
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (!string.IsNullOrEmpty(enteredAmount))
-                {
-                    checkoutSystem.changeMoney = int.Parse(enteredAmount);
-                    Debug.Log("입력한 거스름돈" + checkoutSystem.changeMoney);
-                    checkoutSystem.CalculateChange();
-                    enteredAmount = "";
-                }
-            }
-        }
+        //if (checkoutSystem.isCalculating)
+        //{
+        //    for (KeyCode key = KeyCode.Keypad0; key <= KeyCode.Keypad9; key++)
+        //    {
+        //        if (Input.GetKeyDown(key))
+        //        {
+        //            int numberPressed = key - KeyCode.Keypad0;
+        //            enteredAmount += numberPressed.ToString();
+        //            uiManager.ShowInputChangeText();
+        //        }
+        //    }
+        //    if (Input.GetKeyDown(KeyCode.Space))
+        //    {
+        //        if (!string.IsNullOrEmpty(enteredAmount))
+        //        {
+        //            checkoutSystem.changeMoney = int.Parse(enteredAmount);
+        //            Debug.Log("입력한 거스름돈" + checkoutSystem.changeMoney);
+        //            checkoutSystem.CalculateChange();
+        //            enteredAmount = "";
+        //        }
+        //    }
+        //}
         
     }
 

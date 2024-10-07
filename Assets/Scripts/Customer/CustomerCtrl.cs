@@ -309,11 +309,12 @@ public class CustomerCtrl : MonoBehaviour
     {
         if (checkoutSystem.takeMoneys.Count == 0 && checkoutSystem.counterProduct.Count == 0)
         {
-            checkoutSystem.ShowChangeAmount();
+            //checkoutSystem.ShowChangeAmount();
             Debug.Log(checkoutSystem.changeMoney);
             checkoutSystem.isCalculating = true;
             if (checkoutSystem.isSell == true)
             {
+                checkoutSystem.isSell = false;
                 ChangeState(CustomerState.LeavingStore, waitTime);
             }
             
@@ -354,42 +355,56 @@ public class CustomerCtrl : MonoBehaviour
     void GiveMoney(int amount)
     {
         System.Array.Sort(moneyPrefabs, (a, b) => b.value.CompareTo(a.value));
-        bool giveExactChange = Random.Range(0, 2) == 0;
-        Vector3 moneyPosition = new Vector3(customerHand.transform.position.x, customerHand.transform.position.y + 0.1f, customerHand.transform.position.z);
+        //bool giveExactChange = Random.Range(0, 2) == 0;
+        Vector3 moneyPosition = new Vector3(customerHand.transform.position.x, customerHand.transform.position.y + 0.5f, customerHand.transform.position.z);
 
-        if (giveExactChange)
+        foreach (MoneyData money in moneyPrefabs)
         {
-            foreach (MoneyData money in moneyPrefabs)
+            if (amount >= money.value)
             {
-                if (amount >= money.value)
+                int count = amount / money.value;
+                amount -= count * money.value;
+
+                for (int i = 0; i < count; i++)
                 {
-                    int count = amount / money.value;
-                    amount -= count * money.value;
-                    for (int i = 0; i < count; i++)
-                    {
-                        GameObject moneyObj = Instantiate(money.moneyModel, moneyPosition, Quaternion.identity);
-                        checkoutSystem.takeMoneys.Add(money.value);
-                    }
+                    GameObject moneyObj = Instantiate(money.moneyModel, moneyPosition, Quaternion.identity);
+                    checkoutSystem.takeMoneys.Add(money.value);
                 }
             }
         }
-        else
-        {
-            int giveMoney = Random.Range(amount, amount + 50000);
-            foreach (MoneyData money in moneyPrefabs)
-            {
-                if (giveMoney >= money.value)
-                {
-                    int count = giveMoney / money.value;
-                    giveMoney -= count * money.value;
+        //if (giveExactChange)
+        //{
+        //    foreach (MoneyData money in moneyPrefabs)
+        //    {
+        //        if (amount >= money.value)
+        //        {
+        //            int count = amount / money.value;
+        //            amount -= count * money.value;
+        //            for (int i = 0; i < count; i++)
+        //            {
+        //                GameObject moneyObj = Instantiate(money.moneyModel, moneyPosition, Quaternion.identity);
+        //                checkoutSystem.takeMoneys.Add(money.value);
+        //            }
+        //        }
+        //    }
+        //}
+        //else
+        //{
+        //    int giveMoney = Random.Range(amount, amount + 50000);
+        //    foreach (MoneyData money in moneyPrefabs)
+        //    {
+        //if (giveMoney >= money.value)
+        //{
+        //    int count = giveMoney / money.value;
+        //    giveMoney -= count * money.value;
 
-                    for (int i = 0; i < count; i++)
-                    {
-                        GameObject moneyObj = Instantiate (money.moneyModel, customerHand.transform);
-                        checkoutSystem.takeMoneys.Add(money.value);
-                    }
-                }
-            }
-        }
+        //    for (int i = 0; i < count; i++)
+        //    {
+        //        GameObject moneyObj = Instantiate(money.moneyModel, customerHand.transform);
+        //        checkoutSystem.takeMoneys.Add(money.value);
+        //    }
+        //}
+        //    }
+        //}
     }
 }

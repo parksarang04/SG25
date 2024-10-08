@@ -7,7 +7,7 @@ public class CenterCameraRaycast : MonoBehaviour
     public Camera targetCamera;
     public float raycastRange = 100f; // 레이캐스트의 최대 거리
 
-    private Outline currentOutline;
+    public Outline currentOutline;
 
 
     void Update()
@@ -36,15 +36,16 @@ public class CenterCameraRaycast : MonoBehaviour
                 currentOutline = hit.collider.gameObject.GetComponent<Outline>();
                 currentOutline.OutlineWidth = 10;
             }
-        }
-        else
-        {
-            if (currentOutline != null)
+            else
             {
-                currentOutline.OutlineWidth = 0;
-                currentOutline = null;
+                if (currentOutline != null)
+                {
+                    currentOutline.OutlineWidth = 0;
+                    currentOutline = null;
+                }
             }
         }
+        
     }
 
 }

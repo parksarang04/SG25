@@ -13,6 +13,7 @@ TagManager:
   - CounterProduct
   - Money
   - Door
+  - Item
   layers:
   - Default
   - TransparentFX

@@ -13,6 +13,8 @@ public class CenterCameraRaycast : MonoBehaviour
     void Update()
     {
         PerformRaycast();
+        PushItem();
+        PopItem();
     }
 
     void PerformRaycast()
@@ -26,8 +28,6 @@ public class CenterCameraRaycast : MonoBehaviour
             // 물체를 감지하면 해당 물체의 이름을 로그로 출력합니다.
             if (hit.collider.gameObject.tag == "Item")
             {
-                Debug.Log("Hit Object: " + hit.collider.gameObject.name);
-
                 if (currentOutline != null)
                 {
                     currentOutline.OutlineWidth = 0;
@@ -47,5 +47,52 @@ public class CenterCameraRaycast : MonoBehaviour
         }
         
     }
+    public void PushItem()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = targetCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+            RaycastHit hit;
 
+            // 레이캐스트가 충돌한 물체가 있는지 확인합니다.
+            if (Physics.Raycast(ray, out hit, raycastRange))
+            {
+                // 물체를 감지하면 해당 물체의 이름을 로그로 출력합니다.
+                if (hit.collider.gameObject.tag == "Item")
+                {
+                    var shelf = hit.collider.gameObject.GetComponent<Shelf>();
+                    if (shelf != null)
+                    {
+                        shelf.PushItem();
+                    }
+
+                }
+            }
+
+        }
+    }
+    public void PopItem()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = targetCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+            RaycastHit hit;
+
+            // 레이캐스트가 충돌한 물체가 있는지 확인합니다.
+            if (Physics.Raycast(ray, out hit, raycastRange))
+            {
+                // 물체를 감지하면 해당 물체의 이름을 로그로 출력합니다.
+                if (hit.collider.gameObject.tag == "Item")
+                {
+                    var shelf = hit.collider.gameObject.GetComponent<Shelf>();
+                    if (shelf != null)
+                    {
+                        shelf.PopItem();
+                    }
+
+                }
+            }
+
+        }
+    }
 }

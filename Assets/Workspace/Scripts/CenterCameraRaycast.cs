@@ -23,26 +23,36 @@ public class CenterCameraRaycast : MonoBehaviour
         // 레이캐스트가 충돌한 물체가 있는지 확인합니다.
         if (Physics.Raycast(ray, out hit, raycastRange))
         {
+            Outline newOutline = hit.collider.gameObject.GetComponent<Outline>();
+
             // 물체를 감지하면 해당 물체의 이름을 로그로 출력합니다.
             if (hit.collider.gameObject.tag == "Item")
             {
                 Debug.Log("Hit Object: " + hit.collider.gameObject.name);
-
-                if (currentOutline != null)
-                {
-                    currentOutline.OutlineWidth = 0;
-                    currentOutline = null;
-                }
-                currentOutline = hit.collider.gameObject.GetComponent<Outline>();
-                currentOutline.OutlineWidth = 10;
             }
-            else
+            
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (hit.collider.CompareTag("Door"))
+                {
+                    TestDoorCtrl hitDoor = hit.collider.GetComponent<TestDoorCtrl>();
+                    hitDoor.ChangeDoorState();
+                }
+            }
+            if (currentOutline != newOutline)
             {
                 if (currentOutline != null)
                 {
-                    currentOutline.OutlineWidth = 0;
+                    currentOutline.OutlineWidth = 0; // 이전 아웃라인 해제
                     currentOutline = null;
                 }
+
+                currentOutline = newOutline;
+
+                if (currentOutline != null)
+                {
+                    currentOutline.OutlineWidth = 10; // 새로운 아웃라인 적용
+                }   
             }
         }
         

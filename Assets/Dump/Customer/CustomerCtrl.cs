@@ -289,9 +289,10 @@ public class CustomerCtrl : MonoBehaviour
         {
             if (pickProduct.Count > 0)
             {
+                Vector3 counterProductPos = counter.position + new Vector3(0, 1, 0);
                 GameObject product = pickProduct[pickProduct.Count - 1];
                 product.SetActive(true);
-                counter.position = product.transform.position = new Vector3(0f, 0f, 0f);
+                product.transform.position = counterProductPos;
                 product.transform.parent = null;
                 product.tag = "CounterProduct";
                 pickProduct.Remove(product);

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8220361cbabec6d4ba79f5bcef5fbbfb, type: 3}
+  m_Name: AappleJuice
+  m_EditorClassIdentifier: 
+  productType: 0
+  Index: 0
+  Name: "\uC0AC\uACFC\uC8FC\uC2A4"
+  buyCost: 10800
+  sellCost: 1500
+  image: {fileID: 21300000, guid: fb540395a8d42de4aa55daa9f7543088, type: 3}
+  ProductModel: {fileID: 5902477458512214092, guid: 46caa863ff6af9545885dfce91c675df,
+    type: 3}

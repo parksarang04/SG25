@@ -39,8 +39,8 @@ public class TestPlayerCtrl : MonoBehaviour
 
     void Update()
     {
-        PlayerMove();
-        CameraLook();
+        //PlayerMove();
+        //CameraLook();
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
@@ -54,6 +54,7 @@ public class TestPlayerCtrl : MonoBehaviour
                     if (productBox == null)
                     {
                         productBox = hit.collider.GetComponent<ProductBox>();
+                        uiManager.OnProductBoxPanel();
                         hit.collider.gameObject.transform.parent = playerHand.transform;    //ray에 닿은 "ProductBox" 태그를 가진 오브젝트를 playerHand 자식에 넣는다.
                         hit.collider.gameObject.transform.localPosition = Vector3.zero;
                         hit.collider.gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);   //ray에 닿은 "ProductBox" 태그를 가진 오브젝트의 크기를 x:0.3, y:0.3, z:0.3으로 바꾼다.
@@ -122,6 +123,7 @@ public class TestPlayerCtrl : MonoBehaviour
                     productBox.transform.position = hit.point + new Vector3(0f, 0.5f, 0f);     //들고 있던 productBox는 hit한 포인트에서 y로 0.5f 높은 곳으로 이동한다.
                     productBox.transform.localScale = Vector3.one;
                     productBox.transform.SetParent(null);
+                    uiManager.CloseProductBoxPanel();
                     productBox = null;
                 }
             }
@@ -182,29 +184,29 @@ public class TestPlayerCtrl : MonoBehaviour
 
 
     }
-    void CameraLook()
-    {
-        float mouseX = Input.GetAxisRaw("Mouse X") * mouseSpeed * Time.deltaTime;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSpeed * Time.deltaTime;
+    //void CameraLook()
+    //{
+    //    float mouseX = Input.GetAxisRaw("Mouse X") * mouseSpeed * Time.deltaTime;
+    //    float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSpeed * Time.deltaTime;
 
-        yRotation += mouseX;
-        xRotation -= mouseY;
+    //    yRotation += mouseX;
+    //    xRotation -= mouseY;
 
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+    //    xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        cam.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        transform.rotation = Quaternion.Euler(0, yRotation, 0);
-    }
+    //    cam.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+    //    transform.rotation = Quaternion.Euler(0, yRotation, 0);
+    //}
 
-    void PlayerMove()
-    {
-        float Horizontal = Input.GetAxis("Horizontal");
-        float Vertical = Input.GetAxis("Vertical");
+    //void PlayerMove()
+    //{
+    //    float Horizontal = Input.GetAxis("Horizontal");
+    //    float Vertical = Input.GetAxis("Vertical");
 
-        Vector3 moveVec = transform.forward * Vertical + transform.right * Horizontal;
+    //    Vector3 moveVec = transform.forward * Vertical + transform.right * Horizontal;
 
-        transform.position += moveVec.normalized * moveSpeed * Time.deltaTime;
-    }
+    //    transform.position += moveVec.normalized * moveSpeed * Time.deltaTime;
+    //}
 
     void IsPanelOn()
     {

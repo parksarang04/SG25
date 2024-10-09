@@ -26,12 +26,12 @@ public class TestShop : MonoBehaviour
             int index = i;
             Button productBtn = Instantiate(productButton, ProductListContent.transform);   //상품 버튼을 복제한다 어ㄷ
             TextMeshProUGUI productName = productBtn.GetComponentInChildren<TextMeshProUGUI>(); 
-            Image productImage = productBtn.GetComponent<Image>();
+            SpriteRenderer productImage = productBtn.GetComponent<SpriteRenderer>();
 
             if (productBtn != null && products[index] != null)
             {
                 productName.text = products[index].name;
-                productImage = products[index].image;
+                productImage.sprite = products[index].image;
                 productBtn.onClick.AddListener(() => OnProductButtonClick(products[index]));
             }
         }

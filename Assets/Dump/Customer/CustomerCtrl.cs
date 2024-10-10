@@ -289,7 +289,7 @@ public class CustomerCtrl : MonoBehaviour
         {
             if (pickProduct.Count > 0)
             {
-                Vector3 counterProductPos = counter.position + new Vector3(0, 1, 0);
+                Vector3 counterProductPos = counter.position + new Vector3(0, 1, 1);
                 GameObject product = pickProduct[pickProduct.Count - 1];
                 product.SetActive(true);
                 product.transform.position = counterProductPos;
@@ -297,6 +297,8 @@ public class CustomerCtrl : MonoBehaviour
                 product.tag = "CounterProduct";
                 pickProduct.Remove(product);
                 checkoutSystem.counterProduct.Add(product);
+                animator.CrossFade("Idle", 0);
+                animator.ResetTrigger("MotionTrigger");
             }
             if (pickProduct.Count == 0)
             {
@@ -317,6 +319,8 @@ public class CustomerCtrl : MonoBehaviour
                 sum += checkoutSystem.takeMoneys[i];
                 Debug.Log(sum);
             }
+            animator.CrossFade("Idle", 0);
+            animator.ResetTrigger("MotionTrigger");
             ChangeState(CustomerState.WaitingCalcPrice, waitTime);
         }
     }
@@ -331,6 +335,8 @@ public class CustomerCtrl : MonoBehaviour
             if (checkoutSystem.isSell == true)
             {
                 checkoutSystem.isSell = false;
+                animator.CrossFade("Idle", 0);
+                animator.ResetTrigger("MotionTrigger");
                 ChangeState(CustomerState.LeavingStore, waitTime);
             }
             

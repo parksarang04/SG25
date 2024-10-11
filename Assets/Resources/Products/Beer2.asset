@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8220361cbabec6d4ba79f5bcef5fbbfb, type: 3}
+  m_Name: Beer2
+  m_EditorClassIdentifier: 
+  productType: 0
+  Index: 7
+  Name: AgNO3
+  buyCost: 15120
+  sellCost: 2100
+  image: {fileID: 21300000, guid: 4b03cb64cb5033d43930a85e9c065f6f, type: 3}
+  ProductModel: {fileID: 7975355612656210709, guid: 88c3d23c253d9bb4fb28e06170e46f16,
+    type: 3}

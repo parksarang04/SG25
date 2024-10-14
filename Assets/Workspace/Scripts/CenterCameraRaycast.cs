@@ -97,12 +97,31 @@ public class CenterCameraRaycast : MonoBehaviour
             {
                 if (hit.collider.CompareTag("ProductBox"))  // ProductBox 태그에 닿았을 때
                 {
-                    if (productBox == null)
+                    var p = hit.collider.GetComponent<ProductBoxInfo>();
+                    
+                    if (p != null)
                     {
-                        productBox = hit.collider.GetComponent<ProductBox>();
-                        uiManager.OnProductBoxPanel();  // productBox 패널 켜기
-                        uiManager.OnProductBoxInfo();  // productBox 정보 갱신
+                        var boxCollider = p.transform.gameObject.GetComponent<BoxCollider>();                        
+                        boxCollider.enabled = false;
+
+                        // world traqnsform position
+                        p.transform.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+                        p.transform.SetParent(playerHand.transform);
+                        p.transform.localPosition = Vector3.zero; 
+                        p.transform.localRotation = Quaternion.identity;
                     }
+
+                    //var productName = 
+                    //    hit.collider.gameObject.transform.parent = playerHand.transform;    //ray에 닿은 "ProductBox" 태그를 가진 오브젝트를 playerHand 자식에 넣는다.
+                    //    hit.collider.gameObject.transform.localPosition = Vector3.zero;
+                    //    hit.collider.gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+                    //    uiManager.OnProductBoxPanel();  // productBox 패널 켜기
+                    //    uiManager.OnProductBoxInfo();  // productBox 정보 갱신
+                    //}
+
+                    // 1. 박스 클릭
+                    // 2. 박스 정보 (박스 안에 있는 상품 이름, 개수, 사진, 타입)
+                    // 3. 박스 이동 (집고 상자에 물건이 있을 땐 넣고 상자가 비었을 땐 버린다)
                 }
 
                 if (hit.collider.CompareTag("Shelf"))                       //닿은 콜라이더가 갖고 있는 태그가 "Shelf"일 때

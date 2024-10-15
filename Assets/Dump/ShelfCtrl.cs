@@ -28,6 +28,7 @@ public class ShelfCtrl : MonoBehaviour
                     productobj.transform.SetParent(availablePosition);
                     productobj.transform.localPosition = Vector3.zero;
                     productobj.transform.localScale = Vector3.one;
+                    productobj.transform.localRotation = Quaternion.identity;
 
                     productList.Push(productobj);           //productList에 해당 오브젝트를 Push 한다.
 
@@ -45,6 +46,7 @@ public class ShelfCtrl : MonoBehaviour
                         productobj.transform.SetParent(availablePosition);
                         productobj.transform.localPosition = Vector3.zero;
                         productobj.transform.localScale = Vector3.one;
+                        productobj.transform.localRotation = Quaternion.identity;
 
                         productList.Push(productobj);                                   //productList에 해당 오브젝트를 Push 한다.
 
@@ -64,7 +66,7 @@ public class ShelfCtrl : MonoBehaviour
             productList.Pop();          //productList의 가장 위에 있는 상품을 지운다.
         }
     }
-
+    
     public void PickUpProduct(int count)
     {
         Debug.Log($"{gameObject.name}의 현재 남은 아이템 수 : {productList.Count}");

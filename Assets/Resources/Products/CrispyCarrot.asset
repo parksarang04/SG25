@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8220361cbabec6d4ba79f5bcef5fbbfb, type: 3}
+  m_Name: CrispyCarrot
+  m_EditorClassIdentifier: 
+  productType: 1
+  Index: 5
+  Name: "\uBC14\uC0AD\uB2F9\uADFC"
+  buyCost: 12960
+  sellCost: 1800
+  image: {fileID: 21300000, guid: 82a15a217cfd05b4998f2905f1551696, type: 3}
+  ProductModel: {fileID: 7130014452035288371, guid: 08dcc2009bc733540b2d61d7e2172ec0,
+    type: 3}

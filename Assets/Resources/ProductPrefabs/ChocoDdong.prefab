@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5004312953813335288}
   - component: {fileID: 3965592878381345214}
   - component: {fileID: 377569286472614688}
+  - component: {fileID: -6586115826346510893}
   m_Layer: 0
   m_Name: ChocoDdong
   m_TagString: Untagged
@@ -68,6 +69,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.20750491, y: 0.063131176, z: 0.062210113}
   m_Center: {x: -0.00025780997, y: 0.029693684, z: -0.0002009223}
+--- !u!54 &-6586115826346510893
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5435023922534356878}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1001 &7487901373718816551
 PrefabInstance:
   m_ObjectHideFlags: 0

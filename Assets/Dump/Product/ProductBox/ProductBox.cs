@@ -14,7 +14,8 @@ public class ProductBox : MonoBehaviour
             GameObject obj = Instantiate(product.ProductModel);
             obj.transform.SetParent(productPosition[i]);
             obj.transform.localPosition = Vector3.zero;
-            obj.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
+            obj.transform.localScale = new Vector3(5, 5, 5);
+            obj.GetComponent<BoxCollider>().enabled = false;
 
             productObjectList.Add(obj);
         }

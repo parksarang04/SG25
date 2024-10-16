@@ -7,4 +7,6 @@ public class ProductBoxInfo : MonoBehaviour
     public string ProductName;
     public int ProductCount;
     public int ProductType;
+
+    public List<GameObject> ProductPosList = new List<GameObject>();
 }

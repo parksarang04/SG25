@@ -20,7 +20,8 @@ public class ShopManager : MonoBehaviour
     public GameObject CartPanel;
     public TextMeshProUGUI currentCartMoney;
     public TextMeshProUGUI currentCartCount;
-    private ProductBox productBox;          //상품이 들어있는 상자
+    public ProductBoxGenerator ProductBoxGenerator;
+    public ProductBox productBox;
     public GameObject productBoxObj;        //상품 상자 프리팹
 
     [Header("장바구니 패널")]
@@ -290,7 +291,13 @@ public class ShopManager : MonoBehaviour
     }
     public void OnProductButtonClick(ProductData product)
     {
-        GameObject BoxObj = Instantiate(productBoxObj); // 제품 박스 프리팹을 생성
+        //var productInfo = new ProductBoxScriptObject();
+        //ProductBoxGenerator.GetOrder(productInfo, product);
+        //ProductBoxGenerator.GenerateProductBox(product);
+
+
+
+        GameObject BoxObj = Instantiate(productBoxObj, gameObject.transform); // 제품 박스 프리팹을 생성
         ProductBox productBox = BoxObj.GetComponent<ProductBox>();
         productBox.GenerationProduct(product); // 박스에 제품 정보 설정
     }

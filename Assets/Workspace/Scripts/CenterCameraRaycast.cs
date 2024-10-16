@@ -11,9 +11,11 @@ public class CenterCameraRaycast : MonoBehaviour
 
     public GameObject playerHand;
     public ProductBox productBox;
+    public ProductBox lastBox;  
     private ShelfCtrl shelf;
     private TestShop testShop;
     private CheckoutSystem checkoutSystem;
+    public CustomerCtrl customer;
     public UIManager uiManager;
 
     void Start()
@@ -25,6 +27,7 @@ public class CenterCameraRaycast : MonoBehaviour
 
         checkoutSystem = GetComponent<CheckoutSystem>();
         uiManager = FindObjectOfType<UIManager>();
+        customer = FindObjectOfType<CustomerCtrl>();
     }
     void Update()
     {
@@ -41,6 +44,16 @@ public class CenterCameraRaycast : MonoBehaviour
             {
                 IsPanelOff();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            customer.ShakeShelf();
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            customer.gameObject.SetActive(!customer.gameObject.activeInHierarchy);
         }
 
         if (productBox != null)
@@ -97,27 +110,35 @@ public class CenterCameraRaycast : MonoBehaviour
             {
                 if (hit.collider.CompareTag("ProductBox"))  // ProductBox 태그에 닿았을 때
                 {
-                    var p = hit.collider.GetComponent<ProductBoxInfo>();
-                    
-                    if (p != null)
+                    //var p = hit.collider.GetComponent<ProductBoxInfo>();
+                    productBox = hit.collider.GetComponent<ProductBox>();
+                    if (productBox != null)
                     {
-                        var boxCollider = p.transform.gameObject.GetComponent<BoxCollider>();                        
+                        var boxCollider = productBox.transform.gameObject.GetComponent<BoxCollider>();
                         boxCollider.enabled = false;
 
                         // world traqnsform position
-                        p.transform.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-                        p.transform.SetParent(playerHand.transform);
-                        p.transform.localPosition = Vector3.zero; 
-                        p.transform.localRotation = Quaternion.identity;
-                    }
+                        productBox.transform.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+                        productBox.transform.SetParent(playerHand.transform);
+                        productBox.transform.localPosition = Vector3.zero;
+                        productBox.transform.localRotation = Quaternion.identity;
 
-                    //var productName = 
-                    //    hit.collider.gameObject.transform.parent = playerHand.transform;    //ray에 닿은 "ProductBox" 태그를 가진 오브젝트를 playerHand 자식에 넣는다.
-                    //    hit.collider.gameObject.transform.localPosition = Vector3.zero;
-                    //    hit.collider.gameObject.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-                    //    uiManager.OnProductBoxPanel();  // productBox 패널 켜기
-                    //    uiManager.OnProductBoxInfo();  // productBox 정보 갱신
+                        uiManager.OnProductBoxPanel();  // productBox 패널 켜기
+                        uiManager.OnProductBoxInfo();  // productBox 정보 갱신
+                    }
+                    //if (p != null)
+                    //{
+                    //    var boxCollider = p.transform.gameObject.GetComponent<BoxCollider>();                        
+                    //    boxCollider.enabled = false;
+
+                    //    // world traqnsform position
+                    //    p.transform.gameObject.GetComponent<Rigidbody>().isKinematic = true;
+                    //    p.transform.SetParent(playerHand.transform);
+                    //    p.transform.localPosition = Vector3.zero; 
+                    //    p.transform.localRotation = Quaternion.identity;
                     //}
+                        
+                    
 
                     // 1. 박스 클릭
                     // 2. 박스 정보 (박스 안에 있는 상품 이름, 개수, 사진, 타입)
@@ -185,8 +206,9 @@ public class CenterCameraRaycast : MonoBehaviour
             {
                 if (productBox != null)                                                         //productBox를 들고 있다면
                 {
+                    productBox.GetComponent<BoxCollider>().enabled = true;
                     productBox.transform.SetParent(null);
-                    productBox = null;
+                    productBox = lastBox;
                 }
                 else
                 {

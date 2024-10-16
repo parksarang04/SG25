@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5324230530606102506}
   - component: {fileID: 4285034124744871002}
   - component: {fileID: -8360740797430476596}
+  - component: {fileID: 3446099944268148577}
   m_Layer: 0
   m_Name: 50
   m_TagString: Money
@@ -121,3 +122,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: {fileID: 11400000, guid: ccc24b2e8d492d34dbe1b6f25bb5d030, type: 2}
+--- !u!114 &3446099944268148577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6444412080562630635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 0.97351444, b: 0, a: 1}
+  outlineWidth: 0
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []

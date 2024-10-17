@@ -453,15 +453,14 @@ public class CustomerCtrl : MonoBehaviour
 
         for (int i = 0; i < randomCount; i++)
         {
+            randomShelf.GetComponent<BoxCollider>().enabled = false;
             GameObject shelfObj = randomShelf.productList.Pop();
             shelfObj.transform.parent = null;
             shelfObj.GetComponent<BoxCollider>().enabled = true;
             var shelfObjRb = shelfObj.GetComponent<Rigidbody>();
             shelfObjRb.isKinematic = false;
             shelfObjRb.AddForce(forceDirection * power);
-
-
         }
-
+        randomShelf.GetComponent<BoxCollider>().enabled = true;
     }
 }

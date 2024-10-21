@@ -32,39 +32,6 @@ public class CenterCameraRaycast : MonoBehaviour
     void Update()
     {
         PerformRaycast();
-
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            uiManager.OnShopPanel();
-            if (uiManager.isPanelOn == true)
-            {
-                IsPanelOn();
-            }
-            else
-            {
-                IsPanelOff();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            customer.ShakeShelf();
-        }
-
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            customer.gameObject.SetActive(!customer.gameObject.activeInHierarchy);
-        }
-
-        if (productBox != null)
-        {
-            uiManager.OnProductBoxPanel();  // productBox가 있을 때 패널 열기
-            uiManager.OnProductBoxInfo();  // productBox 정보 갱신
-        }
-        else
-        {
-            uiManager.CloseProductBoxPanel();  // productBox가 없으면 패널 닫기
-        }
     }
 
     void PerformRaycast()

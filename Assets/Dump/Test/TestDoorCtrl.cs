@@ -23,11 +23,16 @@ public class TestDoorCtrl : MonoBehaviour
         isOpen = false;
     }
 
+    private void Start()
+    {
+        isOpen = true;
+    }
+
     void Update()
     {
         if (isOpen)
         {
-            Quaternion targetRotation = Quaternion.Euler(0, doorOpenAngle, 0);
+            Quaternion targetRotation = Quaternion.Euler(0, 0, doorOpenAngle);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smoot * Time.deltaTime);
         }
         else

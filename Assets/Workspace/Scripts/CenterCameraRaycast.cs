@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CenterCameraRaycast : MonoBehaviour
@@ -11,7 +9,7 @@ public class CenterCameraRaycast : MonoBehaviour
 
     public GameObject playerHand;
     public ProductBox productBox;
-    public ProductBox lastBox;  
+    public ProductBox lastBox;
     private ShelfCtrl shelf;
     private CheckoutSystem checkoutSystem;
     public CustomerCtrl customer;
@@ -48,7 +46,7 @@ public class CenterCameraRaycast : MonoBehaviour
             {
                 Debug.Log("Hit Object: " + hit.collider.gameObject.name);
             }
-            
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (hit.collider.CompareTag("Door"))
@@ -70,7 +68,7 @@ public class CenterCameraRaycast : MonoBehaviour
                 if (currentOutline != null)
                 {
                     currentOutline.OutlineWidth = 10; // 새로운 아웃라인 적용
-                }   
+                }
             }
             if (Input.GetMouseButtonDown(0))                                //좌클릭 했을 때
             {
@@ -103,8 +101,8 @@ public class CenterCameraRaycast : MonoBehaviour
                     //    p.transform.localPosition = Vector3.zero; 
                     //    p.transform.localRotation = Quaternion.identity;
                     //}
-                        
-                    
+
+
 
                     // 1. 박스 클릭
                     // 2. 박스 정보 (박스 안에 있는 상품 이름, 개수, 사진, 타입)
@@ -115,67 +113,66 @@ public class CenterCameraRaycast : MonoBehaviour
                 {
                     if (productBox != null)                                 //productBox를 들고 있다면
                     {
-                        ShelfCtrl shelfCtrl = hit.collider.GetComponent<ShelfCtrl>(); ; //ray에 닿은 오브젝트에게서 ShelfCtrl 컴포넌트를 갖고 온다.
-                        if (shelfCtrl != null)                                          //ShelfCtrl이 null이 아닐 때
+                        if (hit.collider.TryGetComponent<SnackShelf>(out SnackShelf snackShelf))                                          //ShelfCtrl이 null이 아닐 때
                         {
                             var boxInfo = productBox.GetComponent<ProductBoxInfo>();
                             GameObject productObj = productBox.ProductList[boxInfo.ProductCount - 1];    //productObj는 productBox.productObjectList의 마지막 인덱스 오브젝트이다.
-                            
-                            bool isDisplayed = shelfCtrl.DisplayProduct(productObj);    //중복 체크를 위해 DisplayProduct의 반환형을 bool로 했기 때문에 진열이 되었다면 true를 반환한다.
-                            if (isDisplayed)    //진열이 되었을 때
+
+                            if (boxInfo.ProductType == snackShelf.ShelfType)
                             {
+                                snackShelf.PushItem(productObj, boxInfo.ProductType);
                                 productBox.RemoveProduct(productObj);       //productBox의 RemoveProduct 함수에 productObj 인자를 전달한다.
                                 uiManager.OnProductBoxInfo(boxInfo.ProductName, boxInfo.ProductCount);
                             }
-
                         }
-                    }
-                }
-                if (hit.collider.CompareTag("CounterProduct"))
-                {
-                    GameObject counterProductObj = hit.collider.gameObject;
-                    checkoutSystem.SelectedProduct(counterProductObj);
-                }
-                if (hit.collider.CompareTag("Money"))
-                {
-                    Money moneyObj = hit.collider.GetComponent<Money>();
-                    //checkoutSystem.takeMoneys.Add(moneyObj.money.value);  
-                    //checkoutSystem.takeMoney += moneyObj.money.value;
-                    //checkoutSystem.takeMoneys.Remove(moneyObj.money.value);
-                    checkoutSystem.Calculate(moneyObj);
-                    Destroy(moneyObj.gameObject);
-                }
-            }
-            if (Input.GetMouseButtonDown(1))                                        //우클릭을 했을 때
-            {
-                if (hit.collider.CompareTag("Shelf"))                               //ray에 닿은 오브젝트가 "Shelf" 태그를 가지고 있다면
-                {
-                    ShelfCtrl hitShelf = hit.collider.GetComponent<ShelfCtrl>();    //ray에 닿은 오브젝트에게서 ShelfCtrl 컴포넌트를 갖고 온다.
-                    if (hitShelf.productList.Count != 0)                            //hitShelf가 상품을 하나라도 갖고 있다면
-                    {
-                        GameObject productObj = hitShelf.productList.Peek();        //productObj는 hitShelf가 갖고 있는 상품 목록의 가장 위에 있는 오브젝트 데이터를 가진다.
-                        var boxInfo = productBox.GetComponent<ProductBoxInfo>();
-                        productBox.InsertProduct(productObj);
-                        hitShelf.MoveProductToBox(productObj);
-                        uiManager.OnProductBoxInfo(boxInfo.ProductName, boxInfo.ProductCount);
+
                     }
                 }
             }
-            if (Input.GetKeyDown(KeyCode.F))                                                    //F를 눌렀을 때
+            if (hit.collider.CompareTag("CounterProduct"))
             {
-                if (productBox != null)                                                         //productBox를 들고 있다면
+                GameObject counterProductObj = hit.collider.gameObject;
+                checkoutSystem.SelectedProduct(counterProductObj);
+            }
+            if (hit.collider.CompareTag("Money"))
+            {
+                Money moneyObj = hit.collider.GetComponent<Money>();
+                //checkoutSystem.takeMoneys.Add(moneyObj.money.value);  
+                //checkoutSystem.takeMoney += moneyObj.money.value;
+                //checkoutSystem.takeMoneys.Remove(moneyObj.money.value);
+                checkoutSystem.Calculate(moneyObj);
+                Destroy(moneyObj.gameObject);
+            }
+        }
+        if (Input.GetMouseButtonDown(1))                                        //우클릭을 했을 때
+        {
+            if (hit.collider.CompareTag("Shelf"))                               //ray에 닿은 오브젝트가 "Shelf" 태그를 가지고 있다면
+            {
+                SnackShelf hitShelf = hit.collider.GetComponent<SnackShelf>();    //ray에 닿은 오브젝트에게서 ShelfCtrl 컴포넌트를 갖고 온다.
+                if (hitShelf.SnackList.Count != 0)                            //hitShelf가 상품을 하나라도 갖고 있다면
                 {
-                    productBox.GetComponent<BoxCollider>().enabled = true;
-                    productBox.transform.SetParent(null);
-                    productBox = lastBox;
-                }
-                else
-                {
-                    uiManager.CloseProductBoxPanel();
+                    GameObject productObj = hitShelf.SnackList[hitShelf.SnackList.Count - 1];        //productObj는 hitShelf가 갖고 있는 상품 목록의 가장 위에 있는 오브젝트 데이터를 가진다.
+                    var boxInfo = productBox.GetComponent<ProductBoxInfo>();
+                    productBox.InsertProduct(productObj);
+                    hitShelf.PopItem(productObj, boxInfo.ProductType);
+                    uiManager.OnProductBoxInfo(boxInfo.ProductName, boxInfo.ProductCount);
+
                 }
             }
         }
-        
+        if (Input.GetKeyDown(KeyCode.F))                                                    //F를 눌렀을 때
+        {
+            if (productBox != null)                                                         //productBox를 들고 있다면
+            {
+                productBox.GetComponent<BoxCollider>().enabled = true;
+                productBox.transform.SetParent(null);
+                productBox = lastBox;
+            }
+            else
+            {
+                uiManager.CloseProductBoxPanel();
+            }
+        }
     }
     void IsPanelOn()
     {

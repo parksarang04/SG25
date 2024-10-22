@@ -24177,7 +24177,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5020174500227160521}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1966568014
+--- !u!114 &1966568010
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -24186,10 +24186,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1966568006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f594f05c15695d646820a51c1f358261, type: 3}
+  m_Script: {fileID: 11500000, guid: f88b20768d0acf74ca556dc126138a0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productPosList:
+  ShelfType: 0
+  SnackPosList:
   - {fileID: 223566997}
   - {fileID: 592810033}
   - {fileID: 913857377}
@@ -24222,6 +24223,9 @@ MonoBehaviour:
   - {fileID: 1029437324}
   - {fileID: 1817689651}
   - {fileID: 1701823253}
+  SnackList: []
+  SnackShelfType: 1
+  isSnack: 0
 --- !u!1 &1967180162
 GameObject:
   m_ObjectHideFlags: 0
@@ -52523,7 +52527,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3571078180652094755, guid: a23292240c6712c4e9a32e8c8cc5cedf,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1966568014}
+      addedObject: {fileID: 1966568010}
   m_SourcePrefab: {fileID: 100100000, guid: a23292240c6712c4e9a32e8c8cc5cedf, type: 3}
 --- !u!33 &5020876087381796358
 MeshFilter:

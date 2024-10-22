@@ -21,7 +21,7 @@ public class ProductBox : MonoBehaviour
         {
             ProductList.Remove(productObj);
             --info.ProductCount; 
-            Debug.Log("하나 뺐어여");
+            Debug.Log($"남은 물건 갯수 : {info.ProductCount}");
         }
         else
         {

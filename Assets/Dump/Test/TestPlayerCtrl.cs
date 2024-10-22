@@ -19,7 +19,6 @@ public class TestPlayerCtrl : MonoBehaviour
 
     public ProductBox productBox;
     private ShelfCtrl shelf;
-    private TestShop testShop;
     private CheckoutSystem checkoutSystem;
     public UIManager uiManager;
     public string enteredAmount = "";

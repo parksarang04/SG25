@@ -35,11 +35,13 @@ public class ProductBoxGenerator : MonoBehaviour
             
             info.ProductName = item.ProductName;
             info.ProductType = item.ProductType;
-            info.ProductCount = item.ProductCount;
+            info.ProductCount = info.ProductPosList.Count;
 
             for (int i = 0; i < info.ProductPosList.Count; i++)
             {
                 GameObject productObj = Instantiate(product.ProductModel, info.ProductPosList[i].transform);
+                var productBox = output.GetComponent<ProductBox>();
+                productBox.ProductList.Add(productObj);
                 productObj.transform.localPosition = Vector3.zero;
                 productObj.transform.localScale = new Vector3(5, 5, 5);
                 productObj.GetComponent<BoxCollider>().enabled = false;

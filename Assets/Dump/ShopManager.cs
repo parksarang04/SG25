@@ -291,14 +291,14 @@ public class ShopManager : MonoBehaviour
     }
     public void OnProductButtonClick(ProductData product)
     {
-        //var productInfo = new ProductBoxScriptObject();
-        //ProductBoxGenerator.GetOrder(productInfo, product);
-        //ProductBoxGenerator.GenerateProductBox(product);
+        var productInfo = new ProductBoxScriptObject();
+        ProductBoxGenerator.GetOrder(productInfo, product);
+        ProductBoxGenerator.GenerateProductBox(product);
 
 
 
-        GameObject BoxObj = Instantiate(productBoxObj, gameObject.transform); // 제품 박스 프리팹을 생성
-        ProductBox productBox = BoxObj.GetComponent<ProductBox>();
-        productBox.GenerationProduct(product); // 박스에 제품 정보 설정
+        //GameObject BoxObj = Instantiate(productBoxObj, gameObject.transform); // 제품 박스 프리팹을 생성
+        //ProductBox productBox = BoxObj.GetComponent<ProductBox>();
+        //productBox.GenerationProduct(product); // 박스에 제품 정보 설정
     }
 }

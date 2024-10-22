@@ -35,24 +35,6 @@ public class UIManager : MonoBehaviour
         moneyText.text = GameManager.Instance.playerMoney.ToString();
     }
 
-    public void OnProductBoxInfo()
-    {
-        if (playerCtrl.productBox != null)
-        {
-            string productName;
-            int productCount;
-            Sprite productImage;
-
-            // productBox의 정보를 가져오는 함수 호출
-            playerCtrl.productBox.GetProductInfo(out productName, out productCount, out productImage);
-
-            // UI 업데이트
-            productBoxName.text = productName;
-            productBoxCount.text = productCount.ToString();
-            productBoxImage.sprite = productImage;
-        }
-    }
-
     public void OnProductBoxPanel()
     {
         productBoxPanel.SetActive(true);
@@ -72,5 +54,11 @@ public class UIManager : MonoBehaviour
     public void ClosePanel()
     {
         cartPanel.SetActive(false);
+    }
+
+    public void OnProductBoxInfo(string ProductName, int ProductCount)
+    {
+        productBoxName.text = ProductName;
+        productBoxCount.text = ProductCount.ToString();
     }
 }

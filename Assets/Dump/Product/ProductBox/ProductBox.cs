@@ -4,28 +4,23 @@ using UnityEngine;
 
 public class ProductBox : MonoBehaviour
 {
-    public List<GameObject> productObjectList = new List<GameObject>(); // 박스 안에 들어 있는 오브젝트를 담은 List
-    public List<Transform> productPosition = new List<Transform>();     // 오브젝트가 배치될 위치
+    public List<GameObject> ProductList = new List<GameObject>();
 
-    public void GenerationProduct(ProductData product) // 박스가 생성될 때 해당 product와 맞게 product의 오브젝트를 생성하는 함수
+    public void GetBoxInfo()
     {
-        for (int i = 0; i < productPosition.Count; i++)
-        {
-            GameObject obj = Instantiate(product.ProductModel);
-            obj.transform.SetParent(productPosition[i]);
-            obj.transform.localPosition = Vector3.zero;
-            obj.transform.localScale = new Vector3(5, 5, 5);
-            obj.GetComponent<BoxCollider>().enabled = false;
-
-            productObjectList.Add(obj);
-        }
+        var info = gameObject.GetComponent<ProductBoxInfo>();
+        var productName = info.ProductName;
+        var productCount = info.ProductCount;
     }
 
     public GameObject RemoveProduct(GameObject productObj) // 박스 안에 있는 상품들을 지우는 함수
     {
-        if (productObjectList.Count > 0)
+        var info = gameObject.GetComponent<ProductBoxInfo>();
+
+        if (info.ProductPosList.Count > 0)
         {
-            productObjectList.Remove(productObj);
+            ProductList.Remove(productObj);
+            --info.ProductCount; 
             Debug.Log("하나 뺐어여");
         }
         else
@@ -37,47 +32,23 @@ public class ProductBox : MonoBehaviour
 
     public GameObject InsertProduct(GameObject productObj) // 상품을 박스에 넣는 함수
     {
-        Product newProduct = productObj.GetComponent<Product>();
-        Product boxProduct = productObjectList[productObjectList.Count - 1].GetComponent<Product>();
-
-        if (newProduct.product.Index == boxProduct.product.Index)
+        var info = gameObject.GetComponent<ProductBoxInfo>();
+        var newProduct = productObj.GetComponent<Product>();
+        if ((int)newProduct.product.productType == info.ProductType)
         {
-            if (productObjectList.Count < productPosition.Count)
+            if (ProductList.Count < info.ProductPosList.Count)
             {
-                productObjectList.Add(productObj);
-                productObj.transform.SetParent(productPosition[productObjectList.Count - 1]);
+                ProductList.Add(productObj);
+                ++info.ProductCount;
+                productObj.transform.SetParent(info.ProductPosList[ProductList.Count - 1].transform);
                 productObj.transform.localPosition = Vector3.zero;
-                productObj.transform.localScale = new Vector3(0.15f, 0.15f, 0.15f);
-            }
-        }
-        return null;
-    }
-
-    // 상품 정보를 out 파라미터로 전달
-    public void GetProductInfo(out string productName, out int productCount, out Sprite productSprite)
-    {
-        if (productObjectList.Count > 0)
-        {
-            Product product = productObjectList[0].GetComponent<Product>();
-
-            if (product != null)
-            {
-                productName = product.product.name;
-                productCount = productObjectList.Count;
-                productSprite = product.product.image;
+                productObj.transform.localScale = new Vector3(5f, 5f, 5f);
             }
             else
             {
-                productName = "";
-                productCount = 0;
-                productSprite = null;
+                Debug.Log("박스 꽉참");
             }
         }
-        else
-        {
-            productName = "";
-            productCount = 0;
-            productSprite = null;
-        }
+        return null;
     }
 }

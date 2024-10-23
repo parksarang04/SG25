@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CenterCameraRaycast : MonoBehaviour
 {
@@ -17,8 +18,7 @@ public class CenterCameraRaycast : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;   //마우스 커서를 화면 안에서 고정
-        Cursor.visible = false;                     //마우스 커서를 보이지 않도록 설정
+       
 
         //cam = Camera.main;
 
@@ -109,23 +109,40 @@ public class CenterCameraRaycast : MonoBehaviour
                     // 3. 박스 이동 (집고 상자에 물건이 있을 땐 넣고 상자가 비었을 땐 버린다)
                 }
 
-                if (hit.collider.CompareTag("Shelf"))                       //닿은 콜라이더가 갖고 있는 태그가 "Shelf"일 때
+                if (hit.collider.CompareTag("Shelf"))                       // 닿은 콜라이더가 갖고 있는 태그가 "Shelf"일 때
                 {
-                    if (productBox != null)                                 //productBox를 들고 있다면
+                    var shelf = hit.collider.gameObject.GetComponent<Shelf>();
+                    if (shelf != null)
                     {
-                        if (hit.collider.TryGetComponent<SnackShelf>(out SnackShelf snackShelf))                                          //ShelfCtrl이 null이 아닐 때
+                        switch (shelf)
                         {
-                            var boxInfo = productBox.GetComponent<ProductBoxInfo>();
-                            GameObject productObj = productBox.ProductList[boxInfo.ProductCount - 1];    //productObj는 productBox.productObjectList의 마지막 인덱스 오브젝트이다.
+                            case SnackShelf:
+                                { 
+                                    var snackShelf = shelf as SnackShelf;
+                                    if (productBox != null)
+                                    {
+                                        var boxInfo = productBox.GetBoxInfo();
+                                        if (boxInfo.ProductType == snackShelf.GetShelfType())
+                                        {
+                                            Debug.Log("아이템 갯수 " + productBox.ProductList.Count);
 
-                            if (boxInfo.ProductType == snackShelf.ShelfType)
-                            {
-                                snackShelf.PushItem(productObj, boxInfo.ProductType);
-                                productBox.RemoveProduct(productObj);       //productBox의 RemoveProduct 함수에 productObj 인자를 전달한다.
-                                uiManager.OnProductBoxInfo(boxInfo.ProductName, boxInfo.ProductCount);
-                            }
+                                            if (productBox.ProductList.Count > 0)
+                                            {
+                                                snackShelf.PushItem(productBox.ProductList[0], boxInfo.ProductType);
+                                                productBox.ProductList.Remove(productBox.ProductList[0]);
+                                            }
+                                        }
+                                    }
+                                }
+                                Debug.Log("SnackShelf");
+                                break;
+                            case DrinkShelf:
+                                Debug.Log("DrinkShelf");
+                                break;
+                            default:
+                                Debug.Log("Unknown shelf type");
+                                break;
                         }
-
                     }
                 }
             }
@@ -148,16 +165,16 @@ public class CenterCameraRaycast : MonoBehaviour
         {
             if (hit.collider.CompareTag("Shelf"))                               //ray에 닿은 오브젝트가 "Shelf" 태그를 가지고 있다면
             {
-                SnackShelf hitShelf = hit.collider.GetComponent<SnackShelf>();    //ray에 닿은 오브젝트에게서 ShelfCtrl 컴포넌트를 갖고 온다.
-                if (hitShelf.SnackList.Count != 0)                            //hitShelf가 상품을 하나라도 갖고 있다면
-                {
-                    GameObject productObj = hitShelf.SnackList[hitShelf.SnackList.Count - 1];        //productObj는 hitShelf가 갖고 있는 상품 목록의 가장 위에 있는 오브젝트 데이터를 가진다.
-                    var boxInfo = productBox.GetComponent<ProductBoxInfo>();
-                    productBox.InsertProduct(productObj);
-                    hitShelf.PopItem(productObj, boxInfo.ProductType);
-                    uiManager.OnProductBoxInfo(boxInfo.ProductName, boxInfo.ProductCount);
+                //SnackShelf hitShelf = hit.collider.GetComponent<SnackShelf>();    //ray에 닿은 오브젝트에게서 ShelfCtrl 컴포넌트를 갖고 온다.
+                //if (hitShelf.SnackList.Count != 0)                            //hitShelf가 상품을 하나라도 갖고 있다면
+                //{
+                //    GameObject productObj = hitShelf.SnackList[hitShelf.SnackList.Count - 1];        //productObj는 hitShelf가 갖고 있는 상품 목록의 가장 위에 있는 오브젝트 데이터를 가진다.
+                //    var boxInfo = productBox.GetComponent<ProductBoxInfo>();
+                //    productBox.InsertProduct(productObj);
+                //    hitShelf.PopItem(productObj, boxInfo.ProductType);
+                //    uiManager.OnProductBoxInfo(boxInfo.ProductName, boxInfo.ProductCount);
 
-                }
+                //}
             }
         }
         if (Input.GetKeyDown(KeyCode.F))                                                    //F를 눌렀을 때
@@ -173,15 +190,5 @@ public class CenterCameraRaycast : MonoBehaviour
                 uiManager.CloseProductBoxPanel();
             }
         }
-    }
-    void IsPanelOn()
-    {
-        Cursor.lockState = CursorLockMode.Locked;   //마우스 커서를 화면 안에서 고정
-        Cursor.visible = false;
-    }
-    void IsPanelOff()
-    {
-        Cursor.lockState = CursorLockMode.None;   //마우스 커서를 화면 안에서 고정
-        Cursor.visible = true;                     //마우스 커서를 보이지 않도록 설정           //마우스 커서를 보이지 않도록 설정
     }
 }

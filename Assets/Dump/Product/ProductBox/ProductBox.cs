@@ -6,11 +6,9 @@ public class ProductBox : MonoBehaviour
 {
     public List<GameObject> ProductList = new List<GameObject>();
 
-    public void GetBoxInfo()
+    public ProductBoxInfo GetBoxInfo()
     {
-        var info = gameObject.GetComponent<ProductBoxInfo>();
-        var productName = info.ProductName;
-        var productCount = info.ProductCount;
+        return this.GetComponent<ProductBoxInfo>();
     }
 
     public GameObject RemoveProduct(GameObject productObj) // 박스 안에 있는 상품들을 지우는 함수

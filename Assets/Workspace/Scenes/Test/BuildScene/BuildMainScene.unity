@@ -7047,7 +7047,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3571078180652094755, guid: a23292240c6712c4e9a32e8c8cc5cedf,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1151380363}
+      addedObject: {fileID: 1151380368}
   m_SourcePrefab: {fileID: 100100000, guid: a23292240c6712c4e9a32e8c8cc5cedf, type: 3}
 --- !u!1001 &556295614
 PrefabInstance:
@@ -14257,7 +14257,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 554720812}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1151380363
+--- !u!114 &1151380368
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14266,10 +14266,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1151380361}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f594f05c15695d646820a51c1f358261, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e7d7093320c0fc48877e21427c59878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productPosList:
+  ProductPoseList:
   - {fileID: 249992899}
   - {fileID: 212190258}
   - {fileID: 1280256594}
@@ -14302,6 +14302,7 @@ MonoBehaviour:
   - {fileID: 972992678}
   - {fileID: 1354196180}
   - {fileID: 269554766}
+  ProductList: []
 --- !u!1001 &1159376605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24189,8 +24190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f88b20768d0acf74ca556dc126138a0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShelfType: 0
-  SnackPosList:
+  ProductPoseList:
   - {fileID: 223566997}
   - {fileID: 592810033}
   - {fileID: 913857377}
@@ -24223,9 +24223,7 @@ MonoBehaviour:
   - {fileID: 1029437324}
   - {fileID: 1817689651}
   - {fileID: 1701823253}
-  SnackList: []
-  SnackShelfType: 1
-  isSnack: 0
+  ProductList: []
 --- !u!1 &1967180162
 GameObject:
   m_ObjectHideFlags: 0

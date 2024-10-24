@@ -11,7 +11,6 @@ public class CenterCameraRaycast : MonoBehaviour
     public GameObject playerHand;
     public ProductBox productBox;
     public ProductBox lastBox;
-    private ShelfCtrl shelf;
     private CheckoutSystem checkoutSystem;
     public CustomerCtrl customer;
     public UIManager uiManager;

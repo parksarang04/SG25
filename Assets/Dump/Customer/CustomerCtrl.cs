@@ -60,7 +60,7 @@ public class CustomerCtrl : MonoBehaviour
     public List<Transform> targetPosList = new List<Transform>();
     public List<GameObject> pickProductList = new List<GameObject>();
     public List<GameObject> shelfList = new List<GameObject>();
-    
+    public List<ProductData> targetProduct = new List<ProductData>();
 
     private static int nextPriority = 0;
     private static readonly object priorityLock = new object();
@@ -88,6 +88,7 @@ public class CustomerCtrl : MonoBehaviour
         currentState = CustomerState.Idle;
         SearchShelfs();
         AssignPriority();
+        TargetProduct();
     }
 
     void Update()
@@ -149,6 +150,15 @@ public class CustomerCtrl : MonoBehaviour
         }
     }
 
+    void TargetProduct()
+    {
+        ProductData[] products = Resources.LoadAll<ProductData>("Products");
+        for (int i = 0; i < products.Length; i++)
+        {
+            targetProduct.Add(products[Random.Range(0, products.Length)]);
+        }
+    }
+
     void ChangeState(CustomerState nextState, float waitTime = 0.0f)
     {
         currentState = nextState;
@@ -201,44 +211,44 @@ public class CustomerCtrl : MonoBehaviour
 
     void PickingProduct()
     {
-        if (timer.IsFinished())
-        {
-            ShelfCtrl shelf = target.GetComponent<ShelfCtrl>();
+        //if (timer.IsFinished())
+        //{
+        //    ShelfCtrl shelf = target.GetComponent<ShelfCtrl>();
 
-            if (shelf != null)
-            {
-                int randomCount = Random.Range(0, 5);
-                Debug.Log(randomCount);
-                for (int i = 0; i < randomCount; i++)
-                {
-                    if (randomCount > 0)
-                    {
-                        if (shelf.productList.Count > 0)
-                        {
-                            animator.SetBool("isPicking", true);
-                            animator.SetBool("isWalking", false);
-                            animator.SetBool("Idle", false);
-                            GameObject productObj = shelf.productList.Pop();
-                            shelf.PickUpProduct(randomCount);
-                            productObj.transform.SetParent(customerHand.transform);
-                            productObj.transform.localPosition = Vector3.zero;
-                            productObj.SetActive(false);
-                            pickProductList.Add(productObj);    
-                        }
-                        else
-                        {
-                            Debug.Log("진열대가 비었어여");
-                        }
-                        targetPosList.Remove(target);
-                    }
-                }
-                if (randomCount == 0)
-                {
-                    targetPosList.Remove(target);
-                }
-            }
-            ChangeState(CustomerState.Idle, waitTime);
-        }
+        //    if (shelf != null)
+        //    {
+        //        int randomCount = Random.Range(0, 5);
+        //        Debug.Log(randomCount);
+        //        for (int i = 0; i < randomCount; i++)
+        //        {
+        //            if (randomCount > 0)
+        //            {
+        //                if (shelf.productList.Count > 0)
+        //                {
+        //                    animator.SetBool("isPicking", true);
+        //                    animator.SetBool("isWalking", false);
+        //                    animator.SetBool("Idle", false);
+        //                    GameObject productObj = shelf.productList.Pop();
+        //                    shelf.PickUpProduct(randomCount);
+        //                    productObj.transform.SetParent(customerHand.transform);
+        //                    productObj.transform.localPosition = Vector3.zero;
+        //                    productObj.SetActive(false);
+        //                    pickProductList.Add(productObj);    
+        //                }
+        //                else
+        //                {
+        //                    Debug.Log("진열대가 비었어여");
+        //                }
+        //                targetPosList.Remove(target);
+        //            }
+        //        }
+        //        if (randomCount == 0)
+        //        {
+        //            targetPosList.Remove(target);
+        //        }
+        //    }
+        //    ChangeState(CustomerState.Idle, waitTime);
+        //}
     }
 
     void WaitCounter()
@@ -445,22 +455,22 @@ public class CustomerCtrl : MonoBehaviour
 
     public void ShakeShelf()
     {
-        int randomIndex = Random.Range(0, shelfList.Count);
-        var randomShelf = shelfList[randomIndex].gameObject.transform.GetComponent<ShelfCtrl>();
-        int randomCount = Random.Range(0, randomShelf.productList.Count);
+        //int randomIndex = Random.Range(0, shelfList.Count);
+        //var randomShelf = shelfList[randomIndex].gameObject.transform.GetComponent<ShelfCtrl>();
+        //int randomCount = Random.Range(0, randomShelf.productList.Count);
 
-        Vector3 forceDirection = new Vector3(2.0f, 2.0f, 2.0f);
+        //Vector3 forceDirection = new Vector3(2.0f, 2.0f, 2.0f);
 
-        for (int i = 0; i < randomCount; i++)
-        {
-            randomShelf.GetComponent<BoxCollider>().enabled = false;
-            GameObject shelfObj = randomShelf.productList.Pop();
-            shelfObj.transform.parent = null;
-            shelfObj.GetComponent<BoxCollider>().enabled = true;
-            var shelfObjRb = shelfObj.GetComponent<Rigidbody>();
-            shelfObjRb.isKinematic = false;
-            shelfObjRb.AddForce(forceDirection * power);
-        }
-        randomShelf.GetComponent<BoxCollider>().enabled = true;
+        //for (int i = 0; i < randomCount; i++)
+        //{
+        //    randomShelf.GetComponent<BoxCollider>().enabled = false;
+        //    GameObject shelfObj = randomShelf.productList.Pop();
+        //    shelfObj.transform.parent = null;
+        //    shelfObj.GetComponent<BoxCollider>().enabled = true;
+        //    var shelfObjRb = shelfObj.GetComponent<Rigidbody>();
+        //    shelfObjRb.isKinematic = false;
+        //    shelfObjRb.AddForce(forceDirection * power);
+        //}
+        //randomShelf.GetComponent<BoxCollider>().enabled = true;
     }
 }

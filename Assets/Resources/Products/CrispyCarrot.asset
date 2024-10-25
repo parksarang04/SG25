@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CrispyCarrot
   m_EditorClassIdentifier: 
   productType: 1
-  Index: 5
+  Index: 8
   Name: "\uBC14\uC0AD\uB2F9\uADFC"
   buyCost: 12960
   sellCost: 1800

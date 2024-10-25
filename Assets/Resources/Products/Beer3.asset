@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Beer3
   m_EditorClassIdentifier: 
   productType: 0
-  Index: 7
+  Index: 5
   Name: AgNO3
   buyCost: 15120
   sellCost: 2100

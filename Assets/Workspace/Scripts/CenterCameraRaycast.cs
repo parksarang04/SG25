@@ -132,10 +132,24 @@ public class CenterCameraRaycast : MonoBehaviour
                                             }
                                         }
                                     }
+                                    
                                 }
                                 Debug.Log("SnackShelf");
                                 break;
                             case DrinkShelf:
+                                var drinkShelf = shelf as DrinkShelf;
+                                if (productBox != null)
+                                {
+                                    var boxInfo = productBox.GetBoxInfo();
+                                    if (boxInfo.ProductType == drinkShelf.GetShelfType())
+                                    {
+                                        if (productBox.ProductList.Count > 0)
+                                        {
+                                            drinkShelf.PushItem(productBox.ProductList[0], boxInfo.ProductType);
+                                            productBox.ProductList.Remove(productBox.ProductList[0]);
+                                        }
+                                    }
+                                }
                                 Debug.Log("DrinkShelf");
                                 break;
                             default:
@@ -188,6 +202,10 @@ public class CenterCameraRaycast : MonoBehaviour
             {
                 uiManager.CloseProductBoxPanel();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            customer.ShakeShelf();
         }
     }
 }

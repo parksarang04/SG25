@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChocoMilk
   m_EditorClassIdentifier: 
   productType: 2
-  Index: 4
+  Index: 7
   Name: "\uCD08\uCF54\uC6B0\uC720"
   buyCost: 2000
   sellCost: 14400

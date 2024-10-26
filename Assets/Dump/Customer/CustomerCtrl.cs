@@ -61,7 +61,7 @@ public class CustomerCtrl : MonoBehaviour
     public List<Transform> targetPosList = new List<Transform>();
     public List<GameObject> pickProductList = new List<GameObject>();
     public List<GameObject> shelfList = new List<GameObject>();
-    public List<ProductData> targetProduct = new List<ProductData>();
+    public List<GameObject> targetProductList = new List<GameObject>();
 
     private static int nextPriority = 0;
     private static readonly object priorityLock = new object();
@@ -85,11 +85,12 @@ public class CustomerCtrl : MonoBehaviour
         counter = GameObject.Find("Counter").transform;
         CounterPivot = GameObject.Find("CounterPivot").transform;
         //animator.applyRootMotion = false;
-        
+
         currentState = CustomerState.Idle;
         SearchShelfs();
         AssignPriority();
         TargetProduct();
+
     }
 
     void Update()
@@ -159,7 +160,7 @@ public class CustomerCtrl : MonoBehaviour
         ProductData[] products = Resources.LoadAll<ProductData>("Products");
         for (int i = 0; i < 6; i++)
         {
-            targetProduct.Add(products[Random.Range(0, products.Length)]);
+            targetProductList.Add(products[Random.Range(0, products.Length)].ProductModel);
         }
     }
 
@@ -172,7 +173,7 @@ public class CustomerCtrl : MonoBehaviour
     void Idle()
     {
         if (timer.IsFinished())
-        {   
+        {
             animator.SetBool("Idle", true);
             animator.SetBool("isWalking", false);
             animator.SetBool("isPicking", false);
@@ -187,7 +188,7 @@ public class CustomerCtrl : MonoBehaviour
                 else
                 {
                     ChangeState(CustomerState.WaitCounter, waitTime);
-                   
+
                 }
             }
         }
@@ -210,7 +211,7 @@ public class CustomerCtrl : MonoBehaviour
         int randomNum = Random.Range(0, 2);
         if (timer.IsFinished() && isMoveDone)
         {
-            switch(randomNum)
+            switch (randomNum)
             {
                 case 0:
                     ChangeState(CustomerState.PickingProduct, waitTime);
@@ -232,23 +233,40 @@ public class CustomerCtrl : MonoBehaviour
             int randomCount = Random.Range(1, 6);
             MoveToTarget();
 
-            for (int i = 0; i < randomCount; i++)
+            if (randomShelf.ProductList.Count >= randomCount)
             {
-                randomShelf.GetComponent<BoxCollider>().enabled = false;
-                GameObject shelfObj = randomShelf.ProductList[randomShelf.ProductList.Count - 1];
-                shelfObj.transform.parent = null;
-                shelfObj.GetComponent<BoxCollider>().enabled = true;
-                var shelfObjRb = shelfObj.GetComponent<Rigidbody>();
-                shelfObjRb.isKinematic = false;
-                shelfObjRb.AddForce(forceDirection * power);
-                randomShelf.ProductList.Remove(shelfObj);
+                for (int i = 0; i < randomCount; i++)
+                {
+                    randomShelf.GetComponent<BoxCollider>().enabled = false;
+                    GameObject shelfObj = randomShelf.ProductList[randomShelf.ProductList.Count - 1];
+                    shelfObj.transform.parent = null;
+                    shelfObj.GetComponent<BoxCollider>().enabled = true;
+                    var shelfObjRb = shelfObj.GetComponent<Rigidbody>();
+                    shelfObjRb.isKinematic = false;
+                    shelfObjRb.AddForce(forceDirection * power);
+                    randomShelf.ProductList.Remove(shelfObj);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < randomShelf.ProductList.Count; i++)
+                {
+                    randomShelf.GetComponent<BoxCollider>().enabled = false;
+                    GameObject shelfObj = randomShelf.ProductList[randomShelf.ProductList.Count - 1];
+                    shelfObj.transform.parent = null;
+                    shelfObj.GetComponent<BoxCollider>().enabled = true;
+                    var shelfObjRb = shelfObj.GetComponent<Rigidbody>();
+                    shelfObjRb.isKinematic = false;
+                    shelfObjRb.AddForce(forceDirection * power);
+                    randomShelf.ProductList.Remove(shelfObj);
+                }
             }
             randomShelf.GetComponent<BoxCollider>().enabled = true;
             targetPosList.Remove(randomShelf.transform);
             Debug.Log("ShakeShelf 실행");
             ChangeState(CustomerState.Idle, waitTime);
         }
-        
+
     }
 
     void PickingProduct()
@@ -259,37 +277,48 @@ public class CustomerCtrl : MonoBehaviour
 
             if (shelf != null)
             {
-                int randomCount = Random.Range(0, 5);
-                Debug.Log(randomCount);
-                for (int i = 0; i < randomCount; i++)
+                int randomCount = Random.Range(1, 5);
+                var shelfProduct = shelf.ProductList[0].GetComponent<Product>();
+                foreach (var targetP in targetProductList)
                 {
-                    if (randomCount > 0)
+                    var targetProduct = targetP.GetComponent<Product>();
+                    if (shelfProduct.product.Index == targetProduct.product.Index)
                     {
-                        if (shelf.ProductList.Count > 0)
+                        if (shelf.ProductList.Count >= randomCount)
                         {
-                            animator.SetBool("isPicking", true);
-                            animator.SetBool("isWalking", false);
-                            animator.SetBool("Idle", false);
-                            GameObject productObj = shelf.ProductList[shelf.ProductList.Count - 1];
-                            var productType = (int)targetProduct[i].productType;
-                            shelf.PopItem(productObj, productType);
-                            productObj.transform.SetParent(customerHand.transform);
-                            productObj.transform.localPosition = Vector3.zero;
-                            productObj.SetActive(false);
-                            pickProductList.Add(productObj);
-                            targetProduct.Remove(targetProduct[i]);
+                            for (int i = 0; i < randomCount; i++)
+                            {
+                                GameObject productObj = shelf.ProductList[shelf.ProductList.Count - 1];
+                                var productType = (int)targetProduct.product.productType;
+                                shelf.PopItem(productObj, productType);
+
+                                productObj.transform.SetParent(customerHand.transform);
+                                productObj.transform.localPosition = Vector3.zero;
+                                productObj.SetActive(false);
+                                pickProductList.Add(productObj);
+                                targetProductList.Remove(targetP);
+                            }
                         }
-                        else
+                        else if (shelf.ProductList.Count < randomCount)
                         {
-                            Debug.Log("진열대가 비었어여");
+                            for (int i = 0; i < shelf.ProductList.Count; i++)
+                            {
+                                GameObject productObj = shelf.ProductList[shelf.ProductList.Count - 1];
+                                var productType = (int)targetProduct.product.productType;
+                                shelf.PopItem(productObj, productType);
+
+                                productObj.transform.SetParent(customerHand.transform);
+                                productObj.transform.localPosition = Vector3.zero;
+                                productObj.SetActive(false);
+                                pickProductList.Add(productObj);
+                                targetProductList.Remove(targetP);
+                            }
+                            Debug.Log("진열대 물건이 원하는 만큼 없음");
                         }
-                        targetPosList.Remove(target);
+                        
                     }
                 }
-                if (randomCount == 0)
-                {
-                    targetPosList.Remove(target);
-                }
+
             }
             ChangeState(CustomerState.Idle, waitTime);
         }
@@ -301,7 +330,7 @@ public class CustomerCtrl : MonoBehaviour
         bool isCounterOccupied = false;
         foreach (var customer in allCustomers)
         {
-            if (customer != this && customer.currentState == CustomerState.WaitingCalcPrice || customer.currentState == CustomerState.GivingMoney   
+            if (customer != this && customer.currentState == CustomerState.WaitingCalcPrice || customer.currentState == CustomerState.GivingMoney
                 || customer.currentState == CustomerState.WalkingToCounter || customer.currentState == CustomerState.PlacingProduct)
             {
                 isCounterOccupied = true;
@@ -327,7 +356,7 @@ public class CustomerCtrl : MonoBehaviour
                 }
             }
         }
-        if(!isCounterOccupied && pickProductList.Count > 0)
+        if (!isCounterOccupied && pickProductList.Count > 0)
         {
             target = counter;
             MoveToTarget();
@@ -337,7 +366,7 @@ public class CustomerCtrl : MonoBehaviour
         {
             ChangeState(CustomerState.LeavingStore, waitTime);
         }
-        
+
     }
 
     void WalkingToCounter()
@@ -345,7 +374,7 @@ public class CustomerCtrl : MonoBehaviour
         animator.SetBool("isWalking", false);
         if (timer.IsFinished() && isMoveDone)
         {
-            Debug.Log("함수 실행");  
+            Debug.Log("함수 실행");
             ChangeState(CustomerState.PlacingProduct, waitTime);
             animator.SetBool("isPicking", true);
         }
@@ -406,7 +435,7 @@ public class CustomerCtrl : MonoBehaviour
                 animator.SetBool("Idle", true);
                 ChangeState(CustomerState.LeavingStore, waitTime);
             }
-            
+
         }
     }
 
@@ -497,5 +526,5 @@ public class CustomerCtrl : MonoBehaviour
         //}
     }
 
-    
+
 }

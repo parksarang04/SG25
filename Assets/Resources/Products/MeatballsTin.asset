@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8220361cbabec6d4ba79f5bcef5fbbfb, type: 3}
-  m_Name: MelonT 7
+  m_Name: MeatballsTin
   m_EditorClassIdentifier: 
   productType: 2
-  ID: 13
-  Name: AgNO3
-  buyCost: 15120
-  sellCost: 2100
-  image: {fileID: 21300000, guid: 4b03cb64cb5033d43930a85e9c065f6f, type: 3}
-  ProductModel: {fileID: 7975355612656210709, guid: 88c3d23c253d9bb4fb28e06170e46f16,
+  ID: 12
+  Name: Tin1
+  buyCost: 25000
+  sellCost: 4800
+  image: {fileID: 21300000, guid: d99deba90d356a44f9ba0ed7e1dd8fc7, type: 3}
+  ProductModel: {fileID: 3687453629483648457, guid: 3fb3192d3793e7d44bf527392a750924,
     type: 3}

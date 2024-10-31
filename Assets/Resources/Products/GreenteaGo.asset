@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8220361cbabec6d4ba79f5bcef5fbbfb, type: 3}
   m_Name: GreenteaGo
   m_EditorClassIdentifier: 
-  productType: 3
+  productType: 1
   ID: 9
   Name: "\uB179\uCC28\uAC00\uC790"
   buyCost: 12960

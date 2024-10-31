@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 7020931530390319101}
   m_Layer: 0
   m_Name: shelf 1
-  m_TagString: Shelf
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,11 +182,11 @@ Transform:
   m_GameObject: {fileID: 1975005614429472494}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.002, y: -0.561, z: -20.403}
-  m_LocalScale: {x: 0.480681, y: 0.01410386, z: 0.69529283}
+  m_LocalPosition: {x: -0.0060043344, y: 1.7210002, z: -61.209015}
+  m_LocalScale: {x: 1.442043, y: 0.04231158, z: 2.0858784}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6393585776146203490}
+  m_Father: {fileID: 412061632763564974}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4690647325331044312
 MeshFilter:
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 8430476432328887272}
   m_Layer: 0
   m_Name: DrinkShelf2
-  m_TagString: Untagged
+  m_TagString: Shelf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -300,7 +300,6 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7717054098683751033}
   - {fileID: 7640351340002560370}
   - {fileID: 7930152453678307534}
   - {fileID: 3503401503890611630}
@@ -367,7 +366,7 @@ GameObject:
   - component: {fileID: 270827717873937774}
   m_Layer: 0
   m_Name: DrinkShelf4
-  m_TagString: Untagged
+  m_TagString: Shelf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -385,7 +384,6 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8701181745303843808}
   - {fileID: 852318087450702150}
   - {fileID: 2080881437261889023}
   - {fileID: 7811505017424531226}
@@ -886,7 +884,7 @@ GameObject:
   - component: {fileID: 5821515002933635955}
   m_Layer: 0
   m_Name: shelf 3
-  m_TagString: Shelf
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -900,11 +898,11 @@ Transform:
   m_GameObject: {fileID: 5318045299781629004}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.002, y: -0.561, z: -20.403}
-  m_LocalScale: {x: 0.480681, y: 0.01410386, z: 0.69529283}
+  m_LocalPosition: {x: -0.0060043344, y: -0.6089997, z: -61.209015}
+  m_LocalScale: {x: 1.442043, y: 0.04231158, z: 2.0858784}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6536677642421540557}
+  m_Father: {fileID: 412061632763564974}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &627596252615800633
 MeshFilter:
@@ -1093,7 +1091,7 @@ GameObject:
   - component: {fileID: 6756209752972573666}
   m_Layer: 0
   m_Name: DrinkShelf3
-  m_TagString: Untagged
+  m_TagString: Shelf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1111,7 +1109,6 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5601856156888386938}
   - {fileID: 2331025975614370962}
   - {fileID: 920239077939948286}
   - {fileID: 2727900834670830020}
@@ -1240,7 +1237,7 @@ GameObject:
   - component: {fileID: 8500331754433537798}
   m_Layer: 0
   m_Name: DrinkShelf1
-  m_TagString: Untagged
+  m_TagString: Shelf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1258,7 +1255,6 @@ Transform:
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7056329924355253666}
   - {fileID: 3330678068548358744}
   - {fileID: 3792107541339783657}
   - {fileID: 4495370725639807479}
@@ -1418,7 +1414,7 @@ GameObject:
   - component: {fileID: 2198634121972384726}
   m_Layer: 0
   m_Name: shelf 4
-  m_TagString: Shelf
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1432,11 +1428,11 @@ Transform:
   m_GameObject: {fileID: 8069140723719374997}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.002, y: -0.561, z: -20.403}
-  m_LocalScale: {x: 0.480681, y: 0.01410386, z: 0.69529283}
+  m_LocalPosition: {x: -0.0060043344, y: -1.6830001, z: -61.209015}
+  m_LocalScale: {x: 1.442043, y: 0.04231158, z: 2.0858784}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8551265491899373180}
+  m_Father: {fileID: 412061632763564974}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8933307926031432176
 MeshFilter:
@@ -1563,7 +1559,7 @@ GameObject:
   - component: {fileID: 7664018136215091059}
   m_Layer: 0
   m_Name: shelf 2
-  m_TagString: Shelf
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1577,11 +1573,11 @@ Transform:
   m_GameObject: {fileID: 8741791706398943017}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.002, y: -0.561, z: -20.403}
-  m_LocalScale: {x: 0.480681, y: 0.01410386, z: 0.69529283}
+  m_LocalPosition: {x: -0.0060043344, y: 0.53900003, z: -61.209015}
+  m_LocalScale: {x: 1.442043, y: 0.04231158, z: 2.0858784}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1313121337308699481}
+  m_Father: {fileID: 412061632763564974}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1841253893958417054
 MeshFilter:
@@ -1695,7 +1691,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 90dc78d37ccca6d4eb58a00e4255c1ff,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 90dc78d37ccca6d4eb58a00e4255c1ff,
         type: 3}
@@ -1705,7 +1701,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 90dc78d37ccca6d4eb58a00e4255c1ff,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 90dc78d37ccca6d4eb58a00e4255c1ff,
         type: 3}
@@ -1764,6 +1760,22 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8551265491899373180}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 90dc78d37ccca6d4eb58a00e4255c1ff,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7056329924355253666}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 90dc78d37ccca6d4eb58a00e4255c1ff,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7717054098683751033}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 90dc78d37ccca6d4eb58a00e4255c1ff,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5601856156888386938}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 90dc78d37ccca6d4eb58a00e4255c1ff,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8701181745303843808}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90dc78d37ccca6d4eb58a00e4255c1ff, type: 3}
 --- !u!4 &412061632763564974 stripped

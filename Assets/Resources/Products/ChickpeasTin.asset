@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8220361cbabec6d4ba79f5bcef5fbbfb, type: 3}
-  m_Name: MelonT 6
+  m_Name: ChickpeasTin
   m_EditorClassIdentifier: 
   productType: 2
-  ID: 12
-  Name: AgNO3
-  buyCost: 15120
-  sellCost: 2100
-  image: {fileID: 21300000, guid: 4b03cb64cb5033d43930a85e9c065f6f, type: 3}
-  ProductModel: {fileID: 7975355612656210709, guid: 88c3d23c253d9bb4fb28e06170e46f16,
+  ID: 11
+  Name: Tin1
+  buyCost: 25000
+  sellCost: 4800
+  image: {fileID: 21300000, guid: 034e6d726c31d4b43959ad691264c155, type: 3}
+  ProductModel: {fileID: 8550732436379307493, guid: 783c7824d5105634fbddbeea8534867d,
     type: 3}

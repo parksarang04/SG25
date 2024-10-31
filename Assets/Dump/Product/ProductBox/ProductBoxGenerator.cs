@@ -13,6 +13,7 @@ public class ProductBoxGenerator : MonoBehaviour
     {
         info.ProductName = product.name;
         info.ProductType = (int)product.productType;
+        info.ProductID = product.ID;
         productBoxInfoList.Add(info);
     }
 
@@ -20,6 +21,7 @@ public class ProductBoxGenerator : MonoBehaviour
     {
         foreach (var info in infoList)
         {
+            info.ProductID = product.ID;
             info.ProductName = product.name;
             info.ProductType = (int)product.productType;
             productBoxInfoList.Add(info);
@@ -32,7 +34,8 @@ public class ProductBoxGenerator : MonoBehaviour
         {
             var output = Instantiate(BoxPrefab, Pivot.position, Quaternion.identity) as GameObject;
             var info = output.GetComponent<ProductBoxInfo>();
-            
+
+            info.ProductID = item.ProductID;
             info.ProductName = item.ProductName;
             info.ProductType = item.ProductType;
             info.ProductCount = info.ProductPosList.Count;

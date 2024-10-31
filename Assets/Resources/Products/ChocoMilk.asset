@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8220361cbabec6d4ba79f5bcef5fbbfb, type: 3}
   m_Name: ChocoMilk
   m_EditorClassIdentifier: 
-  productType: 2
+  productType: 0
   ID: 7
   Name: "\uCD08\uCF54\uC6B0\uC720"
   buyCost: 2000

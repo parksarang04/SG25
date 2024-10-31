@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class Shelf : MonoBehaviour
@@ -22,13 +23,12 @@ public abstract class Shelf : MonoBehaviour
         }
     }
 
-    public void PushItem(GameObject product, int productType)
+    public bool PushItem(GameObject product, int productType, int productID)
     {
         Debug.Log("GetShelfType" + GetShelfType());
         Debug.Log("productType" + productType);
         if (GetShelfType() == productType)
         {
-            Debug.Log("PushItem");
             Transform nullPos = null;
             foreach (Transform pos in ProductPoseList)
             {
@@ -41,25 +41,37 @@ public abstract class Shelf : MonoBehaviour
             }
             if (nullPos != null)
             {
-                if (ProductList.Count < ProductPoseList.Count)
+                if (ProductList.Count == 0)
                 {
-                    Transform availablePosition = ProductPoseList[ProductList.Count];
-                    product.transform.SetParent(availablePosition);
-                    product.transform.localPosition = Vector3.zero;
-                    product.transform.localScale = Vector3.one;
-                    product.transform.localRotation = Quaternion.identity;
-                    ProductList.Add(product);
-                    Debug.Log("과자 진열대 들어감");
+                    PlaceProduct(product, nullPos);
+                    return true;
+                }
+                else if (ProductList[0].GetComponent<Product>().product.ID == productID)
+                {
+                    PlaceProduct(product, nullPos);
+                    return true;
                 }
                 else
                 {
-                    Debug.Log("과자 진열대 꽉참");
+                    Debug.Log("진열대에 있는 상품과 ID가 맞지 않아 추가할 수 없습니다.");
+                    return false;
                 }
             }
             else
             {
                 Debug.Log("진열대에 자리 없음");
+                return false;
             }
         }
+        return false;
+    }
+
+    private void PlaceProduct(GameObject product, Transform position)
+    {
+        product.transform.SetParent(position);
+        product.transform.localPosition = Vector3.zero;
+        product.transform.localScale = Vector3.one;
+        product.transform.localRotation = Quaternion.identity;
+        ProductList.Add(product);
     }
 }

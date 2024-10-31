@@ -61,7 +61,7 @@ public class CustomerCtrl : MonoBehaviour
     public List<Transform> targetPosList = new List<Transform>();
     public List<GameObject> pickProductList = new List<GameObject>();
     public List<GameObject> shelfList = new List<GameObject>();
-    public List<GameObject> targetProductList = new List<GameObject>();
+    public List<ProductData> targetProductList = new List<ProductData>();
 
     private static int nextPriority = 0;
     private static readonly object priorityLock = new object();
@@ -96,13 +96,9 @@ public class CustomerCtrl : MonoBehaviour
     void Update()
     {
         timer.Update(Time.deltaTime);
-
-        if (!agent.hasPath && agent.remainingDistance <= agent.stoppingDistance)
+        if (agent.remainingDistance <= agent.stoppingDistance + 0.5f && (agent.hasPath || agent.velocity.sqrMagnitude == 0f))
         {
-            if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
-            {
-                isMoveDone = true;
-            }
+            isMoveDone = true;
         }
 
         switch (currentState)
@@ -160,7 +156,7 @@ public class CustomerCtrl : MonoBehaviour
         ProductData[] products = Resources.LoadAll<ProductData>("Products");
         for (int i = 0; i < 6; i++)
         {
-            targetProductList.Add(products[Random.Range(0, products.Length)].ProductModel);
+            targetProductList.Add(products[Random.Range(0, products.Length)]);
         }
     }
 
@@ -174,9 +170,7 @@ public class CustomerCtrl : MonoBehaviour
     {
         if (timer.IsFinished())
         {
-            animator.SetBool("Idle", true);
-            animator.SetBool("isWalking", false);
-            animator.SetBool("isPicking", false);
+            animator.SetInteger("Speed", 0);
             if (shelfList.Count > 0)
             {
                 if (targetPosList.Count > 0)
@@ -200,14 +194,13 @@ public class CustomerCtrl : MonoBehaviour
         if (targetPosList != null)
         {
             agent.SetDestination(target.position);
-            animator.SetBool("isWalking", true);
-            animator.SetBool("Idle", false);
-            animator.SetBool("isPicking", false);
+            animator.SetInteger("Speed", 2);
         }
     }
 
     void WalkingToShelf()
     {
+        animator.SetInteger("Speed", 2);
         int randomNum = Random.Range(0, 2);
         if (timer.IsFinished() && isMoveDone)
         {
@@ -264,7 +257,6 @@ public class CustomerCtrl : MonoBehaviour
             }
             randomShelf.GetComponent<BoxCollider>().enabled = true;
             targetPosList.Remove(randomShelf.transform);
-            Debug.Log("ShakeShelf 실행");
             ChangeState(CustomerState.Idle, waitTime);
         }
 
@@ -280,19 +272,19 @@ public class CustomerCtrl : MonoBehaviour
             {
                 if (shelf.ProductList.Count > 0)
                 {
+                    animator.SetInteger("Speed", 1);
                     int randomCount = Random.Range(1, 5);
                     var shelfProduct = shelf.ProductList[0].GetComponent<Product>();
                     foreach (var targetP in targetProductList)
                     {
-                        var targetProduct = targetP.GetComponent<Product>();
-                        if (shelfProduct.product.ID == targetProduct.product.ID)
+                        if (shelfProduct.product.ID == targetP.ID)
                         {
                             if (shelf.ProductList.Count >= randomCount)
                             {
                                 for (int i = 0; i < randomCount; i++)
                                 {
                                     GameObject productObj = shelf.ProductList[shelf.ProductList.Count - 1];
-                                    var productType = (int)targetProduct.product.productType;
+                                    var productType = (int)targetP.productType;
                                     shelf.PopItem(productObj, productType);
 
                                     productObj.transform.SetParent(customerHand.transform);
@@ -307,7 +299,7 @@ public class CustomerCtrl : MonoBehaviour
                                 for (int i = 0; i < shelf.ProductList.Count; i++)
                                 {
                                     GameObject productObj = shelf.ProductList[shelf.ProductList.Count - 1];
-                                    var productType = (int)targetProduct.product.productType;
+                                    var productType = (int)targetP.productType;
                                     shelf.PopItem(productObj, productType);
 
                                     productObj.transform.SetParent(customerHand.transform);
@@ -325,6 +317,7 @@ public class CustomerCtrl : MonoBehaviour
                 }
                 targetPosList.Remove(shelf.transform);
             }
+            animator.SetInteger("Speed", 0);
             ChangeState(CustomerState.Idle, waitTime);
         }
     }
@@ -350,14 +343,11 @@ public class CustomerCtrl : MonoBehaviour
             {
                 target = availablePosition;
                 agent.SetDestination(availablePosition.position);
-                animator.SetBool("isWalking", true);
-                animator.SetBool("Idle", false);
-                animator.SetBool("isPicking", false);
+                animator.SetInteger("Speed", 2);
 
                 if (isMoveDone)
                 {
-                    animator.SetBool("Idle", true);
-                    animator.SetBool("isWalking", false);
+                    animator.SetInteger("Speed", 0);
                 }
             }
         }
@@ -366,6 +356,7 @@ public class CustomerCtrl : MonoBehaviour
             target = counter;
             MoveToTarget();
             ChangeState(CustomerState.WalkingToCounter, waitTime);
+            animator.SetInteger("Speed", 0);
         }
         else if (pickProductList.Count == 0)
         {
@@ -376,12 +367,12 @@ public class CustomerCtrl : MonoBehaviour
 
     void WalkingToCounter()
     {
-        animator.SetBool("isWalking", false);
+        animator.SetInteger("Speed", 0);
         if (timer.IsFinished() && isMoveDone)
         {
             Debug.Log("함수 실행");
             ChangeState(CustomerState.PlacingProduct, waitTime);
-            animator.SetBool("isPicking", true);
+            animator.SetInteger("Speed", 1);
         }
     }
 
@@ -400,13 +391,12 @@ public class CustomerCtrl : MonoBehaviour
                 product.tag = "CounterProduct";
                 pickProductList.Remove(product);
                 checkoutSystem.counterProduct.Add(product);
-                animator.SetBool("Idle", true);
-                animator.SetBool("isPicking", false);
+                animator.SetInteger("Speed", 0);
             }
             if (pickProductList.Count == 0)
             {
                 ChangeState(CustomerState.GivingMoney, waitTime);
-                animator.SetBool("Idle", true);
+                animator.SetInteger("Speed", 0);
             }
         }
     }
@@ -422,7 +412,7 @@ public class CustomerCtrl : MonoBehaviour
                 sum += checkoutSystem.takeMoneys[i];
                 Debug.Log(sum);
             }
-            animator.SetBool("Idle", true);
+            animator.SetInteger("Speed", 0);
             ChangeState(CustomerState.WaitingCalcPrice, waitTime);
         }
     }
@@ -437,7 +427,7 @@ public class CustomerCtrl : MonoBehaviour
             if (checkoutSystem.isSell == true)
             {
                 checkoutSystem.isSell = false;
-                animator.SetBool("Idle", true);
+                animator.SetInteger("Speed", 0);
                 ChangeState(CustomerState.LeavingStore, waitTime);
             }
 
@@ -479,7 +469,7 @@ public class CustomerCtrl : MonoBehaviour
     {
         System.Array.Sort(moneyPrefabs, (a, b) => b.value.CompareTo(a.value));
         //bool giveExactChange = Random.Range(0, 2) == 0;
-        Vector3 moneyPosition = new Vector3(customerHand.transform.position.x, customerHand.transform.position.y + 0.5f, customerHand.transform.position.z);
+        Vector3 moneyPosition = new Vector3(customerHand.transform.position.x, customerHand.transform.position.y + 1f, customerHand.transform.position.z + 1f);
 
         foreach (MoneyData money in moneyPrefabs)
         {
@@ -530,6 +520,26 @@ public class CustomerCtrl : MonoBehaviour
         //    }
         //}
     }
-
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Door"))
+        {
+            TestDoorCtrl hitDoor = collision.collider.GetComponent<TestDoorCtrl>();
+            if (!hitDoor.isOpen)
+            {
+                hitDoor.ChangeDoorState();
+            }
+        }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.CompareTag("Door"))
+        {
+            TestDoorCtrl hitDoor = collision.collider.GetComponent<TestDoorCtrl>();
+            if (hitDoor.isOpen)
+            {
+                hitDoor.ChangeDoorState();
+            }
+        }
+    }
 }

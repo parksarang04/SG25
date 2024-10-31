@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GreenteaGo
   m_EditorClassIdentifier: 
   productType: 3
-  Index: 9
+  ID: 9
   Name: "\uB179\uCC28\uAC00\uC790"
   buyCost: 12960
   sellCost: 1800

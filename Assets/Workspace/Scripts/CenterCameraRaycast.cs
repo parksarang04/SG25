@@ -17,8 +17,6 @@ public class CenterCameraRaycast : MonoBehaviour
 
     void Start()
     {
-       
-
         //cam = Camera.main;
 
         checkoutSystem = GetComponent<CheckoutSystem>();
@@ -85,9 +83,6 @@ public class CenterCameraRaycast : MonoBehaviour
                         productBox.transform.SetParent(playerHand.transform);
                         productBox.transform.localPosition = Vector3.zero;
                         productBox.transform.localRotation = Quaternion.identity;
-                        uiManager.OnProductBoxInfo(p.ProductName, p.ProductCount);
-
-                        uiManager.OnProductBoxPanel();
                     }
                     //if (p != null)
                     //{
@@ -127,8 +122,8 @@ public class CenterCameraRaycast : MonoBehaviour
 
                                             if (productBox.ProductList.Count > 0)
                                             {
-                                                snackShelf.PushItem(productBox.ProductList[0], boxInfo.ProductType);
-                                                productBox.ProductList.Remove(productBox.ProductList[0]);
+                                                snackShelf.PushItem(productBox.ProductList[productBox.ProductList.Count - 1], boxInfo.ProductType);
+                                                productBox.RemoveProduct(productBox.ProductList[productBox.ProductList.Count - 1]);
                                             }
                                         }
                                     }
@@ -151,6 +146,22 @@ public class CenterCameraRaycast : MonoBehaviour
                                     }
                                 }
                                 Debug.Log("DrinkShelf");
+                                break;
+                            case IcecreamShelf:
+                                var icecreamShelf = shelf as IcecreamShelf;
+                                if (productBox != null)
+                                {
+                                    var boxInfo = productBox.GetBoxInfo();
+                                    if (boxInfo.ProductType == icecreamShelf.GetShelfType())
+                                    {
+                                        if (productBox.ProductList.Count > 0)
+                                        {
+                                            icecreamShelf.PushItem(productBox.ProductList[0], boxInfo.ProductType);
+                                            productBox.ProductList.Remove(productBox.ProductList[0]);
+                                        }
+                                    }
+                                }
+                                Debug.Log("IcecreamShelf");
                                 break;
                             default:
                                 Debug.Log("Unknown shelf type");
@@ -178,16 +189,69 @@ public class CenterCameraRaycast : MonoBehaviour
         {
             if (hit.collider.CompareTag("Shelf"))                               //ray에 닿은 오브젝트가 "Shelf" 태그를 가지고 있다면
             {
-                //SnackShelf hitShelf = hit.collider.GetComponent<SnackShelf>();    //ray에 닿은 오브젝트에게서 ShelfCtrl 컴포넌트를 갖고 온다.
-                //if (hitShelf.SnackList.Count != 0)                            //hitShelf가 상품을 하나라도 갖고 있다면
-                //{
-                //    GameObject productObj = hitShelf.SnackList[hitShelf.SnackList.Count - 1];        //productObj는 hitShelf가 갖고 있는 상품 목록의 가장 위에 있는 오브젝트 데이터를 가진다.
-                //    var boxInfo = productBox.GetComponent<ProductBoxInfo>();
-                //    productBox.InsertProduct(productObj);
-                //    hitShelf.PopItem(productObj, boxInfo.ProductType);
-                //    uiManager.OnProductBoxInfo(boxInfo.ProductName, boxInfo.ProductCount);
+                var shelf = hit.collider.gameObject.GetComponent<Shelf>();
+                if (shelf != null)
+                {
+                    switch (shelf)
+                    {
+                        case SnackShelf:
+                            {
+                                var snackShelf = shelf as SnackShelf;
+                                if (productBox != null)
+                                {
+                                    var boxInfo = productBox.GetBoxInfo();
+                                    if (boxInfo.ProductType == snackShelf.GetShelfType())
+                                    {
+                                        Debug.Log("아이템 갯수 " + productBox.ProductList.Count);
 
-                //}
+                                        if (productBox.ProductList.Count > 0)
+                                        {
+                                            productBox.InsertProduct(snackShelf.ProductList[snackShelf.ProductList.Count-1]);
+                                            snackShelf.PopItem(snackShelf.ProductList[snackShelf.ProductList.Count - 1], boxInfo.ProductType);
+                                        }
+                                    }
+                                }
+
+                            }
+                            Debug.Log("SnackShelf");
+                            break;
+                        case DrinkShelf:
+                            var drinkShelf = shelf as DrinkShelf;
+                            if (productBox != null)
+                            {
+                                var boxInfo = productBox.GetBoxInfo();
+                                if (boxInfo.ProductType == drinkShelf.GetShelfType())
+                                {
+                                    if (productBox.ProductList.Count > 0)
+                                    {
+                                        drinkShelf.PushItem(productBox.ProductList[0], boxInfo.ProductType);
+                                        productBox.ProductList.Remove(productBox.ProductList[0]);
+                                    }
+                                }
+                            }
+                            Debug.Log("DrinkShelf");
+                            break;
+                        case IcecreamShelf:
+                            var icecreamShelf = shelf as IcecreamShelf;
+                            if (productBox != null)
+                            {
+                                var boxInfo = productBox.GetBoxInfo();
+                                if (boxInfo.ProductType == icecreamShelf.GetShelfType())
+                                {
+                                    if (productBox.ProductList.Count > 0)
+                                    {
+                                        icecreamShelf.PushItem(productBox.ProductList[0], boxInfo.ProductType);
+                                        productBox.ProductList.Remove(productBox.ProductList[0]);
+                                    }
+                                }
+                            }
+                            Debug.Log("IcecreamShelf");
+                            break;
+                        default:
+                            Debug.Log("Unknown shelf type");
+                            break;
+                    }
+                }
             }
         }
         if (Input.GetKeyDown(KeyCode.F))                                                    //F를 눌렀을 때
@@ -198,14 +262,10 @@ public class CenterCameraRaycast : MonoBehaviour
                 productBox.transform.SetParent(null);
                 productBox = lastBox;
             }
-            else
-            {
-                uiManager.CloseProductBoxPanel();
-            }
         }
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-            customer.ShakeShelf();
+            uiManager.OnShopPanel();
         }
     }
 }

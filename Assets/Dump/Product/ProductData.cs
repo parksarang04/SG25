@@ -8,14 +8,14 @@ public class ProductData : ScriptableObject
     {
         Beverages,
         Snacks,
-        DairyProducts,
         FrozenFoods,
+        DairyProducts,
         PersonalCare,
         Miscellaneous
     }
 
     public PRODUCTTYPE productType;
-    public int Index;
+    public int ID;
     public string Name;
     public int buyCost;
     public int sellCost;

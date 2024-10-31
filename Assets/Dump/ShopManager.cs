@@ -8,6 +8,8 @@ using static ShopManager;
 
 public class ShopManager : MonoBehaviour
 {
+    public UIManager UIManager;
+
     [Header("상점패널")]
     public Button OnCartPanelButton; //오른쪽 상단 장바구니 버튼 변수
     public GameObject productPrefab;//상품창 프리팹 변수
@@ -69,6 +71,7 @@ public class ShopManager : MonoBehaviour
     public void UpdatePlayerMoneyUI()
     {
         PlayerMoneyText.text = GameManager.Instance.playerMoney.ToString(); // 플레이어의 돈을 텍스트에 표시
+        UIManager.moneyText.text = GameManager.Instance.playerMoney.ToString();
     }
 
     public void Generateproduct()
@@ -113,7 +116,7 @@ public class ShopManager : MonoBehaviour
         if (productCount > 0)
         {
             // 장바구니에 이미 같은 제품이 있는지 확인
-            CartItem existingItem = cartItems.Find(item => item.product.Index == product.Index);
+            CartItem existingItem = cartItems.Find(item => item.product.ID == product.ID);
 
             if (existingItem != null)
             {

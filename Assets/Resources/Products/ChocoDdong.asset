@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChocoDdong
   m_EditorClassIdentifier: 
   productType: 1
-  Index: 6
+  ID: 6
   Name: "\uCD08\uCF54\uB625"
   buyCost: 20160
   sellCost: 2800

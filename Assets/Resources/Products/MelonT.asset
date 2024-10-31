@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MelonT
   m_EditorClassIdentifier: 
   productType: 0
-  Index: 10
+  ID: 10
   Name: AgNO3
   buyCost: 15120
   sellCost: 2100

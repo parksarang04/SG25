@@ -39,7 +39,9 @@ public class ProductBox : MonoBehaviour
                 ProductList.Add(productObj);
                 ++info.ProductCount;
                 productObj.transform.SetParent(info.ProductPosList[ProductList.Count - 1].transform);
+                Debug.Log($"상자 위치{info.ProductPosList[ProductList.Count - 1]}");
                 productObj.transform.localPosition = Vector3.zero;
+                productObj.transform.localRotation = Quaternion.identity;
                 productObj.transform.localScale = new Vector3(5f, 5f, 5f);
             }
             else

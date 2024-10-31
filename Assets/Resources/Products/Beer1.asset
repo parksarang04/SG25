@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Beer1
   m_EditorClassIdentifier: 
   productType: 0
-  Index: 3
+  ID: 3
   Name: Beer1
   buyCost: 27000
   sellCost: 3750

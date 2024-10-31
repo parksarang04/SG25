@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8220361cbabec6d4ba79f5bcef5fbbfb, type: 3}
   m_Name: MelonT 4
   m_EditorClassIdentifier: 
-  productType: 0
-  Index: 11
+  productType: 2
+  ID: 14
   Name: AgNO3
   buyCost: 15120
   sellCost: 2100

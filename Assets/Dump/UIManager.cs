@@ -12,11 +12,6 @@ public class UIManager : MonoBehaviour
     public GameObject cartPanel;
     public bool isPanelOn;
 
-    public Image productBoxImage;
-    public TextMeshProUGUI productBoxName;
-    public TextMeshProUGUI productBoxCount;
-    public GameObject productBoxPanel;
-
     void Start()
     {
         moneyText.text = GameManager.Instance.playerMoney.ToString();
@@ -35,15 +30,6 @@ public class UIManager : MonoBehaviour
         moneyText.text = GameManager.Instance.playerMoney.ToString();
     }
 
-    public void OnProductBoxPanel()
-    {
-        productBoxPanel.SetActive(true);
-    }
-    public void CloseProductBoxPanel()
-    {
-        productBoxPanel.SetActive(false);
-    }
-
     public void OnShopPanel()
     {
         bool isPanelActive = shopPanel.activeInHierarchy;
@@ -54,11 +40,5 @@ public class UIManager : MonoBehaviour
     public void ClosePanel()
     {
         cartPanel.SetActive(false);
-    }
-
-    public void OnProductBoxInfo(string ProductName, int ProductCount)
-    {
-        productBoxName.text = ProductName;
-        productBoxCount.text = ProductCount.ToString();
     }
 }

@@ -6,7 +6,7 @@ public enum CustomerState
 {
     Idle,
     WalkingToShelf,
-    ShakeShelf,
+    //ShakeShelf,
     PickingProduct,
     WaitCounter,
     WalkingToCounter,
@@ -113,9 +113,9 @@ public class CustomerCtrl : MonoBehaviour
             case CustomerState.WalkingToShelf:
                 WalkingToShelf();
                 break;
-            case CustomerState.ShakeShelf:
-                ShakeShelf();
-                break;
+            //case CustomerState.ShakeShelf:
+            //    ShakeShelf();
+            //    break;
             case CustomerState.PickingProduct:
                 PickingProduct();
                 break;
@@ -211,15 +211,16 @@ public class CustomerCtrl : MonoBehaviour
         int randomNum = Random.Range(0, 2);
         if (timer.IsFinished() && isMoveDone)
         {
-            switch (randomNum)
-            {
-                case 0:
-                    ChangeState(CustomerState.PickingProduct, waitTime);
-                    break;
-                case 1:
-                    ChangeState(CustomerState.ShakeShelf, waitTime);
-                    break;
-            }
+            //switch (randomNum)
+            //{
+            //    case 0:
+            //        ChangeState(CustomerState.PickingProduct, waitTime);
+            //        break;
+            //    case 1:
+            //        ChangeState(CustomerState.ShakeShelf, waitTime);
+            //        break;
+            //}
+            ChangeState(CustomerState.PickingProduct, waitTime);
         }
     }
 
@@ -277,48 +278,52 @@ public class CustomerCtrl : MonoBehaviour
 
             if (shelf != null)
             {
-                int randomCount = Random.Range(1, 5);
-                var shelfProduct = shelf.ProductList[0].GetComponent<Product>();
-                foreach (var targetP in targetProductList)
+                if (shelf.ProductList.Count > 0)
                 {
-                    var targetProduct = targetP.GetComponent<Product>();
-                    if (shelfProduct.product.Index == targetProduct.product.Index)
+                    int randomCount = Random.Range(1, 5);
+                    var shelfProduct = shelf.ProductList[0].GetComponent<Product>();
+                    foreach (var targetP in targetProductList)
                     {
-                        if (shelf.ProductList.Count >= randomCount)
+                        var targetProduct = targetP.GetComponent<Product>();
+                        if (shelfProduct.product.ID == targetProduct.product.ID)
                         {
-                            for (int i = 0; i < randomCount; i++)
+                            if (shelf.ProductList.Count >= randomCount)
                             {
-                                GameObject productObj = shelf.ProductList[shelf.ProductList.Count - 1];
-                                var productType = (int)targetProduct.product.productType;
-                                shelf.PopItem(productObj, productType);
+                                for (int i = 0; i < randomCount; i++)
+                                {
+                                    GameObject productObj = shelf.ProductList[shelf.ProductList.Count - 1];
+                                    var productType = (int)targetProduct.product.productType;
+                                    shelf.PopItem(productObj, productType);
 
-                                productObj.transform.SetParent(customerHand.transform);
-                                productObj.transform.localPosition = Vector3.zero;
-                                productObj.SetActive(false);
-                                pickProductList.Add(productObj);
-                                targetProductList.Remove(targetP);
+                                    productObj.transform.SetParent(customerHand.transform);
+                                    productObj.transform.localPosition = Vector3.zero;
+                                    productObj.SetActive(false);
+                                    pickProductList.Add(productObj);
+                                    targetProductList.Remove(targetP);
+                                }
                             }
-                        }
-                        else if (shelf.ProductList.Count < randomCount)
-                        {
-                            for (int i = 0; i < shelf.ProductList.Count; i++)
+                            else if (shelf.ProductList.Count < randomCount)
                             {
-                                GameObject productObj = shelf.ProductList[shelf.ProductList.Count - 1];
-                                var productType = (int)targetProduct.product.productType;
-                                shelf.PopItem(productObj, productType);
+                                for (int i = 0; i < shelf.ProductList.Count; i++)
+                                {
+                                    GameObject productObj = shelf.ProductList[shelf.ProductList.Count - 1];
+                                    var productType = (int)targetProduct.product.productType;
+                                    shelf.PopItem(productObj, productType);
 
-                                productObj.transform.SetParent(customerHand.transform);
-                                productObj.transform.localPosition = Vector3.zero;
-                                productObj.SetActive(false);
-                                pickProductList.Add(productObj);
-                                targetProductList.Remove(targetP);
+                                    productObj.transform.SetParent(customerHand.transform);
+                                    productObj.transform.localPosition = Vector3.zero;
+                                    productObj.SetActive(false);
+                                    pickProductList.Add(productObj);
+                                    targetProductList.Remove(targetP);
+                                }
+                                Debug.Log("진열대 물건이 원하는 만큼 없음");
                             }
-                            Debug.Log("진열대 물건이 원하는 만큼 없음");
+
                         }
-                        
                     }
+                   
                 }
-
+                targetPosList.Remove(shelf.transform);
             }
             ChangeState(CustomerState.Idle, waitTime);
         }
